@@ -1,12 +1,14 @@
 "use server";
 
 import AdminModel from "@/models/admin.model";
+import dbConnect from "@/utils/dbConnect.util";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
-export const verifyAdmin = async (password: string) => {
+export const adminLogin = async (password: string) => {
   try {
+    await dbConnect();
     const email = process.env.ADMIN_EMAIL;
     const jwtSecret = process.env.JWT_SECRET;
 
