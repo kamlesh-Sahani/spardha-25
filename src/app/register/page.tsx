@@ -100,7 +100,7 @@ function RegisterPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <motion.label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2 group">
+                    <motion.label className="block text-sm font-medium text-gray-700 mb-2  items-center gap-2 group">
                       <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
                         <Trophy className="w-5 h-5 text-[#fb8500] group-hover:text-[#fb8500] transition-colors" />
                       </motion.div>
@@ -131,7 +131,7 @@ function RegisterPage() {
                     </Listbox>
                   </motion.div>
 
-                  <motion.label className="block text-sm font-medium text-gray-700 -mb-2 flex items-center gap-2 group">
+                  <motion.label className="block text-sm font-medium text-gray-700 -mb-2  items-center gap-2 group">
                     <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
                       <School className="w-5 h-5 text-[#fb8500] group-hover:text-[#fb8500] transition-colors" />
                     </motion.div>
