@@ -11,6 +11,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import qrcode from "@/app/assets/qrcode.jpg";
 import { TextField, Tooltip } from "@mui/material";
 import { Listbox, Transition, Combobox } from "@headlessui/react";
+import Image from "next/image";
 
 const theme = createTheme({
   palette: {
@@ -330,7 +331,7 @@ function RegisterPage() {
                 </div>
                 <div className="flex justify-center">
                   <div className="bg-gray-200 p-4 rounded-lg">
-                    <img src={qrcode || "/placeholder.svg"} alt="QR Code" className="w-48 h-48" />
+                    <Image src={qrcode} alt="QR Code" className="w-48 h-48" />
                   </div>
                 </div>
                 <div>
