@@ -1,8 +1,5 @@
 import teamIdModel from "@/models/teamId.model";
 
-
-
-
  const teamIdGenerate = async () => {
     try {
         const lastTeam = await teamIdModel.findOne().sort({ teamId: -1 });

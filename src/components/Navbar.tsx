@@ -17,13 +17,15 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react";
-
+import navLogo from "@/app/assets/navLogo.png";
+import Image from "next/image";
 const navItems = [
   { icon: Home, label: "Spardha", path: "/" },
   { icon: FileClock, label: "Register", path: "/register" },
   { icon: ClipboardCopy, label: "Report", path: "/report" },
   { icon: NotebookTabs, label: "Player Detail", path: "/DetailPage" },
 ];
+
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -54,13 +56,16 @@ const Navbar = () => {
       {/* Desktop Navbar */}
       <nav className="hidden lg:block bg-gray-950 text-white py-4 sticky top-0 z-50">
         <div className="container mx-auto flex justify-around py-2 items-center">
+          <Link href="/">
           <div className="text-2xl font-bold">
-            <img
-              src="https://www.donboscoitggsipu.org/images/logo%20(2).png"
+            <Image
+              src={navLogo}
               className="w-28"
               alt="Logo"
             />
           </div>
+          </Link>
+          
           <div className="flex space-x-6">
             {navItems.map((item) => (
               <Link key={item.label} href={item.path}>

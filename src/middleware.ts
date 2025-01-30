@@ -3,22 +3,25 @@ import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 export async function middleware(request: NextRequest) {
   const cookiesStore = await cookies();
-  const authToken = cookiesStore.get("admin-token")?.value;
+  const adminAuthToken = cookiesStore.get("admin-token")?.value;
+
   const protectedRoutes = ["/report"];
 
   if (
     protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route))
   ) {
-    if (!authToken) {
+    if (!adminAuthToken) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
   }
 
   if(request.nextUrl.pathname.startsWith("/login")){
-    if(authToken){
+    if(adminAuthToken){
         return NextResponse.redirect(new URL("/report", request.url));
     }
   }
+
+
 
 //   if (
 //     withoutLoginRoute.some((route) =>
