@@ -1,17 +1,16 @@
 "use client";
-import React from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import "react-toastify/dist/ReactToastify.css"
-import { Upload, User, Trophy, ChevronDown, PlusCircle, CreditCard, School, BadgeInfo } from "lucide-react"
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Upload, User, Trophy, ChevronDown, PlusCircle, CreditCard, School, BadgeInfo } from "lucide-react";
 import Lottie from "react-lottie-player"
-import footballAnimation from "../assets/footballAnimation.json"
-import basketballAnimation from "../assets/basketballAnimation.json"
-import ChessAnimation from "../assets/ChessAnimation.json"
-import runningAnimation from "../assets/runningAnimation.json"
-import { ThemeProvider, createTheme } from "@mui/material/styles"
-import qrcode from "../assets/qrcode.jpg"
-import { TextField, Tooltip } from "@mui/material"
-import { Listbox, Transition, Combobox } from "@headlessui/react"
+import footballAnimation from "@/app/assets/footballAnimation.json";
+import basketballAnimation from "@/app/assets/basketballAnimation.json";
+import ChessAnimation from "@/app/assets/ChessAnimation.json";
+import runningAnimation from "@/app/assets/runningAnimation.json";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import qrcode from "@/app/assets/qrcode.jpg";
+import { TextField, Tooltip } from "@mui/material";
+import { Listbox, Transition, Combobox } from "@headlessui/react";
 
 const theme = createTheme({
   palette: {
@@ -26,8 +25,22 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 }
 
-function RegisterPage() {
-  const sportAnimations = {
+function RegisterPage() { 
+
+  const [styles, setStyles] = useState<{ top: string; left: string }>({
+    top: "0%",
+    left: "0%",
+  });
+
+
+  useEffect(() => {
+    setStyles({
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+    });
+  }, []);
+
+  const sportAnimations:any = {
     football: footballAnimation,
     basketball: basketballAnimation,
     running: runningAnimation,
@@ -52,12 +65,11 @@ function RegisterPage() {
               transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse" }}
               className="absolute"
               style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
+              ...styles,
                 transform: "translate(-50%, -50%)",
               }}
             >
-              <Lottie animationData={sportAnimations[sport]} play style={{ width: 100, height: 100 }} />
+              <Lottie animationData={sportAnimations[sport] as any} play style={{ width: 100, height: 100 }} />
             </motion.div>
           ))}
         </AnimatePresence>

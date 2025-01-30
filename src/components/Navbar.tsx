@@ -20,8 +20,8 @@ import {
 
 const navItems = [
   { icon: Home, label: "Spardha", path: "/" },
-  { icon: FileClock, label: "Register", path: "/RegisterPage" },
-  { icon: ClipboardCopy, label: "Report", path: "/ReportPage" },
+  { icon: FileClock, label: "Register", path: "/register" },
+  { icon: ClipboardCopy, label: "Report", path: "/report" },
   { icon: NotebookTabs, label: "Player Detail", path: "/DetailPage" },
 ];
 
