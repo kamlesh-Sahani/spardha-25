@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Upload, User, Trophy, ChevronDown, PlusCircle, CreditCard, School, BadgeInfo } from "lucide-react";
 import Lottie from "react-lottie-player"
