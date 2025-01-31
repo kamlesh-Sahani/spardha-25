@@ -11,7 +11,7 @@ interface IPlayer {
 }
 
 // Define TypeScript Interface for Team
-interface ITeam extends Document {
+export interface ITeam extends Document {
   teamID: number;
   event: string;
   college: string;

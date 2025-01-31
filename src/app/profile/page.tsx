@@ -99,11 +99,6 @@ const ProfilePage: FC = () => {
           </div>
         </div>
 
-        {/* Actions Section */}
-        <div className="flex justify-between mt-6">
-          <button className="bg-green-500 text-white px-6 py-3 rounded-lg">Edit Team</button>
-          <button className="bg-red-500 text-white px-6 py-3 rounded-lg">Disband Team</button>
-        </div>
       </div>
     </div>
   );

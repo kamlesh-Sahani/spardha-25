@@ -14,10 +14,15 @@
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "@mui/material": "^6.4.2",
+    "@radix-ui/react-dialog": "^1.1.5",
+    "@radix-ui/react-select": "^2.1.5",
+    "@radix-ui/react-slot": "^1.1.1",
     "@types/nodemailer": "^6.4.17",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.5.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.0.6",
     "i": "^0.3.7",
     "lucide-react": "^0.474.0",
@@ -32,7 +37,9 @@
     "react-lottie-player": "^2.1.0",
     "react-select": "^5.10.0",
     "react-simple-typewriter": "^5.0.1",
-    "react-table": "^7.8.0"
+    "react-table": "^7.8.0",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
