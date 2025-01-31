@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Define TypeScript Interface for Player
-interface IPlayer {
+export interface IPlayer {
   email?: string;
   name: string;
   gender: "Male" | "Female" | "Other";

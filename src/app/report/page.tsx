@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -25,11 +26,37 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { type ITeam } from "@/models/team.model";
+
+// Define types
+interface Player {
+  name: string;
+  gender: string;
+  mobile: string;
+  email: string;
+  playerIdCard: string;
+  isCaptain: boolean;
+}
+
+interface Team {
+  teamID: number;
+  event: string;
+  college: string;
+  status: "pending" | "approved" | "rejected";
+  transactionId: string;
+  transactionSs: string;
+  amount: number;
+  players: Player[];
+  createdAt: Date;
+}
+
+interface Filters {
+  event: string;
+  college: string;
+  status: string;
+}
 
 // Sample team data
-
-const teamData:any = [
+const teamData: Team[] = [
   {
     teamID: 12345,
     event: "Football Championship",
@@ -56,23 +83,23 @@ const teamData:any = [
         isCaptain: false,
       },
     ],
-    createdAt: new Date("2025-01-01"), // Use Date object instead of string
+    createdAt: new Date("2025-01-01"),
   },
 ];
 
 export default function AdminReportPage() {
-  const [teams, setTeams] = useState(teamData);
-  const [filters, setFilters] = useState({
+  const [teams, setTeams] = useState<Team[]>(teamData);
+  const [filters, setFilters] = useState<Filters>({
     event: "",
     college: "",
     status: "",
   });
-  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
 
   // Filter teams based on filters
-  const filteredTeams = teams.filter((team: any) => {
+  const filteredTeams = teams.filter((team) => {
     return (
       (filters.event ? team.event.includes(filters.event) : true) &&
       (filters.college ? team.college.includes(filters.college) : true) &&
@@ -81,22 +108,22 @@ export default function AdminReportPage() {
   });
 
   // Update team status
-  const updateTeamStatus = (teamID: number, status: string) => {
-    setTeams((prevTeams:any) =>
-      prevTeams.map((team:any) =>
+  const updateTeamStatus = (teamID: number, status: "pending" | "approved" | "rejected") => {
+    setTeams((prevTeams) =>
+      prevTeams.map((team) =>
         team.teamID === teamID ? { ...team, status } : team
       )
     );
   };
 
   // Open player details modal
-  const openPlayerModal = (team: any) => {
+  const openPlayerModal = (team: Team) => {
     setSelectedTeam(team);
     setIsPlayerModalOpen(true);
   };
 
   // Open transaction screenshot modal
-  const openTransactionModal = (team:any) => {
+  const openTransactionModal = (team: Team) => {
     setSelectedTeam(team);
     setIsTransactionModalOpen(true);
   };
@@ -125,7 +152,7 @@ export default function AdminReportPage() {
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="">All Statuses</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
@@ -241,8 +268,8 @@ export default function AdminReportPage() {
               Screenshot of the transaction for the team.
             </DialogDescription>
           </DialogHeader>
-          <img
-            src={selectedTeam?.transactionSs}
+          <Image
+            src={selectedTeam?.transactionSs!}
             alt="Transaction Screenshot"
             className="w-full h-auto"
           />
