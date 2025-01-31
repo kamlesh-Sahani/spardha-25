@@ -15,10 +15,7 @@ const EventCards = () => {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const sectionRef = useRef(null);
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0 },
-  };
+
 
   const expandedCardVariants = {
     hidden: { opacity: 0, height: 0 },
@@ -38,13 +35,12 @@ const EventCards = () => {
         {selectedEvent && (
           <motion.div
             key="expanded-card"
-            initial="hidden"
+            initial=""
             animate="visible"
-            exit="hidden"
             variants={expandedCardVariants}
-            className="absolute inset-0 bg-[#820263] z-10 overflow-y-auto p-4 md:p-8 rounded-3xl"
+            className="absolute inset-0 bg-[#820263] z-50 overflow-y-auto p-4 md:p-8 rounded-3xl"
           >
-            <div className="max-w-6xl mx-auto bg-white bg-opacity-10 backdrop-blur-lg rounded-3xl overflow-hidden shadow-2xl">
+            <div className="max-w-full mx-auto bg-white bg-opacity-10 backdrop-blur-lg rounded-3xl overflow-hidden shadow-2xl">
               <div className="flex flex-col md:flex-row">
                 <div className="md:w-1/2">
                   <Image
@@ -74,12 +70,11 @@ const EventCards = () => {
       {eventImage.map((event) => (
         <motion.div
           key={event.id}
-          variants={cardVariants}
-          className={`relative rounded-full overflow-hidden shadow-lg group ${
+          className={` rounded-full  shadow-lg group flex flex-wrap items-center justify-center ${
             selectedEvent ? "opacity-0 pointer-events-none" : ""
           }`}
         >
-          <div className="relative h-64 w-64">
+          <div className="relative min-h-64 min-w-64 sm:h-72 md:h-80">
             <Image src={event.image} alt={event.name} className="w-full h-full object-cover" />
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <motion.button
@@ -94,7 +89,7 @@ const EventCards = () => {
               </motion.button>
             </div>
           </div>
-          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+          <div className=" bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
             <h3 className="text-xl font-bold text-center text-white">{event.name}</h3>
           </div>
         </motion.div>
