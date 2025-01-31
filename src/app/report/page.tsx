@@ -1,9 +1,12 @@
 "use client"; // Ensure this is a Client Component
 
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import axios from "axios";
+import toast from "react-hot-toast"
+
 import {
   Select,
   SelectContent,
@@ -26,6 +29,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import Loader from "@/components/Loader";
 
 // Define types
 interface Player {
@@ -38,6 +42,7 @@ interface Player {
 }
 
 interface Team {
+  _id:string;
   teamID: number;
   event: string;
   college: string;
@@ -55,40 +60,9 @@ interface Filters {
   status: string;
 }
 
-// Sample team data
-const teamData: Team[] = [
-  {
-    teamID: 12345,
-    event: "Football Championship",
-    college: "ABC University",
-    status: "pending",
-    transactionId: "TXN-987654",
-    transactionSs: "https://via.placeholder.com/150",
-    amount: 1500,
-    players: [
-      {
-        name: "John Doe",
-        gender: "Male",
-        mobile: "9876543210",
-        email: "john.doe@example.com",
-        playerIdCard: "ID-12345",
-        isCaptain: true,
-      },
-      {
-        name: "Jane Smith",
-        gender: "Female",
-        mobile: "9876541234",
-        email: "jane.smith@example.com",
-        playerIdCard: "ID-12346",
-        isCaptain: false,
-      },
-    ],
-    createdAt: new Date("2025-01-01"),
-  },
-];
 
 export default function AdminReportPage() {
-  const [teams, setTeams] = useState<Team[]>(teamData);
+  const [teams, setTeams] = useState<Team[]>();
   const [filters, setFilters] = useState<Filters>({
     event: "",
     college: "",
@@ -97,23 +71,34 @@ export default function AdminReportPage() {
   const [selectedTeam, setSelectedTeam] = useState<Team>();
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
-
+  const [loading,setLoading]=useState<boolean>(false);
+  const [uiUpdate,setUiUpdate] = useState<boolean>(false);
   // Filter teams based on filters
-  const filteredTeams = teams.filter((team) => {
-    return (
-      (filters.event ? team.event.includes(filters.event) : true) &&
-      (filters.college ? team.college.includes(filters.college) : true) &&
-      (filters.status ? team.status === filters.status : true)
-    );
-  });
+ // Filter teams based on filters
+const filteredTeams = teams && teams.filter((team) => {
+  return (
+    (filters.event ? team.event.toLowerCase().includes(filters.event.toLowerCase()) : true) &&
+    (filters.college ? team.college.toLowerCase().includes(filters.college.toLowerCase()) : true) &&
+    (filters.status && filters.status !== "all" ? team.status === filters.status : true)
+  );
+});
+
 
   // Update team status
-  const updateTeamStatus = (teamID: number, status: "pending" | "approved" | "rejected") => {
-    setTeams((prevTeams) =>
-      prevTeams.map((team) =>
-        team.teamID === teamID ? { ...team, status } : team
-      )
-    );
+  const updateTeamStatus = async(_id: string, status: "pending" | "approved" | "rejected") => {
+    try {
+      const {data} = await axios.post("/api/report/status",{_id,status});
+      console.log(data,"stataus");
+      if(data.success){
+        toast.success(data.message || "successfuly updated");
+      }else{
+        toast.error(data.message );
+      }
+      setUiUpdate((prev)=>!prev);
+    } catch (error:any) {
+      toast.error(error?.response?.data?.message || "something went wrong");
+      console.log(error);
+    }
   };
 
   // Open player details modal
@@ -127,6 +112,21 @@ export default function AdminReportPage() {
     setSelectedTeam(team);
     setIsTransactionModalOpen(true);
   };
+
+  useEffect(()=>{
+    (async function (){
+      setLoading(true);
+      try {
+        const {data} = await axios.get("/api/report/all");
+      setTeams(data.teams)
+      } catch (error) {
+        console.log(error);
+      }finally{
+        setLoading(false)
+      }
+      
+    })()
+  },[uiUpdate])
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -152,7 +152,7 @@ export default function AdminReportPage() {
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Statuses</SelectItem>
+            <SelectItem value="all">All Statuses</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
@@ -161,6 +161,8 @@ export default function AdminReportPage() {
       </div>
 
       {/* Table */}
+    {
+      loading ? <Loader /> :<>
       <div className="overflow-x-auto bg-white rounded-lg shadow">
         <Table>
           <TableHeader>
@@ -173,7 +175,7 @@ export default function AdminReportPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredTeams.map((team) => (
+            {filteredTeams &&  filteredTeams.map((team) => (
               <TableRow key={team.teamID}>
                 <TableCell>{team.teamID}</TableCell>
                 <TableCell>{team.event}</TableCell>
@@ -205,13 +207,13 @@ export default function AdminReportPage() {
                     View Transaction
                   </Button>
                   <Button
-                    onClick={() => updateTeamStatus(team.teamID, "approved")}
+                    onClick={() => updateTeamStatus(team._id, "approved")}
                   >
                     Approve
                   </Button>
                   <Button
                     variant="destructive"
-                    onClick={() => updateTeamStatus(team.teamID, "rejected")}
+                    onClick={() => updateTeamStatus(team._id, "rejected")}
                   >
                     Reject
                   </Button>
@@ -221,10 +223,13 @@ export default function AdminReportPage() {
           </TableBody>
         </Table>
       </div>
+      </>
+    }
+      
 
       {/* Player Details Modal */}
       <Dialog open={isPlayerModalOpen} onOpenChange={setIsPlayerModalOpen}>
-        <DialogContent>
+        <DialogContent >
           <DialogHeader>
             <DialogTitle>Player Details</DialogTitle>
             <DialogDescription>
@@ -251,8 +256,22 @@ export default function AdminReportPage() {
                   <TableCell>{player.isCaptain ? "Yes" : "No"}</TableCell>
                 </TableRow>
               ))}
+
+             
             </TableBody>
+      
           </Table>
+          <h1>Players Id Cards</h1>
+          <div className="flex overflow-x-auto gap-5 ">
+              {selectedTeam?.players.map((player, index) => (
+                <div className="flex flex-col" key={index}>
+                  <h3>{player.name}</h3>
+                   <img src={player.playerIdCard}  className="w-[400px] object-contain rounded "/>
+                </div>
+               
+              ))}
+              </div>
+
         </DialogContent>
       </Dialog>
 
@@ -267,11 +286,14 @@ export default function AdminReportPage() {
             <DialogDescription>
               Screenshot of the transaction for the team.
             </DialogDescription>
+            <DialogTitle>Transaction ID : {selectedTeam?.transactionId}</DialogTitle>
+
           </DialogHeader>
-          <Image
+          <img
             src={selectedTeam?.transactionSs || ""}
             alt="Transaction Screenshot"
-            className="w-full h-auto"
+            className="w-[400px] object-contain rounded "
+           
           />
         </DialogContent>
       </Dialog>

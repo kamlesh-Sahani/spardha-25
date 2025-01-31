@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import sendMail from "@/utils/sendMail.util";
 import teamIdGenerate from "@/utils/teamIdGenerate.util";
+import dbConnect from "@/utils/dbConnect.util";
 
 // Function to upload an image to Cloudinary
 const uploadToCloudinary = async (file: any) => {
@@ -23,6 +24,7 @@ const uploadToCloudinary = async (file: any) => {
 
 export const registerAction = async (teamData: any) => {
   try {
+    await dbConnect();
     console.log("team-data",teamData);
     const {
       email,
@@ -225,17 +227,18 @@ export const registerAction = async (teamData: any) => {
   `;
 
     await sendMail(captainMail, "Spardha Team Registeration", htmlTemplate);
-    // Generate JWT Token
-    const token = jwt.sign({ email, role: "team" }, process.env.JWT_SECRET!, {
-      expiresIn: "7d",
-    });
+    
+    // // Generate JWT Token
+    // const token = jwt.sign({ email, role: "team" }, process.env.JWT_SECRET!, {
+    //   expiresIn: "7d",
+    // });
 
-    const cookieStore = await cookies();
-    // Set the token in a secure HttpOnly cookie
-    cookieStore.set("auth-token", token, {
-      httpOnly: true, // Prevents client-side access
-      maxAge: 7 * 24 * 60 * 60, // 7 day
-    });
+    // const cookieStore = await cookies();
+    // // Set the token in a secure HttpOnly cookie
+    // cookieStore.set("auth-token", token, {
+    //   httpOnly: true, // Prevents client-side access
+    //   maxAge: 7 * 24 * 60 * 60, // 7 day
+    // });
     return {
       success: true,
       message: "Team registered successfully",
@@ -248,3 +251,47 @@ export const registerAction = async (teamData: any) => {
     };
   }
 };
+
+export const testAction = async()=>{
+
+  await dbConnect();
+  const t = await TeamModel.create({
+    "teamID": 1,
+    "event": "Intercollege Football Tournament",
+    "college": "XYZ University",
+    "players": [
+      {
+        "name": "John Doe",
+        "gender": "Male",
+        "mobile": "9876543210",
+        "email": "john.doe@example.com",
+        "playerIdCard": "ID12345",
+        "isCaptain": true
+      },
+      {
+        "name": "Jane Smith",
+        "gender": "Female",
+        "mobile": "8765432109",
+        "email": "jane.smith@example.com",
+        "playerIdCard": "ID67890",
+        "isCaptain": false
+      }
+    ],
+    "transactionId": "TXN123456",
+    "transactionSs": "txn_screenshot_url.jpg",
+    "password": "hashed_password",
+    "amount": 5000,
+    "status": "pending",
+    "createdAt": "2024-01-31T10:00:00.000Z",
+    "updatedAt": "2024-01-31T12:00:00.000Z"
+  }
+  )
+
+  if(t){
+    console.log("successfuly")
+  }else{
+    console.log("error");
+  }
+}
+
+
