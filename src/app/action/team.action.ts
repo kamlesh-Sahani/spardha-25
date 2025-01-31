@@ -1,3 +1,4 @@
+"use server";
 import TeamModel from "@/models/team.model";
 import cloudinary from "@/utils/cloudinary.util";
 import generatePassword from "@/utils/generatePassword.util";
@@ -19,8 +20,10 @@ const uploadToCloudinary = async (file: any) => {
   }
 };
 
+
 export const registerAction = async (teamData: any) => {
   try {
+    console.log("team-data",teamData);
     const {
       email,
       college,
