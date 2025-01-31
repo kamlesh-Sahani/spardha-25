@@ -4,20 +4,26 @@ import { motion, AnimatePresence } from "framer-motion"
 import eventImage from "@/data/EventData";
 import Image from "next/image";
 
+interface Event {
+  id: number;
+  name: string;
+  image: string;
+  description: string;
+}
 
 const EventCards = () => {
-  const [selectedEvent, setSelectedEvent] = useState<any>(null)
-  const sectionRef = useRef(null)
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const sectionRef = useRef(null);
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0 },
-  }
+  };
 
   const expandedCardVariants = {
     hidden: { opacity: 0, height: 0 },
     visible: { opacity: 1, height: "auto" },
-  }
+  };
 
   return (
     <motion.div
@@ -41,9 +47,11 @@ const EventCards = () => {
             <div className="max-w-6xl mx-auto bg-white bg-opacity-10 backdrop-blur-lg rounded-3xl overflow-hidden shadow-2xl">
               <div className="flex flex-col md:flex-row">
                 <div className="md:w-1/2">
-                  <img
+                  <Image
                     src={selectedEvent.image}
                     alt={selectedEvent.name}
+                    width={500}
+                    height={500}
                     className="w-full h-96 object-contain"
                   />
                   <h2 className="text-3xl font-bold p-6 text-white">{selectedEvent.name}</h2>
@@ -62,6 +70,7 @@ const EventCards = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
       {eventImage.map((event) => (
         <motion.div
           key={event.id}
@@ -91,8 +100,7 @@ const EventCards = () => {
         </motion.div>
       ))}
     </motion.div>
-  )
+  );
 }
 
-export default EventCards
-
+export default EventCards;
