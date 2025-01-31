@@ -4,7 +4,7 @@ import React, { useEffect } from "react"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 
-const BentoGrid = ({ events }) => {
+const BentoGrid = ({ events }:any) => {
   const controls = useAnimation()
   const [ref, inView] = useInView({
     threshold: 0.1,
@@ -30,7 +30,7 @@ const BentoGrid = ({ events }) => {
   }
 
   const itemVariants = {
-    hidden: (i) => {
+    hidden: (i:any) => {
       const directions = ["translateX(-50px)", "translateX(50px)", "translateY(-50px)", "translateY(50px)"]
       return {
         opacity: 0,
@@ -55,7 +55,7 @@ const BentoGrid = ({ events }) => {
         animate={controls}
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative z-10"
       >
-        {events.map((event, index) => (
+        {events.map((event:any, index:number) => (
           <motion.div
             key={index}
             custom={index}
