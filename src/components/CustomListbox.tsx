@@ -2,8 +2,8 @@ import React from "react"
 import { Listbox, Transition } from "@headlessui/react"
 import { Check, ChevronsUpDownIcon as ChevronUpDown } from "lucide-react"
 
-export default function CustomListbox({ options, value, onChange, placeholder }) {
-  const selectedOption = options.find((option) => option.value === value) || null
+export default function CustomListbox({ options, value, onChange, placeholder }:any) {
+  const selectedOption = options.find((option:any) => option.value === value) || null
 
   return (
     <div className="relative mt-1">
@@ -24,7 +24,7 @@ export default function CustomListbox({ options, value, onChange, placeholder })
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-[400px] overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {options.map((option, optionIdx) => (
+                {options.map((option:any, optionIdx:number) => (
                   <Listbox.Option
                     key={optionIdx}
                     className={({ active }) =>

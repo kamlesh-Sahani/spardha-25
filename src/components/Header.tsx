@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <header className="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
       <div className="absolute inset-0 flex justify-around items-center pointer-events-none">
-        {[sportsImage1, sportsImage2, sportsImage3].map((img, index) => (
+        {[sportsImage1, sportsImage2, sportsImage3].map((img:string, index:number) => (
           <div
             key={index}
             className="w-1/3 h-1/3 opacity-0 transition-all duration-300 ease-in-out hover:opacity-30 hover:scale-110 hover:filter hover:brightness-125 pointer-events-auto"
