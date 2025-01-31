@@ -269,7 +269,7 @@ export default function AdminReportPage() {
             </DialogDescription>
           </DialogHeader>
           <Image
-            src={selectedTeam?.transactionSs!}
+            src={selectedTeam!.transactionSs}
             alt="Transaction Screenshot"
             className="w-full h-auto"
           />
