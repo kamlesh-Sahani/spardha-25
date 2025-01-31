@@ -94,7 +94,7 @@ export default function AdminReportPage() {
     college: "",
     status: "",
   });
-  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
+  const [selectedTeam, setSelectedTeam] = useState<Team>();
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
 
@@ -269,7 +269,7 @@ export default function AdminReportPage() {
             </DialogDescription>
           </DialogHeader>
           <Image
-            src={selectedTeam!.transactionSs}
+            src={selectedTeam?.transactionSs || ""}
             alt="Transaction Screenshot"
             className="w-full h-auto"
           />
