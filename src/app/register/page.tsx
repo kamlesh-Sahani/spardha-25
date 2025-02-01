@@ -5,38 +5,110 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import eventImage, { type IEventImage } from "@/data/EventData";
 import { registerAction } from "../action/team.action";
+import { colleges } from "@/data/CollegeData";
+import { sportsData } from "@/data/AllEventData";
+import { z } from "zod";
 
-const events = ["Football", "Basketball", "Cricket", "Badminton", "Tennis"];
+const registrationSchema = z.object({
+  event: z.string().min(1, "Please select an event"),
+  collegeName: z.string().min(1, "College name is required"),
+  players: z
+    .array(
+      z.object({
+        name: z.string().min(2, "Player name must be at least 2 characters"),
+        enrollment: z
+          .string()
+          .min(5, "Enrollment number must be at least 5 characters"),
+        phone: z
+          .string()
+          .regex(/^\d{10}$/, "Phone number must be exactly 10 digits"),
+        photo: z.string().min(1, "Photo URL is required"),
+        isCaptain: z.boolean(),
+        email: z.string().email("Invalid email address"),
+      })
+    )
+    .min(1, "At least one player is required"),
+  captain: z.string().min(1, "Please select a captain"),
+  transactionId: z
+    .string()
+    .min(5, "Transaction ID must be at least 5 characters"),
+  transactionImage: z
+    .instanceof(File)
+    .nullable()
+    .refine((file) => file !== null, {
+      message: "Transaction image is required",
+    }),
+});
 
+interface Sports {
+  sport: string;
+  minPlayers: number;
+  substitute: number | "NA";
+  entryFee: number;
+  maxEntry: number | "Open";
+}
 const Register = () => {
   const [formData, setFormData] = useState({
-    event: events[0],
+    event: sportsData[0].sport,
     collegeName: "",
     players: [] as {
       name: string;
       enrollment: string;
       phone: string;
       photo: string;
+      isCaptain: boolean;
+      email: string;
     }[],
     captain: "",
     transactionId: "",
     transactionImage: null as File | null,
   });
-  const [selectedEvent,setSelectedEvent] = useState<IEventImage>()
-  const [eventData,setEventData]=useState<IEventImage[]>();
+  const [selectedEvent, setSelectedEvent] = useState<Sports | undefined>(
+    undefined
+  );
+  const [loading, setLoading] = useState<boolean>(true);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [eventData, setEventData] = useState<IEventImage[]>();
+  const [apiResponseMessage, setApiResponseMessage] = useState<string | null>(
+    null
+  );
   const [currentPlayer, setCurrentPlayer] = useState({
     name: "",
     enrollment: "",
     phone: "",
     photo: "",
+    email: "",
+    isCaptain: false,
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    const { name, value } = e.target;
 
+    if (name === "event") {
+      const selectedSport = value.toLowerCase();
+      const filteredEvent = sportsData.find(
+        (data) => data.sport.toLowerCase() === selectedSport
+      );
+      setSelectedEvent(filteredEvent);
+    }
+    if (name === "captain") {
+      setFormData((prevData) => ({
+        ...prevData,
+        players: prevData.players.map((player) => ({
+          ...player,
+          isCaptain: player.name === value,
+        })),
+        [name]: value,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
   const handlePlayerChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: string
@@ -52,7 +124,6 @@ const Register = () => {
       });
     }
   };
-
   const handleTransactionImageChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -63,7 +134,6 @@ const Register = () => {
       });
     }
   };
-
   const addPlayer = () => {
     if (
       currentPlayer.name.trim() === "" ||
@@ -80,31 +150,50 @@ const Register = () => {
       enrollment: "",
       phone: "",
       photo: "",
+      email: "",
+      isCaptain: false,
     });
   };
-
-
-
-
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
+    setLoading(true);
+    setApiResponseMessage("");
 
+    const validation = registrationSchema.safeParse(formData);
+  
+    if (!validation.success) {
+      const errors = validation.error.errors.reduce(
+        (acc, curr) => ({ ...acc, [curr.path[0]]: curr.message }),
+        {} as Record<string, string>
+      );
+  
+      setErrors(errors); 
+      setLoading(false);
+      return; 
+    }
+  
     try {
       const res = await registerAction(formData);
-      console.log("res",res);
-    } catch (error) {
-      console.log("error",error)
+      console.log("res", res);
+    } catch (err: any) {
+      if (err instanceof z.ZodError) {
+        // ❌ This case won't be hit because we're validating before API call
+        console.error("Unexpected ZodError:", err);
+        setApiResponseMessage("Validation failed, but it should be handled before API call.");
+      } else {
+        setApiResponseMessage("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
+  
 
-
-  useEffect(()=>{
+  useEffect(() => {
     setEventData(eventImage);
-  },[])
-
+  }, []);
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-pink-600 to-pink-700 p-6">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-[#27473c] to-[#1b7758] p-6">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -147,16 +236,15 @@ const Register = () => {
                 className="rounded-lg"
               />
               <div className="text-center mt-4">
-                <p className="text-2xl font-bold">Amount: ₹0</p>
+                <p className="text-2xl font-bold">
+                  Amount: ₹{selectedEvent?.entryFee || 0}
+                </p>
                 <p className="text-lg mt-2">UPI: PPQR01.YUZUNL@IOB</p>
               </div>
             </div>
           </div>
         </motion.div>
-
         <hr className="border-t border-white/20 my-4" />
-
-        {/* Event Details Section */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -165,22 +253,25 @@ const Register = () => {
         >
           <h1 className="text-white font-bold text-2xl mb-4">Event Details:</h1>
           <p className="text-lg font-semibold text-gray-100">
-            Event Name: <span className="font-normal">Summer Sports</span>
+            Event Name:{" "}
+            <span className="font-normal">{selectedEvent?.sport || "NA"}</span>
           </p>
           <div className="grid grid-cols-2 max-md:grid-cols-1 gap-2 mt-2">
             <p className="font-bold text-white">
               Minimum Players:{" "}
-              <span className="text-base text-gray-100">0</span>
+              <span className="text-base text-gray-100">
+                {selectedEvent?.minPlayers || "NA"}
+              </span>
             </p>
             <p className="font-bold text-white">
-              Extra Players: <span className="text-base text-gray-100">0</span>
+              Extra Players:{" "}
+              <span className="text-base text-gray-100">
+                {selectedEvent?.substitute || "NA"}
+              </span>
             </p>
           </div>
         </motion.div>
-
         <hr className="border-t border-white/20 my-8" />
-
-        {/* Registration Form */}
         <form onSubmit={handleSubmit}>
           <motion.div
             initial={{ opacity: 0 }}
@@ -196,29 +287,38 @@ const Register = () => {
                 onChange={handleChange}
                 className="w-full p-3 bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
               >
-                {eventData?.map((event, id) => (
-                  <option key={id} value={event.name.toLowerCase()} className="text-gray-900">
-                    {event.name}
+                {sportsData?.map((event, id) => (
+                  <option
+                    key={id}
+                    value={event.sport.toLowerCase()}
+                    className="text-gray-900"
+                  >
+                    {event.sport}
                   </option>
                 ))}
               </select>
             </div>
             <div className="flex flex-col">
-              <label className="text-white text-lg mb-2">College Name</label>
-              <input
-                type="text"
+              <label className="text-white text-lg mb-2">Select College</label>
+              <select
                 name="collegeName"
                 value={formData.collegeName}
                 onChange={handleChange}
-                placeholder="Enter your college name"
-                className="w-full p-3 placeholder-white bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
-              />
+                className="w-full p-3 bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
+              >
+                {colleges?.map((college, index) => (
+                  <option
+                    key={index}
+                    value={college.name.toLowerCase()}
+                    className="text-gray-900"
+                  >
+                    {college.name}
+                  </option>
+                ))}
+              </select>
             </div>
           </motion.div>
-
           <hr className="border-t border-white/20 my-8" />
-
-          {/* Add Players Section */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -228,28 +328,53 @@ const Register = () => {
             <h2 className="text-2xl font-semibold text-white mb-4">
               Add Players
             </h2>
-            {formData.players.length < 3 && (
+            {formData.players?.length < (selectedEvent?.minPlayers ?? 0) && (
               <div className="flex flex-col gap-4 mb-4">
                 <div className="grid grid-cols-2 max-md:grid-cols-1 gap-4">
                   <div className="flex flex-col text-white gap-2">
                     <label>Player Name</label>
                     <input
                       type="text"
+                      name="name"
                       value={currentPlayer.name}
                       onChange={(e) => handlePlayerChange(e, "name")}
                       placeholder="Enter Player Name"
                       className="w-full p-3 placeholder-white bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                     />
+                    {errors.name && (
+                      <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+                    )}
                   </div>
                   <div className="flex flex-col text-white gap-2">
                     <label>Player Enrollment Number</label>
                     <input
                       type="text"
+                      name="enrollment"
                       value={currentPlayer.enrollment}
                       onChange={(e) => handlePlayerChange(e, "enrollment")}
                       placeholder="Enter Player Enrollment"
                       className="w-full p-3 placeholder-white bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                     />
+                    {errors.enrollment && (
+                      <p className="text-red-600 text-sm mt-1">
+                        {errors.enrollment}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex flex-col text-white gap-2">
+                    <label>Player Email</label>
+                    <input
+                      type="email"
+                      value={currentPlayer.email}
+                      onChange={(e) => handlePlayerChange(e, "email")}
+                      placeholder="Enter Player Email"
+                      className="w-full p-3 placeholder-white bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
+                    />
+                    {errors.email && (
+                      <p className="text-red-600 text-sm mt-1">
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
                   <div className="flex flex-col text-white gap-2">
                     <label>Player Phone Number</label>
@@ -260,14 +385,25 @@ const Register = () => {
                       placeholder="Enter Player phone number"
                       className="w-full p-3 placeholder-white bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                     />
+                    {errors.phone && (
+                      <p className="text-red-600 text-sm mt-1">
+                        {errors.phone}
+                      </p>
+                    )}
                   </div>
                   <div className="flex flex-col text-white gap-2">
                     <label>Upload ID Card Image</label>
                     <input
+                      name="photo"
                       type="file"
                       onChange={handlePlayerImageChange}
                       className="w-full p-3 bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                     />
+                    {errors.photo && (
+                      <p className="text-red-600 text-sm mt-1">
+                        {errors.photo}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <button
@@ -351,8 +487,6 @@ const Register = () => {
               </div>
             )}
           </motion.div>
-
-          {/* Select Captain Section */}
           {formData.players.length > 0 && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -384,10 +518,7 @@ const Register = () => {
               </select>
             </motion.div>
           )}
-
           <hr className="border-t border-white/20 my-8" />
-
-          {/* Payment Details Section */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -407,6 +538,11 @@ const Register = () => {
                 placeholder="Enter Transaction ID"
                 className="w-full p-3 placeholder-white bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
               />
+              {errors.transactionId && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.transactionId}
+                </p>
+              )}
             </div>
             <div className="flex flex-col mb-4">
               <label className="text-white text-lg mb-2">
@@ -419,6 +555,11 @@ const Register = () => {
                 onChange={handleTransactionImageChange}
                 className="w-full p-3 bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
               />
+              {errors.transactionImage && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.transactionImage}
+                </p>
+              )}
             </div>
             {formData.transactionImage && (
               <div className="">
@@ -430,10 +571,7 @@ const Register = () => {
               </div>
             )}
           </motion.div>
-
           <hr className="border-t border-white/20 my-4" />
-
-          {/* Submit Button */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

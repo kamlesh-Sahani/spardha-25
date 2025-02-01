@@ -76,15 +76,16 @@ const events = [
 
 const HomePage = () => {
   return (
-    <div className="bg-[#820263] text-white min-h-screen relative">
+    //bg-[#820263]
+    <div className="bg-gradient-to-r from-[#27473c] to-[#1b7758] text-white min-h-screen relative">
       <motion.div
         className="absolute inset-0 z-0"
         animate={{
-          background: [
-            "radial-gradient(circle, #d90368 0%, #820263 100%)",
-            "radial-gradient(circle, #820263 0%, #d90368 100%)",
-            "radial-gradient(circle, #d90368 0%, #820263 100%)",
-          ],
+          // background: [
+          //   "radial-gradient(circle, #d90368 0%, #820263 100%)",
+          //   "radial-gradient(circle, #820263 0%, #d90368 100%)",
+          //   "radial-gradient(circle, #d90368 0%, #820263 100%)",
+          // ],
         }}
         transition={{
           duration: 10,
