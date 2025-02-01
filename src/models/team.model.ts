@@ -21,6 +21,7 @@ export interface ITeam extends Document {
   password: string;
   amount: number;
   status: "pending" | "approved" | "rejected";
+  reason:string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -63,6 +64,9 @@ const TeamSchema = new Schema<ITeam>(
       type: String,
       enum: ["pending", "approved", "rejected"],
       default: "pending",
+    },
+    reason:{
+      type:String,
     },
   },
   { timestamps: true }

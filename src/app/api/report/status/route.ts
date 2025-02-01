@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req:NextRequest){
     await dbConnect()
     try {
-        const {_id,status} =await  req.json();
+        const {_id,status,reason} =await  req.json();
         const team = await TeamModel.findById(_id);
         if(!team){
             return NextResponse.json({
@@ -21,6 +21,10 @@ export async function POST(req:NextRequest){
             },{status:400});
         }
         team.status=status;
+        if(reason){
+            team.reason=reason;
+        }
+     
         await team.save({validateBeforeSave:false});
         return NextResponse.json({
             message:"Status successfuly Updated ",

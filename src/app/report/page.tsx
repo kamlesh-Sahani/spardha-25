@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/dialog";
 import Loader from "@/components/Loader";
 import { default as ReactSelect } from "react-select"; // ✅ Correct aliasing
+
 // Define types
 interface Player {
   name: string;
@@ -74,43 +75,64 @@ export default function AdminReportPage() {
   const [uiUpdate, setUiUpdate] = useState<boolean>(false);
   const [collegeData, setCollegeData] = useState<string[]>();
   const [eventData, setEventData] = useState<string[]>();
-  // Filter teams based on filters
+
+  // New state for handling approval/rejection reason
+  const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
+  const [statusReason, setStatusReason] = useState("");
+  const [currentStatus, setCurrentStatus] = useState<"approved" | "rejected">();
+  const [currentTeamId, setCurrentTeamId] = useState<string>();
+
   // Filter teams based on filters
   const filteredTeams =
-  teams &&
-  teams.filter((team) => {
-    return (
-      (filters.event && filters.event !== "all"
-        ? team.event.toLowerCase().includes(filters.event.toLowerCase())
-        : true) &&
-      (filters.college && filters.college !== "all"
-        ? team.college.toLowerCase().includes(filters.college.toLowerCase())
-        : true) &&
-      (filters.status && filters.status !== "all"
-        ? team.status === filters.status
-        : true)
-    );
-  });
-
+    teams &&
+    teams.filter((team) => {
+      return (
+        (filters.event && filters.event !== "all"
+          ? team.event.toLowerCase().includes(filters.event.toLowerCase())
+          : true) &&
+        (filters.college && filters.college !== "all"
+          ? team.college.toLowerCase().includes(filters.college.toLowerCase())
+          : true) &&
+        (filters.status && filters.status !== "all"
+          ? team.status === filters.status
+          : true)
+      );
+    });
 
   // Update team status
-  const updateTeamStatus = async (
-    _id: string,
-    status: "pending" | "approved" | "rejected"
-  ) => {
+  const updateTeamStatus = async () => {
     try {
-      const { data } = await axios.post("/api/report/status", { _id, status });
-      console.log(data, "stataus");
+      if (!statusReason.trim()) {
+        toast.error("Please provide a reason for the status change.");
+        return;
+      }
+      const { data } = await axios.post("/api/report/status", {
+        _id: currentTeamId,
+        status: currentStatus,
+        reason: statusReason,
+      });
+      console.log(data, "status updated");
       if (data.success) {
-        toast.success(data.message || "successfuly updated");
+        toast.success(data.message || "Successfully updated");
       } else {
         toast.error(data.message);
       }
       setUiUpdate((prev) => !prev);
+      setIsStatusDialogOpen(false); // Close the dialog after submission
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || "something went wrong");
+      toast.error(error?.response?.data?.message || "Something went wrong");
       console.log(error);
     }
+  };
+
+  // Open status dialog for approve/reject
+  const openStatusDialog = (
+    teamId: string,
+    status: "approved" | "rejected"
+  ) => {
+    setCurrentTeamId(teamId);
+    setCurrentStatus(status);
+    setIsStatusDialogOpen(true);
   };
 
   // Open player details modal
@@ -146,7 +168,6 @@ export default function AdminReportPage() {
         setCollegeData(data.data.colleges);
         setEventData(data.data.events);
         console.log(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -158,71 +179,72 @@ export default function AdminReportPage() {
       <h1 className="text-2xl font-bold mb-6">Team Registrations Report</h1>
 
       {/* Filters */}
-     {/* Filters */}
-<div className="mb-6 flex gap-4">
-{collegeData && (
-  <ReactSelect
-    value={
-      filters.college
-        ? { value: filters.college, label: filters.college }
-        : { value: "all", label: "All Colleges" }
-    }
-    onChange={(selectedOption: any) =>
-      setFilters({
-        ...filters,
-        college: selectedOption?.value === "all" ? "" : selectedOption?.value,
-      })
-    }
-    options={[
-      { value: "all", label: "All Colleges" },
-      ...collegeData?.map((college) => ({
-        value: college,
-        label: college,
-      })) || [],
-    ]}
-    placeholder="Filter by College"
-    className="w-[300px]"
-  />
-)}
+      <div className="mb-6 flex gap-4">
+        {collegeData && (
+          <ReactSelect
+            value={
+              filters.college
+                ? { value: filters.college, label: filters.college }
+                : { value: "all", label: "All Colleges" }
+            }
+            onChange={(selectedOption: any) =>
+              setFilters({
+                ...filters,
+                college:
+                  selectedOption?.value === "all" ? "" : selectedOption?.value,
+              })
+            }
+            options={[
+              { value: "all", label: "All Colleges" },
+              ...(collegeData?.map((college) => ({
+                value: college,
+                label: college,
+              })) || []),
+            ]}
+            placeholder="Filter by College"
+            className="w-[300px]"
+          />
+        )}
 
-{eventData && (
-  <ReactSelect
-    value={
-      filters.event
-        ? { value: filters.event, label: filters.event }
-        : { value: "all", label: "All Events" }
-    }
-    onChange={(selectedOption: any) =>
-      setFilters({
-        ...filters,
-        event: selectedOption?.value === "all" ? "" : selectedOption?.value,
-      })
-    }
-    options={[
-      { value: "all", label: "All Events" },
-      ...eventData?.map((event) => ({ value: event, label: event })) || [],
-    ]}
-    placeholder="Filter by Event"
-    className="w-[300px]"
-  />
-)}
+        {eventData && (
+          <ReactSelect
+            value={
+              filters.event
+                ? { value: filters.event, label: filters.event }
+                : { value: "all", label: "All Events" }
+            }
+            onChange={(selectedOption: any) =>
+              setFilters({
+                ...filters,
+                event:
+                  selectedOption?.value === "all" ? "" : selectedOption?.value,
+              })
+            }
+            options={[
+              { value: "all", label: "All Events" },
+              ...(eventData?.map((event) => ({ value: event, label: event })) ||
+                []),
+            ]}
+            placeholder="Filter by Event"
+            className="w-[300px]"
+          />
+        )}
 
-
-  <Select
-    value={filters.status}
-    onValueChange={(value) => setFilters({ ...filters, status: value })}
-  >
-    <SelectTrigger className="w-[180px]">
-      <SelectValue placeholder="All Statuses" />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectItem value="all">All Statuses</SelectItem>
-      <SelectItem value="pending">Pending</SelectItem>
-      <SelectItem value="approved">Approved</SelectItem>
-      <SelectItem value="rejected">Rejected</SelectItem>
-    </SelectContent>
-  </Select>
-</div>
+        <Select
+          value={filters.status}
+          onValueChange={(value) => setFilters({ ...filters, status: value })}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="All Statuses" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="approved">Approved</SelectItem>
+            <SelectItem value="rejected">Rejected</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
       {/* Table */}
       {loading ? (
@@ -234,6 +256,8 @@ export default function AdminReportPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Team ID</TableHead>
+                  <TableHead>Date</TableHead>
+
                   <TableHead>Event</TableHead>
                   <TableHead>College</TableHead>
                   <TableHead>Status</TableHead>
@@ -245,6 +269,12 @@ export default function AdminReportPage() {
                   filteredTeams.map((team) => (
                     <TableRow key={team.teamID}>
                       <TableCell>{team.teamID}</TableCell>
+                      <TableCell>
+                        {team?.createdAt
+                          ? new Date(team.createdAt).toLocaleDateString()
+                          : "N/A"}
+                      </TableCell>
+
                       <TableCell>{team.event}</TableCell>
                       <TableCell>{team.college}</TableCell>
                       <TableCell>
@@ -274,13 +304,13 @@ export default function AdminReportPage() {
                           View Transaction
                         </Button>
                         <Button
-                          onClick={() => updateTeamStatus(team._id, "approved")}
+                          onClick={() => openStatusDialog(team._id, "approved")}
                         >
                           Approve
                         </Button>
                         <Button
                           variant="destructive"
-                          onClick={() => updateTeamStatus(team._id, "rejected")}
+                          onClick={() => openStatusDialog(team._id, "rejected")}
                         >
                           Reject
                         </Button>
@@ -293,10 +323,46 @@ export default function AdminReportPage() {
         </>
       )}
 
-      {/* Player Details Modal */}
+      {/* Status Dialog (Reason Submission) */}
+      <Dialog open={isStatusDialogOpen} onOpenChange={setIsStatusDialogOpen}>
+        <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded">
+          <DialogHeader>
+            <DialogTitle>
+              Provide a Reason for{" "}
+              <span
+                className={`${
+                  currentStatus == "rejected"
+                    ? "text-red-600"
+                    : "text-green-700"
+                }`}
+              >
+                {currentStatus}
+              </span>
+            </DialogTitle>
+            <DialogDescription>
+              Please provide a reason for the {currentStatus} status.
+            </DialogDescription>
+          </DialogHeader>
+          <Input
+            value={statusReason}
+            onChange={(e) => setStatusReason(e.target.value)}
+            placeholder={`Reason for ${currentStatus} optional`}
+            className="w-full mb-4"
+          />
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsStatusDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button onClick={updateTeamStatus}>Submit Reason</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={isPlayerModalOpen} onOpenChange={setIsPlayerModalOpen}>
-      <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded">
+        <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded">
           <DialogHeader>
             <DialogTitle>Player Details</DialogTitle>
             <DialogDescription>
@@ -345,8 +411,7 @@ export default function AdminReportPage() {
         open={isTransactionModalOpen}
         onOpenChange={setIsTransactionModalOpen}
       >
-         <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded">
-     
+        <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded">
           <DialogHeader>
             <DialogTitle>Transaction Screenshot</DialogTitle>
             <DialogDescription>
