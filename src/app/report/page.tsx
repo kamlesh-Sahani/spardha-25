@@ -32,6 +32,7 @@ import {
 import Loader from "@/components/Loader";
 import { default as ReactSelect } from "react-select"; // ✅ Correct aliasing
 
+
 // Define types
 interface Player {
   name: string;
