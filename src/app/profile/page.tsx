@@ -1,107 +1,167 @@
 "use client";
-import { FC } from "react";
-import Image from "next/image";
-import ss from "@/app/assets/basketball S.png";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Loader from "@/components/Loader";
+import Modal from "@/components/ProfileModel";
+import toast from "react-hot-toast";
 
-// Dummy data for team and players
-const teamData = {
-  teamID: 12345,
-  event: "Football Championship",
-  college: "ABC University",
-  status: "approved",
-  transactionId: "TXN-987654",
-  transactionSs: ss, // Placeholder image
-  amount: 1500,
-  players: [
-    {
-      name: "John Doe",
-      gender: "Male",
-      mobile: "9876543210",
-      email: "john.doe@example.com",
-      playerIdCard: "ID-12345",
-      isCaptain: true,
-    },
-    {
-      name: "Jane Smith",
-      gender: "Female",
-      mobile: "9876541234",
-      email: "jane.smith@example.com",
-      playerIdCard: "ID-12346",
-      isCaptain: false,
-    },
-  ],
-  timeline: [
-    { date: "2025-01-01", event: "Team Registration" },
-    { date: "2025-01-10", event: "First Match Played" },
-    { date: "2025-01-20", event: "Quarter-finals" },
-  ],
-};
+export default function Home() {
+  const searchParams = useSearchParams();
+  const [profile, setProfile] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [pass, setPass] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-const ProfilePage: FC = () => {
+  const getProfile = async (pass: string) => {
+    try {
+      setShowModal(false);
+      setLoading(true);
+      const { data } = await axios.get(`/api/profile?pass=${pass}`);
+      console.log(data);
+      setProfile(data.profile);
+    } catch (error: any) {
+      setShowModal(true);
+      toast.error(error?.response?.data?.message || "Password is wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const pass = searchParams.get("pass");
+    if (!pass) {
+      setShowModal(true);
+    } else {
+      getProfile(pass);
+    }
+  }, []);
+
+  const handlePasswordSubmit = (password: string) => {
+    setPass(password);
+    getProfile(password);
+  };
+
+  useEffect(() => {
+    if (!profile) {
+      setShowModal(true);
+    }
+  }, [profile]);
   return (
-    <div className="container mx-auto p-4">
-      <div className="bg-white shadow-xl rounded-lg p-6 mb-8">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">Team Profile</h1>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            {/* Team Info */}
+            <div className="text-center mb-12">
+              <h1 className="text-4xl font-bold text-gray-800">Team Profile</h1>
+              <p className="text-lg text-gray-600 mt-2">
+                Event: {profile?.event}
+              </p>
+              <p className="text-md text-gray-500">{profile?.college}</p>
+            </div>
 
-        {/* Team Header */}
-        <div className="flex justify-between mb-6">
-          <div className="space-y-2">
-            <h2 className="text-xl font-semibold">Team ID: {teamData.teamID}</h2>
-            <p className="text-lg text-gray-700">Event: {teamData.event}</p>
-            <p className="text-lg text-gray-700">College: {teamData.college}</p>
-            <p className="text-lg text-gray-700">Status: <span className={`text-${teamData.status === "approved" ? "green" : teamData.status === "pending" ? "yellow" : "red"}-500`}>{teamData.status}</span></p>
-          </div>
-          <div>
-            <Image src={teamData.transactionSs} alt="Transaction Screenshot" width={150} height={150} className="rounded-lg shadow-lg" />
-          </div>
-        </div>
+            {/* Team & Players Section */}
+            <div className="bg-white shadow-xl rounded-lg p-6">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+                Team Details
+              </h2>
 
-        {/* Transaction Details */}
-        <div className="flex justify-between mb-6">
-          <div>
-            <p className="text-lg text-gray-700">Transaction ID: {teamData.transactionId}</p>
-            <p className="text-lg text-gray-700">Amount Paid: ₹{teamData.amount}</p>
-          </div>
-        </div>
+              <div className="space-y-6">
+                {/* Player Details */}
+                {profile?.players.map((player: any, index: number) => (
+                  <div
+                    key={index}
+                    className="flex items-center space-x-4 border-b pb-4"
+                  >
+                    <div className="relative w-24 h-24 rounded-full overflow-hidden">
+                      <img
+                        src={player.playerIdCard}
+                        alt={`ID Card of ${player.name}`}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-xl font-semibold text-gray-800">
+                        {player.gender=="Male"?"Mr. ":"Mrs. "}{player.name}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Gender: {player.gender}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Mobile: {player.mobile}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Email: {player.email}
+                      </p>
+                      {player.isCaptain && (
+                        <p className="text-sm text-green-600 font-bold mt-2">
+                          Captain
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-        {/* Players Section */}
-        <div className="border-t pt-6">
-          <h2 className="text-2xl font-semibold mb-4">Players</h2>
-          <div className="space-y-4">
-            {teamData.players.map((player, index) => (
-              <div key={index} className="flex justify-between items-center p-4 border-b">
-                <div className="space-y-2">
-                  <p className="text-xl font-semibold">{player.name} {player.isCaptain && <span className="text-sm text-blue-500">(Captain)</span>}</p>
-                  <p className="text-gray-600">Email: {player.email}</p>
-                  <p className="text-gray-600">Mobile: {player.mobile}</p>
-                  <p className="text-gray-600">Player ID: {player.playerIdCard}</p>
-                </div>
-                <div>
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">Message</button>
+            {/* Transaction Info */}
+            <div className="mt-12 bg-white shadow-xl rounded-lg p-6 flex justify-between">
+              <div>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-1">
+                Transaction Details
+              </h2>
+              <p className="text-md text-gray-600">
+                Transaction ID: {profile?.transactionId}
+              </p>
+              </div>
+            
+              <div className="mt-3">
+                <p className="text-md text-gray-600">Transaction Screenshot:</p>
+                <div className="w-full h-64 mt-2 relative">
+                  <img
+                    src={profile?.transactionSs}
+                    alt="Transaction Screenshot"
+                    className="w-[400px] object-cover"
+                  />
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
-        {/* Timeline Section */}
-        <div className="border-t pt-6">
-          <h2 className="text-2xl font-semibold mb-4">Timeline</h2>
-          <div className="space-y-4">
-            {teamData.timeline.map((entry, index) => (
-              <div key={index} className="flex justify-between p-4 border-b">
-                <div className="space-y-2">
-                  <p className="text-lg font-semibold">{entry.event}</p>
-                  <p className="text-gray-600">{new Date(entry.date).toLocaleDateString()}</p>
-                </div>
+            {/* Status & Reason */}
+            <div className="mt-12 bg-white shadow-xl rounded-lg p-6  ">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-1">
+                Status
+              </h2>
+              <div className="flex items-center">
+                {
+                  profile?.status==="pending"? <p className="text-lg text-yellow-600 font-semibold">
+                  {profile?.status}
+                </p>:profile?.status==="rejecred"?<p className="text-lg text-red-600 font-semibold">
+                  {profile?.status}
+                </p>:<p className="text-lg text-green-600 font-semibold">
+                  {profile?.status}
+                </p>
+                }
+             
+              <p className="text-md text-gray-600 mt-2">
+                ({profile?.reason})
+              </p>
               </div>
-            ))}
+              
+            </div>
           </div>
         </div>
+      )}
 
-      </div>
-    </div>
+      {/* Modal for Password */}
+      {showModal && (
+        <Modal
+          onClose={() => setShowModal(false)}
+          onSubmit={handlePasswordSubmit}
+        />
+      )}
+    </>
   );
-};
-
-export default ProfilePage;
+}

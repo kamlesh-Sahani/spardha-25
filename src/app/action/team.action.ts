@@ -182,10 +182,6 @@ export const registerAction = async (teamData: any) => {
 </head>
 <body>
   <div class="email-container">
-    <!-- Header with logo -->
-    <div class="header">
-      <img src="https://your-logo-url.com/logo.png" alt="Spardha Logo" />
-    </div>
     <!-- Content Section -->
     <div class="content">
       <h2>Registration Successful! 🎉</h2>
