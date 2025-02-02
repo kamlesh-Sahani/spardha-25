@@ -325,7 +325,7 @@ export default function AdminReportPage() {
 
       {/* Status Dialog (Reason Submission) */}
       <Dialog open={isStatusDialogOpen} onOpenChange={setIsStatusDialogOpen}>
-        <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded">
+        <DialogContent className="max-w-[400px] max-sm:max-w-[90vw] rounded">
           <DialogHeader>
             <DialogTitle>
               Provide a Reason for{" "}
