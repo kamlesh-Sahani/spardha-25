@@ -57,18 +57,23 @@ interface Sports {
 //   email: string;
 // +gender:string;
 // }[],
+
+
+interface playerType{
+    name: string;
+    enrollment: string;
+    mobile: string;// changed-> phone to mobile
+    playerIdCard:File | null;// changes photo to playerIdCard
+    isCaptain: boolean;
+    email: string;
+    gender:string;
+  
+}
 const Register = () => {
   const [formData, setFormData] = useState({
     event: sportsData[0].sport,
     collegeName: "",
-    players: [] as {
-      name: string;
-      enrollment: string;
-      mobile: string;// changed-> phone to mobile
-      playerIdCard: any;// changes photo to playerIdCard
-      isCaptain: boolean;
-      email: string;
-    }[],
+    players: [] as playerType[],
     captain: "",
     transactionId: "",
     transactionImage: null as File | null,
@@ -82,12 +87,13 @@ const Register = () => {
   const [apiResponseMessage, setApiResponseMessage] = useState<string | null>(
     null
   );
-  const [currentPlayer, setCurrentPlayer] = useState({
+  const [currentPlayer, setCurrentPlayer] = useState<playerType>({
     name: "",
     enrollment: "",
     mobile: "",
-    playerIdCard: "",
+    playerIdCard:null,
     email: "",
+    gender:"",
     isCaptain: false,
   });
 
@@ -167,6 +173,7 @@ const Register = () => {
 
 
 
+
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -190,6 +197,7 @@ const Register = () => {
       const res = await registerAction(formData);
       console.log("res", res);
     } catch (err: any) {
+      console.log(err);
       if (err instanceof z.ZodError) {
         // ❌ This case won't be hit because we're validating before API call
         console.error("Unexpected ZodError:", err);

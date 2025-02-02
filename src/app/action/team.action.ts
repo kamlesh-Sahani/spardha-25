@@ -1,50 +1,10 @@
 "use server";
 import TeamModel from "@/models/team.model";
-import cloudinary from "@/utils/cloudinary.util";
+import { uploadImage } from "@/utils/cloudinary.util";
 import generatePassword from "@/utils/generatePassword.util";
 import sendMail from "@/utils/sendMail.util";
 import teamIdGenerate from "@/utils/teamIdGenerate.util";
 import dbConnect from "@/utils/dbConnect.util";
-import multer from "multer";
-import { Readable } from "stream";
-// Function to upload an image to Cloudinary
-
-
-// Configure Multer for memory storage
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-
-// Convert buffer to stream for Cloudinary upload
-const bufferToStream = (buffer: Buffer) => {
-  const readable = new Readable();
-  readable._read = () => {};
-  readable.push(buffer);
-  readable.push(null);
-  return readable;
-};
-
-// Cloudinary upload function
-const uploadToCloudinary = async (file: Express.Multer.File) => {
-  try {
-    return new Promise((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream(
-        { folder: "spardha" },
-        (error, result) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(result?.secure_url);
-          }
-        }
-      );
-
-      bufferToStream(file.buffer).pipe(stream);
-    });
-  } catch (error) {
-    console.error("Cloudinary upload error:", error);
-    return null;
-  }
-};
 
 
 export const registerAction = async (teamData: any) => {
@@ -57,7 +17,6 @@ export const registerAction = async (teamData: any) => {
     transactionId,
     transactionImage,
     captain,
-    gender
   } = teamData ;
 
     console.log("team-data",teamData);
@@ -75,13 +34,16 @@ export const registerAction = async (teamData: any) => {
       };
     }
 
+    
     let captainEmail;
     for(let i=0;i<players.length;i++){
       if(captain===players[i]?.name){
         captainEmail=players[i].email;
+        break;
       }
     }
     // Check if the team is already registered
+   
     const isExist = await TeamModel.findOne({"players.email":captainEmail});
     if (isExist) {
       return {
@@ -90,11 +52,19 @@ export const registerAction = async (teamData: any) => {
       };
     }
 
-    const transactionSsUrl = await uploadToCloudinary(transactionImage);
+    const teamID = await teamIdGenerate();
+    if(!teamID){
+      return {
+        success: false,
+        message: "Failed to register try Again",
+      };
+    }
+
+    const transactionSsUrl = await uploadImage(transactionImage,teamID);
 
     // Dynamically upload each player's ID card images
     const playerIdCardUrls = await Promise.all(
-          players?.map((player: any) => uploadToCloudinary(player.playerIdCard))
+          players?.map((player: any) => uploadImage(player.playerIdCard,teamID))
         )
       
     // Generate password for the team
@@ -106,6 +76,7 @@ export const registerAction = async (teamData: any) => {
       playerIdCard: playerIdCardUrls[index] || "", 
     }));
     const team = await TeamModel.create({
+      teamID,
       password,
       college:collegeName,
       event,
@@ -122,7 +93,6 @@ export const registerAction = async (teamData: any) => {
     }
 
     const teamDetailLink = `${process.env.BASE_URL}/profile?pass=${password}`;
-    const teamId = await teamIdGenerate();
     const collegeMail = process.env.EMAIL_USER;
     const htmlTemplate = `
  <!DOCTYPE html>
@@ -219,7 +189,7 @@ export const registerAction = async (teamData: any) => {
     <!-- Content Section -->
     <div class="content">
       <h2>Registration Successful! 🎉</h2>
-      <p>Dear Team <strong>${teamId}</strong>,</p>
+      <p>Dear Team <strong>${teamID}</strong>,</p>
       <p>We are thrilled to inform you that your team has been successfully registered for the event: <strong>${event}</strong>!</p>
       <p>Below are the details of your registration:</p>
       <ul>

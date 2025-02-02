@@ -7,7 +7,7 @@ export interface IPlayer {
   enrollment:string;
   email?: string;
   name: string;
-  gender: "male" | "female" | "other";
+  gender: "Male" | "Female" | "Other";
   mobile: string;
   playerIdCard: string;
   isCaptain?: boolean;
@@ -31,7 +31,7 @@ export interface ITeam extends Document {
 // Player Schema
 const PlayerSchema = new Schema<IPlayer>({
   name: { type: String, required: true, trim: true },
-  gender: { type: String, required: true, enum: ["male", "female", "other"] ,default:"male"},
+  gender: { type: String, required: true, enum: ["male", "female", "other"] ,default:"Male"},
   mobile: {
     type: String,
     required: true,
