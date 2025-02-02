@@ -7,7 +7,7 @@ export interface IPlayer {
   enrollment:string;
   email?: string;
   name: string;
-  gender: "Male" | "Female" | "Other";
+  gender:string
   mobile: string;
   playerIdCard: string;
   isCaptain?: boolean;

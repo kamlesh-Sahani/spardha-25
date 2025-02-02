@@ -1,5 +1,5 @@
 "use client";
-
+import toast from "react-hot-toast";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -9,101 +9,69 @@ import { colleges } from "@/data/CollegeData";
 import { sportsData } from "@/data/AllEventData";
 import { z } from "zod";
 import { default as ReactSelect } from "react-select";
-const playerSchema = z.object({
-  name: z.string().min(2, "Player name must be at least 2 characters"),
-
-  enrollment: z
-    .string()
-    .min(5, "Enrollment number must be at least 5 characters"),
-
-  phone: z.string().regex(/^\d{10}$/, "Phone number must be exactly 10 digits"),
-
-  photo: z.string().min(1, "Photo URL is required"),
-
-  isCaptain: z.boolean(),
-
-  email: z.string().email("Invalid email address"),
-});
-const registrationSchema = z.object({
-  event: z.string().min(1, "Please select an event"),
-  collegeName: z.string().min(1, "College name is required"),
-  players: z
-    .array(
-      z.object({
-        name: z.string().min(2, "Player name must be at least 2 characters"),
-        enrollment: z
-          .string()
-          .min(5, "Enrollment number must be at least 5 characters"),
-        phone: z
-          .string()
-          .regex(/^\d{10}$/, "Phone number must be exactly 10 digits"),
-        photo: z.string().min(1, "Photo URL is required"),
-        isCaptain: z.boolean(),
-        email: z.string().email("Invalid email address"),
-      })
-    )
-    .min(1, "At least one player is required"),
-  captain: z.string().min(1, "Please select a captain"),
-  transactionId: z
-    .string()
-    .min(5, "Transaction ID must be at least 5 characters"),
-  transactionImage: z
-    .instanceof(File)
-    .nullable()
-    .refine((file) => file !== null, {
-      message: "Transaction image is required",
-    }),
-});
-
-interface Sports {
-  sport: string;
-  minPlayers: number;
-  substitute: number | "NA";
-  entryFee: number;
-  maxEntry: number | "Open";
-}
+import { playerSchema, registrationSchema } from "@/data/Zod";
+import { useRouter } from "next/navigation";
+import { Sports } from "@/lib/type";
+const Gender = ["Male", "Female", "Other"];
 const Register = () => {
-  const [formData, setFormData] = useState({
-    event: "",
-    collegeName: "",
-    players: [] as {
+  const router = useRouter();
+  const [formData, setFormData] = useState<{
+    event: string;
+    collegeName: string;
+    players: {
       name: string;
       enrollment: string;
-      phone: string;
-      photo: string;
+      mobile: string;
+      playerIdCard: File | null;
+      gender: string;
       isCaptain: boolean;
       email: string;
-    }[],
+    }[];
+    captain: string;
+    transactionId: string;
+    transactionImage: File | null;
+  }>({
+    event: "",
+    collegeName: "",
+    players: [],
     captain: "",
     transactionId: "",
-    transactionImage: null as File | null,
+    transactionImage: null,
   });
   const [selectedEvent, setSelectedEvent] = useState<Sports | undefined>(
     undefined
   );
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [eventData, setEventData] = useState<IEventImage[]>();
   const [apiResponseMessage, setApiResponseMessage] = useState<string | null>(
     null
   );
-  const [eventOptions,setEventOptions]= useState<any>();
-  const [collegeOptions,setCollegeOptions]= useState<any>();
+  const [eventOptions, setEventOptions] = useState<any>();
+  const [collegeOptions, setCollegeOptions] = useState<any>();
 
-  const [currentPlayer, setCurrentPlayer] = useState({
+  const [currentPlayer, setCurrentPlayer] = useState<{
+    name: string;
+    enrollment: string;
+    mobile: string;
+    playerIdCard: File | null;
+    gender: string;
+    email: string;
+    isCaptain: boolean;
+  }>({
     name: "",
     enrollment: "",
-    phone: "",
-    photo: "",
+    mobile: "",
+    playerIdCard: null,
+    gender: "",
     email: "",
     isCaptain: false,
   });
+
   const handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement> | any
   ) => {
-    const { name, value } = e.target || e; // Handle both native select/input and ReactSelect
-
-    // Special handling for event (selecting sport)
+    const { name, value } = e.target || e;
     if (name === "event") {
       const selectedSport = value?.toLowerCase();
       const filteredEvent = sportsData.find(
@@ -129,50 +97,21 @@ const Register = () => {
     }
   };
 
-  // const handleChange = (
-  //   e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
-  //   selectedOption: any
-  // ) => {
-  //   const { name, value } = e.target;
-
-  //   if (name === "event") {
-  //     const selectedSport = value.toLowerCase();
-  //     const filteredEvent = sportsData.find(
-  //       (data) => data.sport.toLowerCase() === selectedSport
-  //     );
-  //     setSelectedEvent(filteredEvent);
-  //   }
-  //   if (name === "captain") {
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       players: prevData.players.map((player) => ({
-  //         ...player,
-  //         isCaptain: player.name === value,
-  //       })),
-  //       [name]: value,
-  //     }));
-  //   } else {
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [name]: value,
-  //     }));
-  //   }
-  // };
   const handlePlayerChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: string
   ) => {
     setCurrentPlayer({ ...currentPlayer, [field]: e.target.value });
   };
-
   const handlePlayerImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setCurrentPlayer({
         ...currentPlayer,
-        photo: URL.createObjectURL(e.target.files[0]),
+        playerIdCard: e.target.files[0],
       });
     }
   };
+
   const handleTransactionImageChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -184,48 +123,44 @@ const Register = () => {
     }
   };
   const addPlayer = () => {
-    if (
-      currentPlayer.name.trim() === "" ||
-      currentPlayer.enrollment.trim() === ""
-    )
-      return;
-
-    setFormData((prev) => ({
-      ...prev,
-      players: [...prev.players, currentPlayer],
-    }));
-    setCurrentPlayer({
-      name: "",
-      enrollment: "",
-      phone: "",
-      photo: "",
-      email: "",
-      isCaptain: false,
-    });
-  };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
-    setApiResponseMessage("");
-
-    const validation = registrationSchema.safeParse(formData);
-
-    if (!validation.success) {
-      const errors = validation.error.errors.reduce(
-        (acc, curr) => ({ ...acc, [curr.path[0]]: curr.message }),
-        {} as Record<string, string>
-      );
-
-      setErrors(errors);
-      setLoading(false);
-
-      return;
-    }
-
     try {
-      const res = await registerAction(formData);
-      console.log("res", res);
+      const validationResult = playerSchema.safeParse(currentPlayer);
+      if (!validationResult.success) {
+        const newErrors: any = {};
+        validationResult.error.errors.forEach((err) => {
+          newErrors[err.path[0]] = err.message;
+        });
+
+        console.log("Validation failed:", newErrors);
+        setErrors(newErrors);
+        setApiResponseMessage(
+          "Validation failed. Please check the form fields."
+        );
+        return;
+      }
+      setFormData((prev) => ({
+        ...prev,
+        players: [...prev.players, currentPlayer],
+      }));
+
+      setCurrentPlayer({
+        name: "",
+        enrollment: "",
+        mobile: "",
+        playerIdCard: null,
+        gender: "",
+        email: "",
+        isCaptain: false,
+      });
+
+      setErrors({
+        name: "",
+        enrollment: "",
+        email: "",
+        mobile: "",
+        playerIdCard: "",
+        gender: "",
+      });
     } catch (err: any) {
       if (err instanceof z.ZodError) {
         console.error("Unexpected ZodError:", err);
@@ -237,6 +172,41 @@ const Register = () => {
           "An unexpected error occurred. Please try again."
         );
       }
+    }
+  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setApiResponseMessage("");
+    const validation = registrationSchema.safeParse(formData);
+    console.log(formData);
+    if (!validation.success) {
+      const errors = validation.error.errors.reduce(
+        (acc, curr) => ({ ...acc, [curr.path[0]]: curr.message }),
+        {} as Record<string, string>
+      );
+      setErrors(errors);
+      setLoading(false);
+      toast.error("Please check the form fields");
+      return;
+    }
+    try {
+      const res = await registerAction(formData);
+      if (res.success) {
+        toast.success("Registered successfully! 🎉");
+        router.push("/");
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err: any) {
+      if (err instanceof z.ZodError) {
+        console.error("Unexpected ZodError:", err);
+        toast.error(
+          "Validation error before API call. Please check your input."
+        );
+      } else {
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -246,26 +216,32 @@ const Register = () => {
     setEventData(eventImage);
   }, []);
 
+  useEffect(() => {
+    setEventOptions(() => {
+      const events =
+        sportsData?.map((event) => ({
+          value: event.sport.toLowerCase(),
+          label: event.sport,
+        })) || [];
+      return events;
+    });
 
-  
-useEffect(() => {
-  setEventOptions(() => {
-    const events = sportsData?.map((event) => ({
-      value: event.sport.toLowerCase(),
-      label: event.sport,
-    })) || []; // Default to an empty array if sportsData is undefined or empty
-    return events;
-  });
+    setCollegeOptions(() => {
+      const collegeData =
+        colleges?.map((college) => ({
+          value: college.name.toLowerCase(),
+          label: college.name,
+        })) || [];
+      return collegeData;
+    });
+  }, [sportsData, colleges]);
+  const handleDeletePlayer = (indexToDelete: number) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      players: prevData.players.filter((_, index) => index !== indexToDelete),
+    }));
+  };
 
-  setCollegeOptions(() => {
-    const collegeData = colleges?.map((college) => ({
-      value: college.name.toLowerCase(),
-      label: college.name,
-    })) || []; // Default to an empty array if colleges is undefined or empty
-    return collegeData;
-  });
-}, [sportsData, colleges]); 
- 
   return (
     <div className="flex max-md:flex-col justify-center gap-4 items-start min-h-screen bg-gradient-to-r from-[#b98867] to-[#f5a937] p-6">
       <div className="flex relative top-[-12px] w-full max-w-3xl flex-col  bg-white rounded-3xl shadow-lg">
@@ -296,7 +272,7 @@ useEffect(() => {
                     name="event"
                     value={
                       eventOptions.find(
-                        (option) => option.value === formData.event
+                        (option: any) => option.value === formData.event
                       ) || null
                     }
                     onChange={(selectedOption) =>
@@ -307,8 +283,10 @@ useEffect(() => {
                     }
                     options={eventOptions}
                     placeholder="Select Event"
-                    className="w-full p-3"
                   />
+                )}
+                {errors.event && (
+                  <p className="text-red-600 text-sm mt-1">{errors.event}</p>
                 )}
               </div>
 
@@ -321,7 +299,7 @@ useEffect(() => {
                     name="collegeName"
                     value={
                       collegeOptions.find(
-                        (option) => option.value === formData.collegeName
+                        (option: any) => option.value === formData.collegeName
                       ) || null
                     }
                     onChange={(selectedOption) =>
@@ -332,8 +310,12 @@ useEffect(() => {
                     }
                     options={collegeOptions}
                     placeholder="Select College"
-                    className="w-full p-3"
                   />
+                )}
+                {errors.collegeName && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.collegeName}
+                  </p>
                 )}
               </div>
             </motion.div>
@@ -399,35 +381,79 @@ useEffect(() => {
                       )}
                     </div>
                     <div className="flex flex-col text-gray-700 gap-2">
-                      <label>Player Phone Number</label>
+                      <label>Player mobile Number</label>
                       <input
-                        type="phone"
-                        value={currentPlayer.phone}
-                        onChange={(e) => handlePlayerChange(e, "phone")}
-                        placeholder="Enter phone number"
+                        type="mobile"
+                        value={currentPlayer.mobile}
+                        onChange={(e) => handlePlayerChange(e, "mobile")}
+                        placeholder="Enter mobile number"
                         className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                       />
-                      {errors.phone && (
+                      {errors.mobile && (
                         <p className="text-red-600 text-sm mt-1">
-                          {errors.phone}
+                          {errors.mobile}
                         </p>
                       )}
                     </div>
                     <div className="flex flex-col text-gray-700 gap-2">
                       <label>Upload ID Card Image</label>
                       <input
-                        name="photo"
+                        name="playerIdCard"
                         type="file"
                         onChange={handlePlayerImageChange}
                         className="w-full p-3 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                       />
-                      {errors.photo && (
+                      {errors.playerIdCard && (
                         <p className="text-red-600 text-sm mt-1">
-                          {errors.photo}
+                          {errors.playerIdCard}
                         </p>
                       )}
                     </div>
                   </div>
+                  <div className="flex flex-col text-gray-700 gap-2">
+                    <label>Gender</label>
+                    <div className="flex gap-4">
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="male"
+                          checked={currentPlayer.gender === "male"}
+                          onChange={(e) => handlePlayerChange(e, "gender")}
+                          className="mr-2"
+                        />
+                        Male
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="female"
+                          checked={currentPlayer.gender === "female"}
+                          onChange={(e) => handlePlayerChange(e, "gender")}
+                          className="mr-2"
+                        />
+                        Female
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value="other"
+                          checked={currentPlayer.gender === "other"}
+                          onChange={(e) => handlePlayerChange(e, "gender")}
+                          className="mr-2"
+                        />
+                        Other
+                      </label>
+                    </div>
+                    {errors.gender && (
+                      <p className="text-red-600 text-sm mt-1">
+                        {errors.gender}
+                      </p>
+                    )}
+                  </div>
+
                   <button
                     type="button"
                     onClick={addPlayer}
@@ -447,8 +473,14 @@ useEffect(() => {
                     {formData.players.map((player, index) => (
                       <div
                         key={index}
-                        className="bg-white/10 p-4 rounded-lg mb-4 text-gray-700"
+                        className="bg-white/10 p-4 rounded-lg mb-4 text-gray-700 relative"
                       >
+                        <button
+                          onClick={() => handleDeletePlayer(index)}
+                          className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                        >
+                          ❌
+                        </button>
                         <p>
                           <span className="font-bold">Name:</span> {player.name}
                         </p>
@@ -457,32 +489,45 @@ useEffect(() => {
                           {player.enrollment}
                         </p>
                         <p>
-                          <span className="font-bold">Phone:</span>{" "}
-                          {player.phone}
+                          <span className="font-bold">Mobile:</span>{" "}
+                          {player.mobile}
+                        </p>
+                        <p>
+                          <span className="font-bold">Email:</span>{" "}
+                          {player.email}
+                        </p>
+                        <p>
+                          <span className="font-bold">Gender:</span>{" "}
+                          {player.gender}
                         </p>
                         <p>
                           <span className="font-bold">ID Card:</span>{" "}
-                          {player.photo ? (
+                          {player.playerIdCard ? (
                             <img
-                              src={player.photo}
+                              src={URL.createObjectURL(player.playerIdCard)}
                               alt={`Player ${player.name}`}
-                              className="w-16 h-16 object-cover rounded-full mt-2"
+                              className="w-16 h-16 object-cover rounded-md mt-2"
                             />
                           ) : (
-                            "No Photo"
+                            "No playerIdCard"
                           )}
                         </p>
                       </div>
                     ))}
                   </div>
+
+                  {/* Desktop View */}
                   <div className="hidden md:block overflow-x-auto">
                     <table className="min-w-full table-auto text-gray-700 bg-white/30 rounded-lg shadow-md">
                       <thead>
                         <tr className="text-left">
                           <th className="py-2 px-4">Player Name</th>
                           <th className="py-2 px-4">Enrollment Number</th>
-                          <th className="py-2 px-4">Phone Number</th>
-                          <th className="py-2 px-4">ID Card Photo</th>
+                          <th className="py-2 px-4">Mobile Number</th>
+                          <th className="py-2 px-4">Email</th>
+                          <th className="py-2 px-4">Gender</th>
+                          <th className="py-2 px-4">ID Card</th>
+                          <th className="py-2 px-4">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -490,17 +535,27 @@ useEffect(() => {
                           <tr key={index}>
                             <td className="py-2 px-4">{player.name}</td>
                             <td className="py-2 px-4">{player.enrollment}</td>
-                            <td className="py-2 px-4">{player.phone}</td>
+                            <td className="py-2 px-4">{player.mobile}</td>
+                            <td className="py-2 px-4">{player.email}</td>
+                            <td className="py-2 px-4">{player.gender}</td>
                             <td className="py-2 px-4">
-                              {player.photo ? (
+                              {player.playerIdCard ? (
                                 <img
-                                  src={player.photo}
+                                  src={URL.createObjectURL(player.playerIdCard)}
                                   alt={`Player ${player.name}`}
-                                  className="w-16 h-16 object-cover rounded-full"
+                                  className="w-16 h-16 object-cover rounded-md"
                                 />
                               ) : (
-                                <span>No Photo</span>
+                                <span>No playerIdCard</span>
                               )}
+                            </td>
+                            <td className="py-2 px-4">
+                              <button
+                                onClick={() => handleDeletePlayer(index)}
+                                className="text-red-500 hover:text-red-700"
+                              >
+                                ❌ Delete
+                              </button>
                             </td>
                           </tr>
                         ))}
@@ -539,6 +594,9 @@ useEffect(() => {
                     </option>
                   ))}
                 </select>
+                {errors.captain && (
+                  <p className="text-red-600 text-sm mt-1">{errors.captain}</p>
+                )}
               </motion.div>
             )}
             <hr className="border-t border-gray-600 my-8" />
@@ -605,9 +663,36 @@ useEffect(() => {
             >
               <button
                 type="submit"
-                className="w-full px-6 py-3 text-lg font-semibold bg-[#f5a937] text-white rounded-lg shadow-md hover:bg-yellow-500 transition"
+                className="w-full px-6 py-3 text-lg font-semibold bg-[#f5a937] text-white rounded-lg shadow-md hover:bg-yellow-500 transition flex items-center justify-center"
+                disabled={loading}
               >
-                Register Now
+                {loading ? (
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      ></path>
+                    </svg>
+                    Registring...
+                  </div>
+                ) : (
+                  "Register Now"
+                )}
               </button>
             </motion.div>
           </form>
