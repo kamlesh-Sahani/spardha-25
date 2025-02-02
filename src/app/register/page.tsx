@@ -8,7 +8,22 @@ import { registerAction } from "../action/team.action";
 import { colleges } from "@/data/CollegeData";
 import { sportsData } from "@/data/AllEventData";
 import { z } from "zod";
+import { default as ReactSelect } from "react-select";
+const playerSchema = z.object({
+  name: z.string().min(2, "Player name must be at least 2 characters"),
 
+  enrollment: z
+    .string()
+    .min(5, "Enrollment number must be at least 5 characters"),
+
+  phone: z.string().regex(/^\d{10}$/, "Phone number must be exactly 10 digits"),
+
+  photo: z.string().min(1, "Photo URL is required"),
+
+  isCaptain: z.boolean(),
+
+  email: z.string().email("Invalid email address"),
+});
 const registrationSchema = z.object({
   event: z.string().min(1, "Please select an event"),
   collegeName: z.string().min(1, "College name is required"),
@@ -80,19 +95,20 @@ const Register = () => {
     email: "",
     isCaptain: false,
   });
-
   const handleChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement> | any
   ) => {
-    const { name, value } = e.target;
-
+    const { name, value } = e.target || e;  // Handle both native select/input and ReactSelect
+  
+    // Special handling for event (selecting sport)
     if (name === "event") {
-      const selectedSport = value.toLowerCase();
+      const selectedSport = value?.toLowerCase();
       const filteredEvent = sportsData.find(
         (data) => data.sport.toLowerCase() === selectedSport
       );
       setSelectedEvent(filteredEvent);
     }
+  
     if (name === "captain") {
       setFormData((prevData) => ({
         ...prevData,
@@ -103,12 +119,43 @@ const Register = () => {
         [name]: value,
       }));
     } else {
+
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
     }
   };
+  
+  // const handleChange = (
+  //   e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+  //   selectedOption: any
+  // ) => {
+  //   const { name, value } = e.target;
+
+  //   if (name === "event") {
+  //     const selectedSport = value.toLowerCase();
+  //     const filteredEvent = sportsData.find(
+  //       (data) => data.sport.toLowerCase() === selectedSport
+  //     );
+  //     setSelectedEvent(filteredEvent);
+  //   }
+  //   if (name === "captain") {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       players: prevData.players.map((player) => ({
+  //         ...player,
+  //         isCaptain: player.name === value,
+  //       })),
+  //       [name]: value,
+  //     }));
+  //   } else {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
   const handlePlayerChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: string
@@ -155,8 +202,10 @@ const Register = () => {
     });
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
     setLoading(true);
+    
     setApiResponseMessage("");
 
     const validation = registrationSchema.safeParse(formData);
@@ -169,6 +218,7 @@ const Register = () => {
 
       setErrors(errors);
       setLoading(false);
+      
       return;
     }
 
@@ -177,7 +227,6 @@ const Register = () => {
       console.log("res", res);
     } catch (err: any) {
       if (err instanceof z.ZodError) {
-        // ❌ This case won't be hit because we're validating before API call
         console.error("Unexpected ZodError:", err);
         setApiResponseMessage(
           "Validation failed, but it should be handled before API call."
@@ -195,6 +244,15 @@ const Register = () => {
   useEffect(() => {
     setEventData(eventImage);
   }, []);
+
+  const eventOptions = sportsData?.map((event) => ({
+    value: event.sport.toLowerCase(),
+    label: event.sport,
+  }));
+  const collegeOptions = colleges?.map((college) => ({
+    value: college.name.toLowerCase(),
+    label: college.name,
+  }));
   return (
     <div className="flex max-md:flex-col justify-center gap-4 items-start min-h-screen bg-gradient-to-r from-[#b98867] to-[#f5a937] p-6">
       <div className="flex relative top-[-12px] w-full max-w-3xl flex-col  bg-white rounded-3xl shadow-lg">
@@ -214,93 +272,58 @@ const Register = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.5 }}
-              className="grid grid-cols-2 max-md:grid-cols-1  gap-4"
+              className="grid grid-cols-1 gap-4"
             >
               <div className="flex flex-col">
                 <label className="text-gray-700 text-lg mb-2">
                   Select Event
                 </label>
-                <select
-                  name="event"
-                  value={formData.event || ""}
-                  onChange={handleChange}
-                  className="w-full p-3 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
-                >
-                  <option value="" className="text-gray-900">
-                    Select Event
-                  </option>
-                  {sportsData?.map((event, id) => (
-                    <option
-                      key={id}
-                      value={event.sport.toLowerCase()}
-                      className="text-gray-900"
-                    >
-                      {event.sport}
-                    </option>
-                  ))}
-                </select>
+                {eventData && (
+                  <ReactSelect
+                    name="event"
+                    value={
+                      eventOptions.find(
+                        (option) => option.value === formData.event
+                      ) || null
+                    }
+                    onChange={(selectedOption) =>
+                      handleChange({
+                        name: "event",
+                        value: selectedOption?.value || "",
+                      })
+                    }
+                    options={eventOptions}
+                    placeholder="Select Event"
+                    className="w-full p-3"
+                  />
+                )}
               </div>
 
               <div className="flex flex-col">
                 <label className="text-gray-700 text-lg mb-2">
                   Select College
                 </label>
-                <select
+                <ReactSelect
                   name="collegeName"
-                  value={formData.collegeName}
-                  onChange={handleChange}
-                  className="w-full p-3 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
-                >
-                   <option value="" className="text-gray-900">
-                    Select College
-                  </option>
-                  {colleges?.map((college, index) => (
-                    <option
-                      key={index}
-                      value={college.name.toLowerCase()}
-                      className="text-gray-900"
-                    >
-                      {college.name}
-                    </option>
-                  ))}
-                </select>
+                  value={
+                    collegeOptions.find(
+                      (option) => option.value === formData.collegeName
+                    ) || null
+                  }
+                  onChange={(selectedOption) =>
+                    handleChange({
+                      name: "collegeName",
+                      value: selectedOption?.value || "",
+                    })
+                  }
+                  options={collegeOptions}
+                  placeholder="Select College"
+                  className="w-full p-3"
+                />
               </div>
             </motion.div>
             <hr className="border-t border-gray-600 my-8" />
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              <h1 className="text-gray-700 font-bold text-2xl mb-6">
-                Event Details:
-              </h1>
-              <p className="text-lg text-gray-500 font-semibold">
-                Event Name:{" "}
-                <span className="font-normal text-gray-700">
-                  {selectedEvent?.sport || "NA"}
-                </span>
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div>
-                  <p className="font-bold text-gray-700">
-                    Minimum Players:{" "}
-                    <span className="text-base text-gray-500">
-                      {selectedEvent?.minPlayers || "NA"}
-                    </span>
-                  </p>
-                </div>
-                <div>
-                  <p className="font-bold text-gray-700">
-                    Extra Players:{" "}
-                    <span className="text-base text-gray-500">
-                      {selectedEvent?.substitute || "NA"}
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <hr className="border-t border-gray-600 my-8" />
-            </motion.div>
+
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -582,27 +605,60 @@ const Register = () => {
           transition={{ duration: 0.5 }}
           className="w-full max-w-3xl bg-white p-8 rounded-2xl "
         >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            <h1 className="text-gray-700 font-bold text-3xl mb-6">
+              Event Details:
+            </h1>
+            <p className="text-lg text-gray-500 font-bold">
+              <span className="font-bold text-gray-700">
+                {selectedEvent?.sport || "NA"}
+              </span>
+            </p>
+            <div className="grid grid-cols-1">
+              <div>
+                <p className="font-bold text-gray-700">
+                  Minimum Players:{" "}
+                  <span className="text-base text-gray-500">
+                    {selectedEvent?.minPlayers || "NA"}
+                  </span>
+                </p>
+              </div>
+              <div>
+                <p className="font-bold text-gray-700">
+                  Extra Players:{" "}
+                  <span className="text-base text-gray-500">
+                    {selectedEvent?.substitute || "NA"}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <hr className="border-t border-gray-600 my-8" />
+          </motion.div>
           <h2 className="text-gray-700 md:text-3xl text-2xl font-extrabold mb-6">
             Payment Option
           </h2>
           <div className="flex flex-col justify-center items-center rounded-lg">
-              <Image
-                src="/eventqr.jpeg"
-                alt="QR Code"
-                width={220}
-                height={220}
-                className="rounded-lg mb-4"
-              />
-              <div className="text-center">
-                <p className="text-3xl font-bold text-gray-700">
-                  ₹{selectedEvent?.entryFee || 0}
-                </p>
-                <p className="text-xl text-gray-500 mt-2">
-                  UPI: PPQR01.YUZUNL@IOB
-                </p>
-              </div>
+            <Image
+              src="/eventqr.jpeg"
+              alt="QR Code"
+              width={220}
+              height={220}
+              className="rounded-lg mb-4"
+            />
+            <div className="text-center">
+              <p className="text-3xl font-bold text-gray-700">
+                ₹{selectedEvent?.entryFee || 0}
+              </p>
+              <p className="text-xl text-gray-500 mt-2">
+                UPI: PPQR01.YUZUNL@IOB
+              </p>
             </div>
-            <hr className="border-t border-gray-600 my-7" />
+          </div>
+          <hr className="border-t border-gray-600 my-7" />
           <div className="grid grid-cols-1  gap-6">
             <div className="text-gray-700 text-lg space-y-4">
               <div className="bg-[#f5a937] text-white px-6 py-3 font-semibold rounded-full w-fit">
@@ -633,12 +689,8 @@ const Register = () => {
                 </p>
               </div>
             </div>
-
-       
           </div>
         </motion.div>
-
-       
       </div>
     </div>
   );
