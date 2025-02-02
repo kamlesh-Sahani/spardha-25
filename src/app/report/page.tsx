@@ -75,6 +75,7 @@ export default function AdminReportPage() {
   const [uiUpdate, setUiUpdate] = useState<boolean>(false);
   const [collegeData, setCollegeData] = useState<string[]>();
   const [eventData, setEventData] = useState<string[]>();
+  const [statusLoading,setStatusLoading]= useState<boolean>(false);
 
   // New state for handling approval/rejection reason
   const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
@@ -102,16 +103,12 @@ export default function AdminReportPage() {
   // Update team status
   const updateTeamStatus = async () => {
     try {
-      if (!statusReason.trim()) {
-        toast.error("Please provide a reason for the status change.");
-        return;
-      }
+      setStatusLoading(true);
       const { data } = await axios.post("/api/report/status", {
         _id: currentTeamId,
         status: currentStatus,
         reason: statusReason,
       });
-      console.log(data, "status updated");
       if (data.success) {
         toast.success(data.message || "Successfully updated");
       } else {
@@ -122,6 +119,8 @@ export default function AdminReportPage() {
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Something went wrong");
       console.log(error);
+    }finally{
+      setStatusLoading(false);
     }
   };
 
@@ -356,7 +355,7 @@ export default function AdminReportPage() {
             >
               Cancel
             </Button>
-            <Button onClick={updateTeamStatus}>Submit Reason</Button>
+            <Button onClick={updateTeamStatus}>{statusLoading ? "Updateing...": "Submit Reason"}</Button>
           </div>
         </DialogContent>
       </Dialog>

@@ -134,7 +134,7 @@ export default function Home() {
               <h2 className="text-2xl font-semibold text-gray-800 mb-1">
                 Status
               </h2>
-              <div className="flex items-center">
+              <div className="flex items-center gap-2">
                 {
                   profile?.status==="pending"? <p className="text-lg text-yellow-600 font-semibold">
                   {profile?.status}
@@ -145,8 +145,8 @@ export default function Home() {
                 </p>
                 }
              
-              <p className="text-md text-gray-600 mt-2">
-                ({profile?.reason})
+              <p className="text-md text-gray-600 font-semibold">
+                - {profile?.reason}
               </p>
               </div>
               

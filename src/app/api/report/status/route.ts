@@ -45,96 +45,90 @@ export async function POST(req:NextRequest){
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #eef4fc;
             margin: 0;
             padding: 0;
         }
         .container {
-            max-width: 600px;
+            max-width: 500px;
             margin: 20px auto;
             background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
         .header {
             background: #0073e6;
-            color: #ffffff;
-            padding: 15px;
-            font-size: 20px;
+            color: #fff;
+            padding: 12px;
+            font-size: 18px;
             font-weight: bold;
-            border-radius: 10px 10px 0 0;
+            border-radius: 8px 8px 0 0;
         }
         .content {
-            padding: 20px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 15px;
             color: #333;
         }
         .status {
-            padding: 15px;
+            padding: 8px;
             border-radius: 5px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             margin: 10px 0;
+            color: #fff;
+            display: inline-block;
+            min-width: 120px;
         }
-        .approved {
-            background: #d4edda;
-            color: #155724;
-        }
-        .rejected {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        .pending {
-            background: #fff3cd;
-            color: #856404;
-        }
+        .approved { background: #009688; }  /* Teal */
+        .rejected { background: #d32f2f; }  /* Red */
+        .pending { background: #fbc02d; }  /* Yellow */
         .reason {
-            background: #fbe8a6;
-            padding: 10px;
+            background: #f0f8ff;
+            padding: 8px;
             border-radius: 5px;
-            color: #d39e00;
             font-size: 14px;
             margin-top: 10px;
+            color: #0073e6;
+            text-align: left;
+            border-left: 4px solid #0073e6;
         }
         .footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #777;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #555;
         }
         .cta-button {
-            display: inline-block;
-            padding: 12px 20px;
-            margin-top: 15px;
-            font-size: 16px;
-            color: #ffffff;
-            background: #0073e6;
-            text-decoration: none;
+            padding: 8px;
             border-radius: 5px;
+            font-size: 16px;
             font-weight: bold;
+            margin: 10px 0;
+            color: #0073e6;
+            display: inline-block;
+            min-width: 120px;
+            background: #f0f8ff;
+            text-decoration: none;
         }
-        .cta-button:hover {
-            background: #005bb5;
-        }
+     
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">Team Status Update</div>
         <div class="content">
-            <p>Hello <strong>${team.teamID}</strong>,</p>
-            <p>Your team's status has been updated to:</p>
-            <div class="status ${status === 'approved' ? 'approved' : status === 'rejected' ? 'rejected' : 'pending'}">
-                ${status}
+            <p>Hello Team-<strong>${team.teamID}</strong>,</p>
+            <p>Your team status has been updated:</p>
+            <div class="status ${status}">
+                ${status.charAt(0).toUpperCase() + status.slice(1)}
             </div>
-            ${status === 'approved' ? '<p>>🎉 Congratulations! Your team has been approved.</p>' : ''}
-            ${status === 'rejected' ? '<p>️⚠️ Unfortunately, your request was not approved.</p>' : ''}
+            ${status === 'approved' ? '<p>🎉 Congratulations! Your team is approved.</p>' : ''}
+            ${status === 'rejected' ? '<p>⚠️ Unfortunately, your request was not approved.</p>' : ''}
             ${reason ? `<div class="reason"><strong>Reason:</strong> ${reason}</div>` : ""}
-             <p>You can check your team details by clicking the button below:</p>
+            <p>Check your team details below:</p>
             <a href="${teamDetailLink}" class="cta-button">View Team Details</a>
-
-            <p>If you have any questions, please contact the Spardha Team.</p>
+            <p>Need help? Contact the Spardha Team.</p>
             <a href="mailto:${collegeEmail}" class="cta-button">Contact Admin</a>
         </div>
         <div class="footer">
