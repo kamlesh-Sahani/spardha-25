@@ -47,6 +47,16 @@ interface Sports {
   entryFee: number;
   maxEntry: number | "Open";
 }
+
+// players: [] as {
+//   name: string;
+//   enrollment: string;
+//   phone: string;->mobile
+//   photo: string;->playerIdCard
+//   isCaptain: boolean;
+//   email: string;
+// +gender:string;
+// }[],
 const Register = () => {
   const [formData, setFormData] = useState({
     event: sportsData[0].sport,
@@ -54,8 +64,8 @@ const Register = () => {
     players: [] as {
       name: string;
       enrollment: string;
-      phone: string;
-      photo: string;
+      mobile: string;// changed-> phone to mobile
+      playerIdCard: any;// changes photo to playerIdCard
       isCaptain: boolean;
       email: string;
     }[],
@@ -75,8 +85,8 @@ const Register = () => {
   const [currentPlayer, setCurrentPlayer] = useState({
     name: "",
     enrollment: "",
-    phone: "",
-    photo: "",
+    mobile: "",
+    playerIdCard: "",
     email: "",
     isCaptain: false,
   });
@@ -120,7 +130,7 @@ const Register = () => {
     if (e.target.files) {
       setCurrentPlayer({
         ...currentPlayer,
-        photo: URL.createObjectURL(e.target.files[0]),
+        playerIdCard:e.target.files[0],
       });
     }
   };
@@ -148,29 +158,33 @@ const Register = () => {
     setCurrentPlayer({
       name: "",
       enrollment: "",
-      phone: "",
-      photo: "",
+      mobile: "",
+      playerIdCard: "",
       email: "",
       isCaptain: false,
     });
   };
+
+
+
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setApiResponseMessage("");
-
+    console.log(formData);
     const validation = registrationSchema.safeParse(formData);
-  
-    if (!validation.success) {
-      const errors = validation.error.errors.reduce(
-        (acc, curr) => ({ ...acc, [curr.path[0]]: curr.message }),
-        {} as Record<string, string>
-      );
-  
-      setErrors(errors); 
-      setLoading(false);
-      return; 
-    }
+    
+    // if (!validation.success) {
+    //   const errors = validation.error.errors.reduce(
+    //     (acc, curr) => ({ ...acc, [curr.path[0]]: curr.message }),
+    //     {} as Record<string, string>
+    //   );
+   
+    //   setErrors(errors); 
+    //   setLoading(false);
+    //   return; 
+    // }
   
     try {
       const res = await registerAction(formData);
@@ -272,7 +286,7 @@ const Register = () => {
           </div>
         </motion.div>
         <hr className="border-t border-white/20 my-8" />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -380,8 +394,8 @@ const Register = () => {
                     <label>Player Phone Number</label>
                     <input
                       type="phone"
-                      value={currentPlayer.phone}
-                      onChange={(e) => handlePlayerChange(e, "phone")}
+                      value={currentPlayer.mobile}
+                      onChange={(e) => handlePlayerChange(e, "mobile")}
                       placeholder="Enter Player phone number"
                       className="w-full p-3 placeholder-white bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                     />
@@ -394,7 +408,7 @@ const Register = () => {
                   <div className="flex flex-col text-white gap-2">
                     <label>Upload ID Card Image</label>
                     <input
-                      name="photo"
+                      name="playerIdCard"
                       type="file"
                       onChange={handlePlayerImageChange}
                       className="w-full p-3 bg-white/30 text-white rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
@@ -435,13 +449,13 @@ const Register = () => {
                         {player.enrollment}
                       </p>
                       <p>
-                        <span className="font-bold">Phone:</span> {player.phone}
+                        <span className="font-bold">Phone:</span> {player.mobile}
                       </p>
                       <p>
                         <span className="font-bold">ID Card:</span>{" "}
-                        {player.photo ? (
+                        {player.playerIdCard ? (
                           <img
-                            src={player.photo}
+                            src={player.playerIdCard}
                             alt={`Player ${player.name}`}
                             className="w-16 h-16 object-cover rounded-full mt-2"
                           />
@@ -467,11 +481,11 @@ const Register = () => {
                         <tr key={index}>
                           <td className="py-2 px-4">{player.name}</td>
                           <td className="py-2 px-4">{player.enrollment}</td>
-                          <td className="py-2 px-4">{player.phone}</td>
+                          <td className="py-2 px-4">{player.mobile}</td>
                           <td className="py-2 px-4">
-                            {player.photo ? (
+                            {player.playerIdCard ? (
                               <img
-                                src={player.photo}
+                                src={player.playerIdCard}
                                 alt={`Player ${player.name}`}
                                 className="w-16 h-16 object-cover rounded-full"
                               />

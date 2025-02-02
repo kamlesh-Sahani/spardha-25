@@ -2,19 +2,44 @@
 import TeamModel from "@/models/team.model";
 import cloudinary from "@/utils/cloudinary.util";
 import generatePassword from "@/utils/generatePassword.util";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
 import sendMail from "@/utils/sendMail.util";
 import teamIdGenerate from "@/utils/teamIdGenerate.util";
 import dbConnect from "@/utils/dbConnect.util";
-
+import multer from "multer";
+import { Readable } from "stream";
 // Function to upload an image to Cloudinary
-const uploadToCloudinary = async (file: any) => {
+
+
+// Configure Multer for memory storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+// Convert buffer to stream for Cloudinary upload
+const bufferToStream = (buffer: Buffer) => {
+  const readable = new Readable();
+  readable._read = () => {};
+  readable.push(buffer);
+  readable.push(null);
+  return readable;
+};
+
+// Cloudinary upload function
+const uploadToCloudinary = async (file: Express.Multer.File) => {
   try {
-    const result = await cloudinary.uploader.upload(file.path, {
-      folder: "spardha",
+    return new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: "spardha" },
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result?.secure_url);
+          }
+        }
+      );
+
+      bufferToStream(file.buffer).pipe(stream);
     });
-    return result.secure_url;
   } catch (error) {
     console.error("Cloudinary upload error:", error);
     return null;
@@ -25,27 +50,23 @@ const uploadToCloudinary = async (file: any) => {
 export const registerAction = async (teamData: any) => {
   try {
     await dbConnect();
-    console.log("team-data",teamData);
-    const {
-      email,
-      college,
-      event,
-      transactionId,
-      transactionSs,
-      amount,
-      files,
-      players,
-    } = teamData;
+  const {
+    event,
+    collegeName,
+    players,
+    transactionId,
+    transactionImage,
+    captain,
+    gender
+  } = teamData ;
 
-    // Basic validation
+    console.log("team-data",teamData);
     if (
-      !email ||
-      !college ||
+      !collegeName ||
       !event ||
       !transactionId ||
-      !transactionSs ||
-      !amount ||
-      !players ||
+      !transactionImage ||
+      !captain ||
       players.length === 0
     ) {
       return {
@@ -54,55 +75,52 @@ export const registerAction = async (teamData: any) => {
       };
     }
 
+    let captainEmail;
+    for(let i=0;i<players.length;i++){
+      if(captain===players[i]?.name){
+        captainEmail=players[i].email;
+      }
+    }
     // Check if the team is already registered
-    const isExist = await TeamModel.findOne({ email });
+    const isExist = await TeamModel.findOne({"players.email":captainEmail});
     if (isExist) {
       return {
         success: false,
-        message: "Team already registered",
+        message: "Captain is already registered",
       };
     }
 
-    // Validate and upload files to Cloudinary
-    if (!files?.transactionSs || !files?.idCardPic) {
-      return {
-        success: false,
-        message: "Missing required image files",
-      };
-    }
-
-    const transactionSsUrl = await uploadToCloudinary(files.transactionSs[0]);
-    const idCardPicUrl = await uploadToCloudinary(files.idCardPic[0]);
+    const transactionSsUrl = await uploadToCloudinary(transactionImage);
 
     // Dynamically upload each player's ID card images
-    const playerIdCardUrls = files?.playerIdCard
-      ? await Promise.all(
-          files?.playerIdCard?.map((f: any) => uploadToCloudinary(f))
+    const playerIdCardUrls = await Promise.all(
+          players?.map((player: any) => uploadToCloudinary(player.playerIdCard))
         )
-      : [];
-
+      
     // Generate password for the team
     const password = generatePassword();
 
     // Process the players and add their data
     const playersData = players.map((player: any, index: number) => ({
       ...player,
-      playerIdCard: playerIdCardUrls[index] || "", // Ensure the player has a playerIdCard URL
+      playerIdCard: playerIdCardUrls[index] || "", 
     }));
-
     const team = await TeamModel.create({
-      email,
       password,
-      college,
-      amount,
+      college:collegeName,
       event,
       transactionId,
       transactionSs: transactionSsUrl,
       players: playersData,
     });
 
-    const captain = "";
-    const captainMail = "";
+    if(!team){
+      return {
+        success:false,
+        message:"failed to register try again"
+      }
+    }
+
     const teamDetailLink = `${process.env.BASE_URL}/profile?pass=${password}`;
     const teamId = await teamIdGenerate();
     const collegeMail = process.env.EMAIL_USER;
@@ -207,9 +225,8 @@ export const registerAction = async (teamData: any) => {
       <ul>
         <li><strong>Team Captain:</strong> ${captain}</li>
         <li><strong>Event:</strong> ${event}</li>
-        <li><strong>College:</strong> ${college}</li>
+        <li><strong>College:</strong> ${collegeName}</li>
         <li><strong>Transaction ID:</strong> ${transactionId}</li>
-        <li><strong>Amount Paid:</strong> ₹${amount}</li>
       </ul>
       <p>We can’t wait to see your participation in the event! If you have any questions, feel free to reach out to us.</p>
       <a href="${teamDetailLink}" class="button">View Team Details</a>
@@ -226,23 +243,11 @@ export const registerAction = async (teamData: any) => {
 
   `;
 
-    await sendMail(captainMail, "Spardha Team Registeration", htmlTemplate);
-    
-    // // Generate JWT Token
-    // const token = jwt.sign({ email, role: "team" }, process.env.JWT_SECRET!, {
-    //   expiresIn: "7d",
-    // });
+    await sendMail(captainEmail, "Spardha Team Registeration", htmlTemplate);
 
-    // const cookieStore = await cookies();
-    // // Set the token in a secure HttpOnly cookie
-    // cookieStore.set("auth-token", token, {
-    //   httpOnly: true, // Prevents client-side access
-    //   maxAge: 7 * 24 * 60 * 60, // 7 day
-    // });
     return {
       success: true,
-      message: "Team registered successfully",
-      team,
+      message: "Team registered successfully"
     };
   } catch (error: any) {
     return {
