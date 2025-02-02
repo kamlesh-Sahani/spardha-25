@@ -87,6 +87,9 @@ const Register = () => {
   const [apiResponseMessage, setApiResponseMessage] = useState<string | null>(
     null
   );
+  const [eventOptions,setEventOptions]= useState();
+  const [collegeOptions,setCollegeOptions]= useState();
+
   const [currentPlayer, setCurrentPlayer] = useState({
     name: "",
     enrollment: "",
@@ -98,8 +101,8 @@ const Register = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement> | any
   ) => {
-    const { name, value } = e.target || e;  // Handle both native select/input and ReactSelect
-  
+    const { name, value } = e.target || e; // Handle both native select/input and ReactSelect
+
     // Special handling for event (selecting sport)
     if (name === "event") {
       const selectedSport = value?.toLowerCase();
@@ -108,7 +111,7 @@ const Register = () => {
       );
       setSelectedEvent(filteredEvent);
     }
-  
+
     if (name === "captain") {
       setFormData((prevData) => ({
         ...prevData,
@@ -119,14 +122,13 @@ const Register = () => {
         [name]: value,
       }));
     } else {
-
       setFormData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
     }
   };
-  
+
   // const handleChange = (
   //   e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
   //   selectedOption: any
@@ -202,10 +204,9 @@ const Register = () => {
     });
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
     setLoading(true);
-    
+
     setApiResponseMessage("");
 
     const validation = registrationSchema.safeParse(formData);
@@ -218,7 +219,7 @@ const Register = () => {
 
       setErrors(errors);
       setLoading(false);
-      
+
       return;
     }
 
@@ -245,14 +246,26 @@ const Register = () => {
     setEventData(eventImage);
   }, []);
 
-  const eventOptions = sportsData?.map((event) => ({
-    value: event.sport.toLowerCase(),
-    label: event.sport,
-  }));
-  const collegeOptions = colleges?.map((college) => ({
-    value: college.name.toLowerCase(),
-    label: college.name,
-  }));
+
+  
+useEffect(() => {
+  setEventOptions(() => {
+    const events = sportsData?.map((event) => ({
+      value: event.sport.toLowerCase(),
+      label: event.sport,
+    })) || []; // Default to an empty array if sportsData is undefined or empty
+    return events;
+  });
+
+  setCollegeOptions(() => {
+    const collegeData = colleges?.map((college) => ({
+      value: college.name.toLowerCase(),
+      label: college.name,
+    })) || []; // Default to an empty array if colleges is undefined or empty
+    return collegeData;
+  });
+}, [sportsData, colleges]); 
+ 
   return (
     <div className="flex max-md:flex-col justify-center gap-4 items-start min-h-screen bg-gradient-to-r from-[#b98867] to-[#f5a937] p-6">
       <div className="flex relative top-[-12px] w-full max-w-3xl flex-col  bg-white rounded-3xl shadow-lg">
@@ -278,7 +291,7 @@ const Register = () => {
                 <label className="text-gray-700 text-lg mb-2">
                   Select Event
                 </label>
-                {eventData && (
+                {eventOptions && (
                   <ReactSelect
                     name="event"
                     value={
@@ -303,23 +316,25 @@ const Register = () => {
                 <label className="text-gray-700 text-lg mb-2">
                   Select College
                 </label>
-                <ReactSelect
-                  name="collegeName"
-                  value={
-                    collegeOptions.find(
-                      (option) => option.value === formData.collegeName
-                    ) || null
-                  }
-                  onChange={(selectedOption) =>
-                    handleChange({
-                      name: "collegeName",
-                      value: selectedOption?.value || "",
-                    })
-                  }
-                  options={collegeOptions}
-                  placeholder="Select College"
-                  className="w-full p-3"
-                />
+                {collegeOptions && (
+                  <ReactSelect
+                    name="collegeName"
+                    value={
+                      collegeOptions.find(
+                        (option) => option.value === formData.collegeName
+                      ) || null
+                    }
+                    onChange={(selectedOption) =>
+                      handleChange({
+                        name: "collegeName",
+                        value: selectedOption?.value || "",
+                      })
+                    }
+                    options={collegeOptions}
+                    placeholder="Select College"
+                    className="w-full p-3"
+                  />
+                )}
               </div>
             </motion.div>
             <hr className="border-t border-gray-600 my-8" />
