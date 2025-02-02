@@ -87,8 +87,8 @@ const Register = () => {
   const [apiResponseMessage, setApiResponseMessage] = useState<string | null>(
     null
   );
-  const [eventOptions,setEventOptions]= useState();
-  const [collegeOptions,setCollegeOptions]= useState();
+  const [eventOptions,setEventOptions]= useState<any>();
+  const [collegeOptions,setCollegeOptions]= useState<any>();
 
   const [currentPlayer, setCurrentPlayer] = useState({
     name: "",
