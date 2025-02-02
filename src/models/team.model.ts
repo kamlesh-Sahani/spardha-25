@@ -1,7 +1,10 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Define TypeScript Interface for Player
+
+
 export interface IPlayer {
+  enrollment:string;
   email?: string;
   name: string;
   gender: "Male" | "Female" | "Other";
@@ -16,10 +19,9 @@ export interface ITeam extends Document {
   event: string;
   college: string;
   players: IPlayer[];
-    transactionSs: string;
+  transactionSs: string;
   transactionId:string;
   password: string;
-  amount: number;
   status: "pending" | "approved" | "rejected";
   reason:string;
   createdAt: Date;
@@ -29,7 +31,7 @@ export interface ITeam extends Document {
 // Player Schema
 const PlayerSchema = new Schema<IPlayer>({
   name: { type: String, required: true, trim: true },
-  gender: { type: String, required: true, enum: ["Male", "Female", "Other"] },
+  gender: { type: String, required: true, enum: ["male", "female", "other"] ,default:"Male"},
   mobile: {
     type: String,
     required: true,
@@ -59,7 +61,6 @@ const TeamSchema = new Schema<ITeam>(
     transactionId: { type: String, required: true, trim: true },
     transactionSs: { type: String, default: null },
     password: { type: String, required: true, minlength: 6 },
-    amount: { type: Number, required: true, min: 0 },
     status: {
       type: String,
       enum: ["pending", "approved", "rejected"],
