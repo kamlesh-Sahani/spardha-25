@@ -58,9 +58,11 @@ const EventCards = () => {
                   {event.name}
                 </h3>
                 <div className="flex flex-col sm:flex-row gap-4 w-full mt-auto">
+                <Link href={"/register"} >
                   <button className="w-full bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-colors text-base">
                     Register
                   </button>
+                  </Link>
                   <button
                     onClick={() => setSelectedEvent(event)}
                     className="w-full bg-gray-100 text-gray-800 px-6 py-3 rounded-full hover:bg-gray-200 transition-colors text-base"
