@@ -69,7 +69,7 @@ const EventCards = () => {
         ))}
       </motion.div>
 
-      <AnimatePresence>
+      <div>
         {selectedEvent && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -206,7 +206,7 @@ const EventCards = () => {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </div>
     </>
   );
 };
