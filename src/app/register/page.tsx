@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import eventImage, { type IEventImage } from "@/data/EventData";
+import eventImage from "@/data/EventData";
 import { registerAction } from "../action/team.action";
 import { colleges } from "@/data/CollegeData";
 import { sportsData } from "@/data/AllEventData";
@@ -12,7 +12,6 @@ import { default as ReactSelect } from "react-select";
 import { playerSchema, registrationSchema } from "@/data/Zod";
 import { useRouter } from "next/navigation";
 import { Sports } from "@/lib/type";
-const Gender = ["Male", "Female", "Other"];
 const Register = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<{
@@ -43,7 +42,7 @@ const Register = () => {
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [eventData, setEventData] = useState<IEventImage[]>();
+  const [eventData, setEventData] = useState<any>();
   const [apiResponseMessage, setApiResponseMessage] = useState<string | null>(
     null
   );

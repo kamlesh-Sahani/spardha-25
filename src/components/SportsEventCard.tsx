@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
-import Link from "next/link";
 import eventImage from "@/data/EventData";
+import Link from "next/link";
 
 const EventCards = () => {
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
@@ -200,7 +200,7 @@ const EventCards = () => {
                 </div>
 
                 {/* Register button at the bottom */}
-                <Link href="/register">
+                <Link href={"/register"} >
                   <div className="px-6 pb-6">
                     <button className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
                       Register Now
