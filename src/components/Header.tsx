@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
+import Image from "next/image";
 import Spardha from "@/app/assets/logo.png";
 
 const Header = () => {
@@ -18,12 +18,11 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mediaQuery.matches);
+    const handleResize = () => setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleResize);
+    return () => mediaQuery.removeEventListener("change", handleResize);
   }, []);
 
   const handleMouseEnter = (index: number) => {
@@ -34,7 +33,7 @@ const Header = () => {
     if (!isMobile) setActiveImage(null);
   };
 
-  const handleMouseMove = (e:any) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!isMobile) {
       const rect = e.currentTarget.getBoundingClientRect();
       setMousePosition({
@@ -62,13 +61,13 @@ const Header = () => {
               style={{
                 maskImage:
                   activeImage === index && !isMobile
-                    ? `radial-gradient(circle 100px at ${mousePosition.x}px ${mousePosition.y}px, transparent 100%, black 100%)`
+                    ? `radial-gradient(circle clamp(50px, 10vw, 150px) at ${mousePosition.x}px ${mousePosition.y}px, transparent 50%, black 100%)`
                     : isMobile
                     ? "linear-gradient(to bottom, transparent, black 50%)"
                     : "none",
                 WebkitMaskImage:
                   activeImage === index && !isMobile
-                    ? `radial-gradient(circle 100px at ${mousePosition.x}px ${mousePosition.y}px, transparent 100%, black 100%)`
+                    ? `radial-gradient(circle clamp(50px, 10vw, 150px) at ${mousePosition.x}px ${mousePosition.y}px, transparent 50%, black 100%)`
                     : isMobile
                     ? "linear-gradient(to bottom, transparent, black 50%)"
                     : "none",
@@ -96,11 +95,7 @@ const Header = () => {
         transition={{ duration: 1, delay: 0.5 }}
         className="text-xl md:text-3xl lg:text-4xl relative z-10"
       >
-        <img
-          src={Spardha.src}
-          alt="Spardha Logo"
-          className="max-w-full h-auto"
-        />
+        <Image src={Spardha} alt="Spardha Logo" width={300} height={150} priority />
       </motion.h2>
       <motion.h3
         initial={{ opacity: 0, y: -50 }}
@@ -121,9 +116,9 @@ const Header = () => {
       <span className="text-xl md:text-5xl font-dancing font-medium text-[#3d2f51] mt-1 relative z-10">
         <Typewriter
           words={[
-            "Spardha: Beyond Limits, Beyond Victory! 🚀🥇",
-            "The Battle for Greatness Begins Here! ⚔🏆",
-            "Fuel the Fire, Conquer the Arena! 🔥🏆",
+            "Spardha: Beyond Limits, Beyond Victory! 🚀🥇",
+            "The Battle for Greatness Begins Here! ⚔🏆",
+            "Fuel the Fire, Conquer the Arena! 🔥🏆",
           ]}
           loop={true}
           cursor={true}
