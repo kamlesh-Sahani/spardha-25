@@ -36,28 +36,29 @@ const EventCards = () => {
         {eventImage.map((event) => (
           <motion.div
             key={event.id}
-        
             className="relative"
+            initial={{opacity:0}}
+            whileInView={{opacity:1}}
           >
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-md transition-shadow duration-300 h-full w-[300px]">
+            <div className="bg-[#2c2c2c] rounded-xl overflow-hidden  hover:shadow-md transition-shadow duration-300 h-full w-[300px]">
               <div className="p-4 flex flex-col items-center h-full">
                 <img
                   src={event.image.src || "/placeholder.svg"}
                   alt={event.name}
                   className="w-[140px] h-[140px] object-contain mb-6"
                 />
-                <h3 className="text-xl font-semibold text-center mb-6">
+                <h3 className="text-2xl text-yellow-600 font-semibold text-center mb-6">
                   {event.name}
                 </h3>
-                <div className="flex flex-col sm:flex-row  w-full mt-auto justify-between items-center gap-3">
-                <Link href={"/register"} >
-                  <button className="w-full bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-colors text-base">
+                <div className="flex flex-col   w-full mt-auto justify-between items-center gap-3">
+                <Link href={"/register"} className="w-full">
+                  <button className="w-full bg-[#3D2F51] font-semibold text-white px-2 py-3 rounded-full hover:bg-black transition-colors text-base">
                     Register
                   </button>
                   </Link>
                   <button
                     onClick={() => setSelectedEvent(event)}
-                    className=" bg-gray-100 text-gray-800 w-[140px] py-3 rounded-full hover:bg-gray-200 transition-colors text-base"
+                    className=" bg-white text-[#3D2F51] font-semibold w-full py-3 rounded-full hover:bg-gray-200 transition-colors text-base"
                   >
                     View Details
                   </button>
@@ -165,7 +166,7 @@ const EventCards = () => {
                               )}
                             </button>
                             {showRules && (
-                              <ul className="list-disc pl-5 space-y-2 mt-2 max-h-60 overflow-y-auto">
+                              <ul className="list-disc pl-5 space-y-2 mt-2 h-[200px] overflow-y-auto ">
                                 {selectedEvent.rules.map(
                                   (rule: string, index: number) => (
                                     <li key={index}>{rule}</li>
@@ -179,7 +180,7 @@ const EventCards = () => {
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">
                               Rules:
                             </h3>
-                            <ul className="list-disc pl-5 space-y-2 mt-2">
+                            <ul className="list-disc pl-5 space-y-2 mt-2 h-[300px] overflow-y-auto">
                               {selectedEvent.rules.map(
                                 (rule: string, index: number) => (
                                   <li key={index}>{rule}</li>
@@ -196,7 +197,7 @@ const EventCards = () => {
                 {/* Register button at the bottom */}
                 <Link href={"/register"} >
                   <div className="px-6 pb-6">
-                    <button className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                    <button className="w-full bg-[#3D2F51] text-white px-6 py-3 rounded-lg hover:bg-black transition-colors">
                       Register Now
                     </button>
                   </div>

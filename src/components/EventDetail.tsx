@@ -45,9 +45,9 @@ const EventDetails = () => {
         transition={{ delay: 0.1 }}
         className="bg-[#003566] bg-opacity-10 backdrop-blur-lg rounded-xl p-6 flex flex-col items-center justify-center"
       >
-        <Clock className="text-[#cca000] w-12 h-12 mb-4" />
-        <h3 className="text-xl font-bold text-[#cca000] mb-2">Event Starts In</h3>
-        <div className="text-2xl font-bold text-white">{timeLeft}</div>
+        <Clock className="text-[#3D2F51] w-12 h-12 mb-4" />
+        <h3 className="text-xl font-bold text-[#3D2F51]  mb-2">Event Starts In</h3>
+        <div className="text-2xl font-bold text-black">{timeLeft}</div>
       </motion.div>
 
       <motion.div
@@ -57,9 +57,9 @@ const EventDetails = () => {
         transition={{ delay: 0.2 }}
         className="bg-[#003566] bg-opacity-10 backdrop-blur-lg rounded-xl p-6 flex flex-col items-center justify-center"
       >
-        <Users className="text-[#cca000] w-12 h-12 mb-4" />
-        <h3 className="text-xl font-bold text-[#cca000] mb-2">Participants</h3>
-        <div className="text-2xl font-bold text-white">500+</div>
+        <Users className="text-[#3D2F51] w-12 h-12 mb-4" />
+        <h3 className="text-xl font-bold text-[#3D2F51] mb-2">Participants</h3>
+        <div className="text-2xl font-bold text-black">500+</div>
       </motion.div>
 
       <motion.div
@@ -69,9 +69,9 @@ const EventDetails = () => {
         transition={{ delay: 0.3 }}
         className="bg-[#003566] bg-opacity-10 backdrop-blur-lg rounded-xl p-6 flex flex-col items-center justify-center"
       >
-        <MapPin className="text-[#cca000] w-12 h-12 mb-4" />
-        <h3 className="text-xl font-bold text-[#cca000] mb-2">Location</h3>
-        <div className="text-xl font-bold text-white text-center">Don Bosco Institute of Technology, Mumbai</div>
+        <MapPin className="text-[#3D2F51] w-12 h-12 mb-4" />
+        <h3 className="text-xl font-bold text-[#3D2F51] mb-2">Location</h3>
+        <div className="text-xl font-bold text-black text-center">Don Bosco Institute of Technology, Mumbai</div>
       </motion.div>
     </div>
   )
