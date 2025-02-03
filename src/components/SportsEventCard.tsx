@@ -21,15 +21,7 @@ const EventCards = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0 },
-  };
 
-  const expandedCardVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1 },
-  };
 
   return (
     <>
@@ -39,25 +31,25 @@ const EventCards = () => {
         whileInView="visible"
         viewport={{ once: false, amount: 0.3 }}
         transition={{ staggerChildren: 0.1 }}
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-12 relative"
+        className="flex flex-wrap gap-5 mt-12 relative w-full justify-center items-center"
       >
         {eventImage.map((event) => (
           <motion.div
             key={event.id}
-            variants={cardVariants}
+        
             className="relative"
           >
-            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
-              <div className="p-8 flex flex-col items-center h-full">
+            <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-md transition-shadow duration-300 h-full w-[300px]">
+              <div className="p-4 flex flex-col items-center h-full">
                 <img
                   src={event.image.src || "/placeholder.svg"}
                   alt={event.name}
-                  className="w-20 h-20 object-contain mb-6"
+                  className="w-[140px] h-[140px] object-contain mb-6"
                 />
                 <h3 className="text-xl font-semibold text-center mb-6">
                   {event.name}
                 </h3>
-                <div className="flex flex-col sm:flex-row gap-4 w-full mt-auto">
+                <div className="flex flex-col sm:flex-row  w-full mt-auto justify-between items-center gap-3">
                 <Link href={"/register"} >
                   <button className="w-full bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition-colors text-base">
                     Register
@@ -65,7 +57,7 @@ const EventCards = () => {
                   </Link>
                   <button
                     onClick={() => setSelectedEvent(event)}
-                    className="w-full bg-gray-100 text-gray-800 px-6 py-3 rounded-full hover:bg-gray-200 transition-colors text-base"
+                    className=" bg-gray-100 text-gray-800 w-[140px] py-3 rounded-full hover:bg-gray-200 transition-colors text-base"
                   >
                     View Details
                   </button>
@@ -101,7 +93,7 @@ const EventCards = () => {
                 <X className="w-6 h-6" />
               </button>
 
-              <div className="md:flex flex-col gap-8">
+              <div className="md:flex flex-col justify-between gap-8">
                 {/* Top section */}
                 <div className="flex gap-8 p-6 border-b">
                   {/* Left side - Image */}

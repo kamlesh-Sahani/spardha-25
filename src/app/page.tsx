@@ -123,7 +123,7 @@ const InstructionPage = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-3xl font-bold mt-16 mb-8 text-center text-white"
+            className="text-3xl font-bold mt-16 mb-8 text-center text-[#3D2F51]"
           >
             Featured Events
           </motion.h2>
