@@ -5,6 +5,16 @@ import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 import Image from "next/image";
 import Spardha from "@/app/assets/logo.png";
+import { Charm } from "next/font/google";
+
+const charm = Charm({
+  weight: ["400", "700"], // Available weights: 400 (Regular), 700 (Bold)
+  subsets: ["latin"],
+  display: "swap",
+});
+
+
+
 
 const Header = () => {
   const sportsImages = [
@@ -44,48 +54,13 @@ const Header = () => {
   };
 
   return (
-    <header className="h-screen flex flex-col justify-center items-center text-center relative overflow-hidden">
-      <div className="absolute inset-0 flex flex-col md:flex-row justify-around items-center">
-        {sportsImages.map((img, index) => (
-          <div
-            key={index}
-            className={`w-full md:w-1/3 h-1/3 md:h-full relative overflow-hidden ${
-              isMobile ? "mb-4" : ""
-            }`}
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
-          >
-            <div
-              className="w-full h-full absolute top-0 left-0 bg-[#fff7d1]"
-              style={{
-                maskImage:
-                  activeImage === index && !isMobile
-                    ? `radial-gradient(circle clamp(50px, 10vw, 150px) at ${mousePosition.x}px ${mousePosition.y}px, transparent 50%, black 100%)`
-                    : isMobile
-                    ? "linear-gradient(to bottom, transparent, black 50%)"
-                    : "none",
-                WebkitMaskImage:
-                  activeImage === index && !isMobile
-                    ? `radial-gradient(circle clamp(50px, 10vw, 150px) at ${mousePosition.x}px ${mousePosition.y}px, transparent 50%, black 100%)`
-                    : isMobile
-                    ? "linear-gradient(to bottom, transparent, black 50%)"
-                    : "none",
-              }}
-            />
-            <img
-              src={img || "/placeholder.svg"}
-              alt={`Sports Image ${index + 1}`}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        ))}
-      </div>
+    <header className="mt-[70px] flex flex-col justify-center items-center text-center relative overflow-hidden">
+
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="font-dancing text-4xl md:text-6xl font-bold lg:text-8xl mb-4 text-[#3d2f51] relative z-10"
+        className="font-dancing text-4xl md:text-5xl font-bold lg:text-6xl mb-4 text-[#3d2f51] relative z-10"
       >
         Don Bosco Institute of Technology
       </motion.h1>
@@ -93,30 +68,36 @@ const Header = () => {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.5 }}
-        className="text-xl md:text-3xl lg:text-4xl relative z-10"
+        className="text-xl p-4 md:text-3xl lg:text-4xl relative z-10"
       >
-        <Image src={Spardha} alt="Spardha Logo" width={300} height={150} priority />
+        <Image
+          src={Spardha}
+          alt="Spardha Logo"
+          width={700}
+          height={300}
+          priority
+        />
       </motion.h2>
       <motion.h3
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="font-mono text-1xl md:text-1xl font-bold lg:text-2xl mb-4 text-[#0c134f] relative z-10"
+        className="font-mono text-2xl md:text-3xl font-bold lg:text-4xl mb-4 text-[#0c134f] relative z-10"
       >
-        Annual Inter College Sports Tournament
+        Annual Intercollege Sports Tournament
       </motion.h3>
       <motion.h4
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="font-mono text-xl md:text-xl font-bold lg:text-xl mb-4 text-[#472f15] relative z-10"
+        className="font-mono text-xl md:text-2xl font-bold lg:text-3xl mb-4 text-[#472f15] relative z-10"
       >
         28 February - 01 March, 2025
       </motion.h4>
-      <span className="text-xl md:text-5xl font-dancing font-medium text-[#3d2f51] mt-1 relative z-10">
+      <span className={`${charm.className}  text-3xl md:text-4xl font-dancing font-extrabold text-[#f5a937] mt-1 mb-2 relative z-10`}>
         <Typewriter
           words={[
-            "Spardha: Beyond Limits, Beyond Victory! 🚀🥇",
+            " Beyond Limits, Beyond Victory! 🚀🥇",
             "The Battle for Greatness Begins Here! ⚔🏆",
             "Fuel the Fire, Conquer the Arena! 🔥🏆",
           ]}
@@ -132,3 +113,9 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
+
+

@@ -9,14 +9,18 @@ import PowerLifting from '@/app/assets/Power Lifting S.png'
 import TableTennis from '@/app/assets/Table Tennis S.png'
 import TugofWar from '@/app/assets/tug of war S.png'
 import Vollyball from '@/app/assets/vollyball S.png'
-
 import armwrestling from "@/app/assets/armwrestling S.png";
 
+// [7:06 pm, 5/2/2025] Vishal Sir: MEN | WOMEN
+// [7:06 pm, 5/2/2025] Vishal Sir: MEN | WOMEN | MIXED
+// [7:06 pm, 5/2/2025] Vishal Sir: MEN
+// [7:06 pm, 5/2/2025] Vishal Sir: MEN | WOMEN | MIXED
 
 const eventImage = [
   {
     id: 1,
     name: "Armwrestling",
+    type:"(Men)",
     hovername: "Armwrestling (Men / Women)",
     fee: "₹100/- Per Player (One Hundred Only)",
     image: armwrestling,
@@ -48,6 +52,7 @@ const eventImage = [
   {
     id: 2,
     name: "Badminton",
+    type:"(Men | Women | Mixed)",
     hovername: "Badminton (Men / Women)",
     fee: "Singles: ₹150 (One Hundred Fifty Only) || Doubles: ₹300 (Three Hundred Only)",
     image: Badminton,
@@ -81,6 +86,7 @@ const eventImage = [
   {
     id: 3,
     name: "Basketball",
+    type: "(Men | Women)",
     hovername: "Basketball (Men / Women)",
     fee: "1200/- per Player (One Hundred Only)",
     image: Basketball,
@@ -99,7 +105,7 @@ const eventImage = [
       "Semi-final matches will comprise of 4 quarters of 8 minutes each and a 2-minute break between quarters.",
       "Final match will comprise of 4 quarters of 8 minutes each and a 2-minute break between quarters.",
       "Overtime periods last 5 minutes if the game is tied at the end of regulation.",
-      "Every member of the team shall wear an identical kit.",
+      "Every Menber of the team shall wear an identical kit.",
       "The Referee shall have power to disqualify a player from a match, an event, or a competition for seriously unfair or offensive behaviour.",
       "Only the captain/coach of the team is allowed to talk to the jury of appeal regarding any appeal or protest.",
       "Only winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals."
@@ -110,18 +116,21 @@ const eventImage = [
   {
     id: 4,
     name: "Body Building",
+    type: "(Men)",
     image: BodyBuilding,
     description: "Annual Body Building Event",
   },
   {
     id: 5,
     name: "Chess",
+    type: "(Mixed)",
     image: Chess,
     description: "Annual Chess Event",
   },
   {
     id: 6,
     name: "Football",
+    type: "(Men)",
     hovername: "Football (Men)",
     fee: "₹1600/- Per Team (One Thousand Six Hundrad Only)",
     image: Footbll,
@@ -143,7 +152,7 @@ const eventImage = [
       "Knockout matches time duration shall be 15-2-15 min.",
       "Semi-final matches time duration shall be 30-5-30 min.",
       "Final match time duration shall be 45-10-45 min.",
-      "Every member of the team shall wear an identical kit. Players must wear jerseys, shorts, socks, shin guards, and boots.",
+      "Every Menber of the team shall wear an identical kit. Players must wear jerseys, shorts, socks, shin guards, and boots.",
       "Goalkeepers must wear a jersey that distinguishes them from other players and officials.",
       "In case of a 'draw', a penalty shoot-out shall be held.",
       "The Referee shall have power to disqualify a player from a match, an event, or a competition for seriously unfair or offensive behaviour.",
@@ -156,6 +165,7 @@ const eventImage = [
   {
     id: 7,
     name: "Kabaddi",
+    type: "(Men|& Women)",
     hovername: "Kabbadi (Men / Women)",
     fee: "₹1200/- Per Team(One Thousand Two Hundred Only)",
     image: Kabaddi,
@@ -195,12 +205,15 @@ const eventImage = [
   {
     id: 8,
     name: "Power Lifting",
+    
     image: PowerLifting,
+    type: "(Men)",
     description: "Annual Power Lifting Event",
   },
   {
     id: 9,
     name: "Table Tennis",
+    type: "(Men | Women | Mixed)",
     hovername: "Table Tennis (Men / Women)",
     fee: "Singles: ₹150 (One Hundred Fifty Only) || Doubles: ₹300 (Three Hundred Only)",
     image: TableTennis,
@@ -231,6 +244,7 @@ const eventImage = [
   {
     id: 10,
     name: "Tug of War",
+    type: "(Men)",
     hovername: "Tug of War (Men)",
     fee: "₹1200/- Per Team (One Thousand Only)",
     image: TugofWar,
@@ -260,6 +274,7 @@ const eventImage = [
   {
     id: 11,
     name: "Vollyball",
+    type: "(Men | Women)",
     hovername: "Vollyball (Men / Women)",
     fee: "₹1200/- Per Team(One Thousand Two Hundrad Only) ",
     image: Vollyball,

@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaXTwitter } from "react-icons/fa6";
+import { LiaYoutubeSquare } from "react-icons/lia";
 import Link from "next/link";
 import {
   Home,
@@ -13,7 +15,6 @@ import {
   Mail,
   Phone,
   Facebook,
-  Twitter,
   Instagram,
   Linkedin,
 } from "lucide-react";
@@ -26,7 +27,6 @@ const navItems = [
   { icon: NotebookTabs, label: "Profile", path: "/profile" },
 ];
 
-
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname(); // Get current route
@@ -34,44 +34,59 @@ const Navbar = () => {
   return (
     <div>
       {/* Top Contact Bar */}
-      <div className="hidden lg:block bg-gray-800 text-white py-4 px-3">
+      <div className="hidden lg:block bg-[#f0a940] text-black py-4 px-3">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-4 px-3">
             <span className="flex items-center">
-              <Mail size={20} className="mr-2" /> info@example.com
+              <Mail size={20} className="mr-2" /> spardha.dbit@gmail.com
             </span>
             <span className="flex items-center">
-              <Phone size={20} className="mr-2" /> +1 234 567 8900
+              <Phone size={20} className="mr-2" /> +91 98736 68165
             </span>
           </div>
           <div className="flex items-center space-x-4 px-2">
-            <Facebook size={20} />
-            <Twitter size={20} />
-            <Instagram size={20} />
-            <Linkedin size={20} />
+            <Link href="https://www.facebook.com/bttsggsipu">
+              <Facebook size={20} />
+            </Link>
+            <Link href=" https://x.com/bttsggsipu">
+              <FaXTwitter size={20} />
+            </Link>
+            <Link href=" https://www.instagram.com/donbosco_ggsipu/">
+              {" "}
+              <Instagram size={20} />
+            </Link>
+            <Link href="https://www.youtube.com/channel/UCM4ZafIAJQ20jgpIMqcNshA">
+              {" "}
+              <LiaYoutubeSquare size={20} />
+            </Link>
+            {/*  */}
           </div>
         </div>
       </div>
 
       {/* Desktop Navbar */}
-      <nav className="hidden lg:block bg-gray-950 text-white py-4 sticky top-0 z-50">
+      <nav className="hidden lg:block bg-[#065b83] text-white py-1 sticky top-0 z-50">
         <div className="container mx-auto flex justify-around py-2 items-center">
           <Link href="/">
-          <div className="text-2xl font-bold">
-            <Image
-              src={navLogo}
-              className="w-28"
-              alt="Logo"
-            />
-          </div>
+            <div className="text-2xl font-bold w-24 h-24 bg-white rounded-full flex justify-center items-center">
+              <Image
+                src="/dbit.png"
+                width={72}
+                height={72}
+                // className="w-28 h-28"
+                alt="Logo"
+              />
+            </div>
           </Link>
-          
+
           <div className="flex space-x-6">
             {navItems.map((item) => (
               <Link key={item.label} href={item.path}>
                 <span
-                  className={`flex items-center space-x-2 ${
-                    pathname === item.path ? "text-blue-400" : "hover:text-blue-400"
+                  className={`flex text-xl items-center space-x-2 ${
+                    pathname === item.path
+                      ? "text-blue-400"
+                      : "hover:text-blue-400"
                   }`}
                 >
                   <item.icon size={20} />
@@ -101,7 +116,7 @@ const Navbar = () => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 20 }}
-            className="fixed inset-y-0 right-0 w-64 bg-gray-950 text-gray-200 z-40 lg:hidden"
+            className="fixed inset-y-0 right-0 w-64 bg-[#065b83] text-gray-200 z-40 lg:hidden"
           >
             <nav className="flex flex-col p-8 space-y-4 mt-16">
               {navItems.map((item, index) => (
@@ -111,10 +126,16 @@ const Navbar = () => {
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Link key={item.label} href={item.path} onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link
+                    key={item.label}
+                    href={item.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     <span
                       className={`flex items-center space-x-2 ${
-                        pathname === item.path ? "text-blue-400" : "hover:text-blue-400"
+                        pathname === item.path
+                          ? "text-blue-400"
+                          : "hover:text-blue-400"
                       }`}
                     >
                       <item.icon size={24} />

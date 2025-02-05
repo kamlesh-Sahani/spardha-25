@@ -71,7 +71,7 @@ const EventDetails = () => {
       >
         <MapPin className="text-[#3D2F51] w-12 h-12 mb-4" />
         <h3 className="text-xl font-bold text-[#3D2F51] mb-2">Location</h3>
-        <div className="text-xl font-bold text-black text-center">Don Bosco Institute of Technology, Mumbai</div>
+        <div className="text-xl font-bold text-black text-center">DBIT (Adjacent to Sukhdev Vihar Metro Station)</div>
       </motion.div>
     </div>
   )

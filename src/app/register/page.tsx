@@ -333,7 +333,7 @@ const Register = () => {
                 <div className="flex flex-col gap-4 mb-4">
                   <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-4">
                     <div className="flex flex-col text-gray-700 gap-2">
-                      <label>Player Name</label>
+                      {/* <label>Player Name</label> */}
                       <input
                         type="text"
                         name="name"
@@ -349,7 +349,7 @@ const Register = () => {
                       )}
                     </div>
                     <div className="flex flex-col text-gray-700 gap-2">
-                      <label>Player Enrollment Number</label>
+                      {/* <label>Player Enrollment Number</label> */}
                       <input
                         type="text"
                         name="enrollment"
@@ -365,7 +365,7 @@ const Register = () => {
                       )}
                     </div>
                     <div className="flex flex-col text-gray-700 gap-2">
-                      <label>Player Email</label>
+                      {/* <label>Player Email</label> */}
                       <input
                         type="email"
                         value={currentPlayer.email}
@@ -380,7 +380,7 @@ const Register = () => {
                       )}
                     </div>
                     <div className="flex flex-col text-gray-700 gap-2">
-                      <label>Player mobile Number</label>
+                      {/* <label>Player mobile Number</label> */}
                       <input
                         type="mobile"
                         value={currentPlayer.mobile}
@@ -495,11 +495,11 @@ const Register = () => {
                           <span className="font-bold">Email:</span>{" "}
                           {player.email}
                         </p>
-                        <p>
+                        {/* <p>
                           <span className="font-bold">Gender:</span>{" "}
                           {player.gender}
-                        </p>
-                        <p>
+                        </p> */}
+                        {/* <p>
                           <span className="font-bold">ID Card:</span>{" "}
                           {player.playerIdCard ? (
                             <img
@@ -510,7 +510,7 @@ const Register = () => {
                           ) : (
                             "No playerIdCard"
                           )}
-                        </p>
+                        </p> */}
                       </div>
                     ))}
                   </div>
@@ -524,8 +524,8 @@ const Register = () => {
                           <th className="py-2 px-4">Enrollment Number</th>
                           <th className="py-2 px-4">Mobile Number</th>
                           <th className="py-2 px-4">Email</th>
-                          <th className="py-2 px-4">Gender</th>
-                          <th className="py-2 px-4">ID Card</th>
+                          {/* <th className="py-2 px-4">Gender</th>
+                          <th className="py-2 px-4">ID Card</th> */}
                           <th className="py-2 px-4">Action</th>
                         </tr>
                       </thead>
@@ -536,7 +536,7 @@ const Register = () => {
                             <td className="py-2 px-4">{player.enrollment}</td>
                             <td className="py-2 px-4">{player.mobile}</td>
                             <td className="py-2 px-4">{player.email}</td>
-                            <td className="py-2 px-4">{player.gender}</td>
+                            {/* <td className="py-2 px-4">{player.gender}</td>
                             <td className="py-2 px-4">
                               {player.playerIdCard ? (
                                 <img
@@ -547,7 +547,7 @@ const Register = () => {
                               ) : (
                                 <span>No playerIdCard</span>
                               )}
-                            </td>
+                            </td> */}
                             <td className="py-2 px-4">
                               <button
                                 onClick={() => handleDeletePlayer(index)}
@@ -709,17 +709,17 @@ const Register = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            <h1 className="text-gray-700 font-bold text-3xl mb-6">
+            <h1 className="text-gray-700  text-3xl mb-6">
               Event Details:
             </h1>
-            <p className="text-lg text-gray-500 font-bold">
+            <p className="text-lg text-gray-500 ">
               <span className="font-bold text-gray-700">
                 {selectedEvent?.sport || "NA"}
               </span>
             </p>
             <div className="grid grid-cols-1">
               <div>
-                <p className="font-bold text-gray-700">
+                <p className=" text-gray-700">
                   Minimum Players:{" "}
                   <span className="text-base text-gray-500">
                     {selectedEvent?.minPlayers || "NA"}
@@ -727,8 +727,8 @@ const Register = () => {
                 </p>
               </div>
               <div>
-                <p className="font-bold text-gray-700">
-                  Extra Players:{" "}
+                <p className=" text-gray-700">
+                  Substitution:{" "}
                   <span className="text-base text-gray-500">
                     {selectedEvent?.substitute || "NA"}
                   </span>
@@ -742,7 +742,7 @@ const Register = () => {
           </h2>
           <div className="flex flex-col justify-center items-center rounded-lg">
             <Image
-              src="/eventqr.jpeg"
+              src="/qr.jpeg"
               alt="QR Code"
               width={220}
               height={220}

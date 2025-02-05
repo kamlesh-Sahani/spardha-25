@@ -31,7 +31,7 @@ const EventCards = () => {
         whileInView="visible"
         viewport={{ once: false, amount: 0.3 }}
         transition={{ staggerChildren: 0.1 }}
-        className="flex flex-wrap gap-5 mt-12 relative w-full justify-center items-center"
+        className="flex flex-wrap gap-5  relative w-full justify-center items-center"
       >
         {eventImage.map((event) => (
           <motion.div
@@ -40,25 +40,26 @@ const EventCards = () => {
             initial={{opacity:0}}
             whileInView={{opacity:1}}
           >
-            <div className="bg-[#2c2c2c] rounded-xl overflow-hidden  hover:shadow-md transition-shadow duration-300 h-full w-[300px]">
+            <div className="bg-white/80 backdrop-blur-lg rounded-xl overflow-hidden shadow-xl  hover:shadow-md transition-shadow duration-300 h-full w-[300px]">
               <div className="p-4 flex flex-col items-center h-full">
                 <img
                   src={event.image.src || "/placeholder.svg"}
                   alt={event.name}
                   className="w-[140px] h-[140px] object-contain mb-6"
                 />
-                <h3 className="text-2xl text-yellow-600 font-semibold text-center mb-6">
+                <h3 className="text-2xl text-yellow-600 font-semibold text-center ">
                   {event.name}
                 </h3>
+                <p className="text-md mb-6 text-black">{event.type}</p>
                 <div className="flex flex-col   w-full mt-auto justify-between items-center gap-3">
                 <Link href={"/register"} className="w-full">
-                  <button className="w-full bg-[#3D2F51] font-semibold text-white px-2 py-3 rounded-full hover:bg-black transition-colors text-base">
+                  <button className="w-full bg-[#065b83] font-semibold text-white px-2 py-3 rounded-full hover:bg-[#2e7494] transition-colors text-base">
                     Register
                   </button>
                   </Link>
                   <button
                     onClick={() => setSelectedEvent(event)}
-                    className=" bg-white text-[#3D2F51] font-semibold w-full py-3 rounded-full hover:bg-gray-200 transition-colors text-base"
+                    className=" bg-white text-[#3D2F51] font-semibold w-full py-3 rounded-full hover:bg-[#c0d1da] transition-colors text-base"
                   >
                     View Details
                   </button>
@@ -197,7 +198,7 @@ const EventCards = () => {
                 {/* Register button at the bottom */}
                 <Link href={"/register"} >
                   <div className="px-6 pb-6">
-                    <button className="w-full bg-[#3D2F51] text-white px-6 py-3 rounded-lg hover:bg-black transition-colors">
+                    <button className="w-full bg-[#065b83] text-white px-6 py-3 rounded-lg hover:bg-[#55aad1] transition-colors">
                       Register Now
                     </button>
                   </div>
