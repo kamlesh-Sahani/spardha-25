@@ -309,6 +309,9 @@ const Register = () => {
                     }
                     options={collegeOptions}
                     placeholder="Select College"
+                    noOptionsMessage={() =>
+                      "If College not Listed Please Contact or WhatsApp @ +91 98970 53555"
+                    }
                   />
                 )}
                 {errors.collegeName && (
@@ -709,9 +712,7 @@ const Register = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            <h1 className="text-gray-700  text-3xl mb-6">
-              Event Details:
-            </h1>
+            <h1 className="text-gray-700  text-3xl mb-6">Event Details:</h1>
             <p className="text-lg text-gray-500 ">
               <span className="font-bold text-gray-700">
                 {selectedEvent?.sport || "NA"}

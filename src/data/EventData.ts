@@ -1,14 +1,14 @@
-import Badminton from'@/app/assets/Badminton S.png'
-import Basketball from '@/app/assets/basketball S.png'
-import BodyBuilding from '@/app/assets/body building S.png'
-import Chess from '@/app/assets/Chess S.png';
+import Badminton from "@/app/assets/Badminton S.png";
+import Basketball from "@/app/assets/basketball S.png";
+import BodyBuilding from "@/app/assets/body building S.png";
+import Chess from "@/app/assets/Chess S.png";
 
-import Footbll from '@/app/assets/football S.png'
-import Kabaddi from '@/app/assets/kabaddi S.png'
-import PowerLifting from '@/app/assets/Power Lifting S.png'
-import TableTennis from '@/app/assets/Table Tennis S.png'
-import TugofWar from '@/app/assets/tug of war S.png'
-import Vollyball from '@/app/assets/vollyball S.png'
+import Footbll from "@/app/assets/football S.png";
+import Kabaddi from "@/app/assets/kabaddi S.png";
+import PowerLifting from "@/app/assets/Power Lifting S.png";
+import TableTennis from "@/app/assets/Table Tennis S.png";
+import TugofWar from "@/app/assets/tug of war S.png";
+import Vollyball from "@/app/assets/vollyball S.png";
 import armwrestling from "@/app/assets/armwrestling S.png";
 
 // [7:06 pm, 5/2/2025] Vishal Sir: MEN | WOMEN
@@ -20,7 +20,7 @@ const eventImage = [
   {
     id: 1,
     name: "Armwrestling",
-    type:"(Men)",
+    type: "(Men)",
     hovername: "Armwrestling (Men / Women)",
     fee: "₹100/- Per Player (One Hundred Only)",
     image: armwrestling,
@@ -28,7 +28,11 @@ const eventImage = [
       winner: "500/-",
       runnerUp: "250/-",
     },
-    coordinators: [{ name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" }, { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" }, { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" }],
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
     rules: [
       "Matches are held at an official arm wrestling table with elbow pads and hand grips.",
       "Players are not supposed to carry any sharp object or wear rings on fingers.",
@@ -52,7 +56,7 @@ const eventImage = [
   {
     id: 2,
     name: "Badminton",
-    type:"(Men | Women | Mixed)",
+    type: "(Men | Women | Mixed)",
     hovername: "Badminton (Men / Women)",
     fee: "Singles: ₹150 (One Hundred Fifty Only) || Doubles: ₹300 (Three Hundred Only)",
     image: Badminton,
@@ -60,7 +64,11 @@ const eventImage = [
       winner: "600/-(Singles) || 1000/-(Doubles)",
       runnerUp: "300/-(Singles) || 500/-(Doubles)",
     },
-    coordinators: [{ name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" }, { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" }, { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" }],
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
     rules: [
       "All games will be played in Outdoor Court",
       "All the players must be the Bonafide students of the same college.",
@@ -78,8 +86,7 @@ const eventImage = [
       "The feet of both players must remain in a stationary position until the serve is made.",
       "It is not a fault if you miss the shuttle while serving.",
       "Each game is umpired by the referee who overlooks the game. The referee has overriding calls on the infringements and faults.",
-      "Only winner and runner-up team will be rewarded by cash prize, certificate of appreciation and medals."
-
+      "Only winner and runner-up team will be rewarded by cash prize, certificate of appreciation and medals.",
     ],
     description: "Annual Badminton Event",
   },
@@ -94,7 +101,11 @@ const eventImage = [
       winner: "3000/-",
       runnerUp: "1500/-",
     },
-    coordinators: [{ name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" }, { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" }, { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" }],
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
     rules: [
       "All the players must be the Bonafide students of the same college.",
       "Both the playing team must have to report 30 min. before the scheduled time of match.",
@@ -108,8 +119,7 @@ const eventImage = [
       "Every Menber of the team shall wear an identical kit.",
       "The Referee shall have power to disqualify a player from a match, an event, or a competition for seriously unfair or offensive behaviour.",
       "Only the captain/coach of the team is allowed to talk to the jury of appeal regarding any appeal or protest.",
-      "Only winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals."
-
+      "Only winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals.",
     ],
     description: "Annual Basketball Event",
   },
@@ -117,14 +127,82 @@ const eventImage = [
     id: 4,
     name: "Body Building",
     type: "(Men)",
+    cashReward: {
+      winner: "600/-",
+      runnerUp: "300/-",
+    },
+    fee: "₹150/- Per Player (One Hundred Fifty Only) ",
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
     image: BodyBuilding,
+    rules: [
+      "Player must be the Bonafide student of a college.",
+      "The players must have to report 30 min. before the scheduled time of match.",
+      "	If the player does not turn up within 10 minutes of the scheduled time, the opposite party will get a walkover.",
+      "Weight Categories: 60-65 kg and 66-71 kg.",
+      "Mandatory Poses: Judging will be based on the following 5 mandatory poses: ",
+      "Front Double Biceps",
+      "Side Chest",
+      "Back Double Biceps",
+      "Abdominal and Thighs",
+      "Favourite Classic Pose (not the Most Muscular)",
+      "Competition Wear: Competitors must wear posing shorts—board shorts or bodybuilding trunks are not allowed.",
+      "Body Tan: Competitors must bring their own body tan.",
+      "The Referee shall have power to disqualify a player from a match, an event or a competition for seriously unfair or offensive behaviour.",
+      "	Decisions made by the judges and event officials are final.",
+      "The organizing committee reserves the right to amend rules or guidelines as needed. Any changes will be communicated to participants well in advance of the competition.",
+      "Only winner and runner-up team will be rewarded by cash prize, certificate of appreciation and medals.",
+      "Cash Prize reward may increase, depending on the number of registrations.",
+    ],
     description: "Annual Body Building Event",
   },
   {
     id: 5,
     name: "Chess",
     type: "(Mixed)",
+    fee: " fee: 1200/- per Player (One Hundred Only)",
+    cashReward: {
+      winner: "1500/-",
+      runnerUp: "700/-",
+    },
     image: Chess,
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
+    rules: [
+      "	All the team players must be the Bonafide students of the same college.",
+      "The players must have to report 30 min. before the scheduled time of match.",
+      "All matches will be conducted on a knockout basis.",
+      "	White moves first and players take turns alternately moving one piece at time; movement is mandatorily required.",
+      "If it is a player’s turn to move, is not in check, and has no legal moves, it is a “Stalemate,” and the game will end.",
+      " POINTS WILL DETERMINE THE WINNER.",
+      "Each type of piece has its own method of movement. A piece may be moved to another empty position or may capture an opponent's piece,replacing on its square.",
+      "The point system to be used for chess game are:Pawn - 1 point, Bishop - 3 points, Knight - 3 points, Rook - 5 points, Queen - 9 points",
+      " The game will be of 10 min on whole.",
+      " If the game is finished under 10 min, then the player who won that game will be playing the next round. And if the game is not finished under 10 min, then we will be counting the score of eliminated pieces after 10 min are over and whoever has less score, will be promoted to next level.",
+      "The duty of checking whether a player has exhausted all his/her moves, depends on the player itself.",
+      "IN GAME RULES: CHECK It is not allowed to make a move; such that one’s king is in check after the move. If a player accidentally tries to make such a move, he must take the move back and make another move (following touch move rules).",
+      "Note that there are three different possible ways to remove a check: ",
+      "i.  Move the king away to a square where he is not in check.",
+      "Ii. Take the piece that gives the check. (In case of a check, given by a rook, bishop or queen) ",
+      "iii. Move a piece between the checking piece and the king.",
+      "CHECKMATE: When a player is in check, and he cannot make a move that removes his king from the check, then he is mated. The player that is mated lost the match, and the player that mated him won the match.",
+      "STALEMATE: When a player cannot make any legal move, but he is not in check, then the player is said to be stalemated. In case of a stalemate, the winner will be determined by the points of captured pieces.",
+      "TOUCH MOVE: If player touch a piece, they are required to move that piece, unless it has no legal moves.",
+      "SPECIAL MOVES: CASTLING can be done only one time in a chess game. During the castling, the king moves two squares towards the rook he intends to castle with, and the rook moves to the square through which the king passed.",
+      "Castling is only permissible if all of the following conditions hold:",
+      "i.	Neither king nor rook involved in castling may have moved from the original position.",
+      "ii.	There must be no pieces between the king and the rook",
+      "iii.	The king may not currently be in check, nor may the king pass through or end up in a square that is under attack by an enemy piece (though the rook is permitted to be under attack and to pass over an attacked square)",
+      "PAWN PROMOTION If a pawn reaches the opponent's edge of the table, it will be promoted – the pawn may be converted to a queen, rook, bishop or knight, as the player desires.The Referee shall have power to disqualify a player from a match, an event or a competition for seriously unfair or offensive behaviour.",
+      "Only winner and runner-up team will be rewarded by cash prize, certificate of appreciation and medals.",
+      "Cash Prize reward may increase, depending on the number of registrations.",
+    ],
     description: "Annual Chess Event",
   },
   {
@@ -138,7 +216,11 @@ const eventImage = [
       winner: "10,000/-",
       runnerUp: "4000/-",
     },
-    coordinators: [{ name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" }, { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" }, { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" }],
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
     rules: [
       "All the players must be the Bonafide students of the same college.",
       "Players are not supposed to carry any sharp objects or wear rings on fingers.",
@@ -157,8 +239,7 @@ const eventImage = [
       "In case of a 'draw', a penalty shoot-out shall be held.",
       "The Referee shall have power to disqualify a player from a match, an event, or a competition for seriously unfair or offensive behaviour.",
       "Only the captain/coach of the team is allowed to talk to the jury of appeal regarding any appeal or protest.",
-      "Only the winner and runner-up team will be rewarded with a cash prize, certificate of appreciation, and medals."
-
+      "Only the winner and runner-up team will be rewarded with a cash prize, certificate of appreciation, and medals.",
     ],
     description: "Annual Football Event",
   },
@@ -173,7 +254,11 @@ const eventImage = [
       winner: "3,000/-",
       runnerUp: "1,500/-",
     },
-    coordinators: [{ name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" }, { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" }, { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" }],
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
     rules: [
       "All the players must be the Bonafide students of the same college.",
       "Players are not supposed to carry any sharp objects or wear rings on fingers.",
@@ -198,16 +283,55 @@ const eventImage = [
       "Weight limit for men - 85KG, Weight limit for women - 75KG.",
       "The Referee shall have power to disqualify a player from a match, an event, or a competition for seriously unfair or offensive behaviour.",
       "Only the captain/coach of the team is allowed to talk to the jury of appeal regarding any appeal or protest.",
-      "Only the winner and runner-up team will be rewarded with a cash prize, certificate of appreciation, and medals."
+      "Only the winner and runner-up team will be rewarded with a cash prize, certificate of appreciation, and medals.",
     ],
     description: "Annual Kabaddi Event",
   },
   {
     id: 8,
     name: "Power Lifting",
-    
     image: PowerLifting,
     type: "(Men)",
+    hovername: "Power Lifting (Men)",
+    fee: "150/- per Player (One Hundred Only)",
+    cashReward: {
+      winner: "600/-",
+      runnerUp: "300/-",
+    },
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
+    rules: [
+      "Player must be the Bonafide student of a college.",
+      "Players are not supposing to carry any sharpen object or wear rings in fingers.",
+      "The players must have to report 30 min. before the scheduled time of match.",
+      "If the player does not turn up within 10 minutes of the scheduled time, the opposite party will get a walkover.",
+      "WEIGHT CATEGORIES: 60 - 65 KG , 66 - 70 KG, 71 – 75 KG,	75 – 80 KG ,80 KG ABOVE",
+      "Competition Lifts: The event consists of three main lifts: Squat, Bench Press, Deadlift",
+      "Each competitor gets three attempts per lift, with the best valid attempt counting toward their total score.",
+      "Equipment & Attire:",
+      "Lifting Suit: A one-piece singlet is mandatory.",
+      "Belt: Powerlifting belts are allowed within size specifications.",
+      "Knee Sleeves/Wraps: Allowed as per federation rules.",
+      "Wrist Wraps: Permitted but must meet regulations.",
+      "Shoes: Must be appropriate for lifting.",
+      "T-Shirt: Required for bench press.",
+      "	Chalk: Allowed for grip enhancement.",
+      "Weigh-Ins: Weigh-ins must be conducted 1 hour before the competition starts.Competitors must present identification and verify their weight class.",
+      "Judging & Scoring:",
+      "Each lift is judged by three referees who give white (good) or red (failed) lights.",
+      "A lift is successful if at least two out of three referees approve.",
+      "Total Score: The best successful attempt from each lift is summed to determine the total score.",
+      "Tie-Breakers: If two lifters have the same total, the lighter lifter wins.",
+      "Lifting Rules & Standards:",
+      "Squat: The lifter must lower their hips until the top of the thighs is below parallel.Must stand fully upright before racking the bar.No downward movement of the bar during ascent.",
+      "Bench Press:The bar must pause on the chest before the referee signals Press.The lifter must lock out their arms fully before racking. No bouncing the bar off the chest.",
+      "Deadlift:The bar must be lifted in one motion with no hitching.The lifter must stand fully upright with shoulders back.The bar must not be dropped; it must be controlled down.",
+      "Only winner and runner-up team will be rewarded by cash prize, certificate of appreciation and medals",
+      "Cash Prize reward may increase, depending on the number of registrations. ",
+    ],
     description: "Annual Power Lifting Event",
   },
   {
@@ -221,7 +345,11 @@ const eventImage = [
       winner: "600/-(Singles) || 1,000/-(Doubles)",
       runnerUp: "300/-(Singles) || 500/-(Doubles)",
     },
-    coordinators: [{ name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" }, { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" }, { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" }],
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
     rules: [
       "All the players must be the Bonafide students of the same college.",
       "Both the playing team must have to report 30 min. before the scheduled time of match.",
@@ -237,7 +365,7 @@ const eventImage = [
       "Dress code for boys – sports t-shirt with shorts.",
       "Toss – Toss will be the deciding factor for choosing whether to serve or receive first and the side of playing.",
       "Each game is umpired by the referee who overlooks the game. The referee has overriding calls on the infringements and faults.",
-      "Only the winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals."
+      "Only the winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals.",
     ],
     description: "Annual Table Tennis Event",
   },
@@ -252,7 +380,11 @@ const eventImage = [
       winner: "3,000/-",
       runnerUp: "1,500/-",
     },
-    coordinators: [{ name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" }, { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" }, { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" }],
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
     rules: [
       "All the players must be the Bonafide students of the same college.",
       "Both the playing team must have to report 30 min. before the scheduled time of match.",
@@ -267,7 +399,7 @@ const eventImage = [
       "Every member of the team shall wear an identical kit.",
       "The Referee shall have power to disqualify a player from a match, an event, or a competition for seriously unfair or offensive behaviour.",
       "Only the captain/coach of the team is allowed to talk to the jury of appeal regarding any appeal or protest.",
-      "Only the winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals."
+      "Only the winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals.",
     ],
     description: "Annual Tug of War Event",
   },
@@ -282,7 +414,11 @@ const eventImage = [
       winner: "3,000/-",
       runnerUp: "1,500/-",
     },
-    coordinators: [{ name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" }, { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" }, { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" }],
+    coordinators: [
+      { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
+      { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
+      { name: "Mr. Vishal Chaudhary", phone: "+91 98993 54000" },
+    ],
     rules: [
       "All the players must be the Bonafide students of the same college.",
       "Players are not supposed to carry any sharp objects or wear rings on fingers.",
@@ -299,10 +435,10 @@ const eventImage = [
       "The referee’s decision will be considered as the final decision.",
       "The Referee shall have power to disqualify a player from a match, an event, or a competition for seriously unfair or offensive behaviour.",
       "Only the captain/coach of the team is allowed to talk to the jury of appeal regarding any appeal or protest.",
-      "Only the winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals."
+      "Only the winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals.",
     ],
     description: "Annual Vollyball Event",
   },
-]
+];
 
-export default eventImage
+export default eventImage;
