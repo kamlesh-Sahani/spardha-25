@@ -28,6 +28,7 @@ const Register = () => {
     }[];
     captain: string;
     transactionId: string;
+    amount:number;
     transactionImage: File | null;
   }>({
     event: "",
@@ -35,6 +36,7 @@ const Register = () => {
     players: [],
     captain: "",
     transactionId: "",
+    amount:0,
     transactionImage: null,
   });
   const [selectedEvent, setSelectedEvent] = useState<Sports | undefined>(
@@ -197,6 +199,7 @@ const Register = () => {
         toast.error(res.message);
       }
     } catch (err: any) {
+      console.log(err,"res error")
       if (err instanceof z.ZodError) {
         console.error("Unexpected ZodError:", err);
         toast.error(
@@ -640,18 +643,14 @@ const Register = () => {
                 </div>
                 <div className="flex flex-col mb-4">
                   <input
-                    type="text"
-                    name="transactionId"
-                    value={formData.transactionId}
+                    type="number"
+                    name="amount"
+                    value={formData.amount}
                     onChange={handleChange}
                     placeholder="Enter Amount Paid"
                     className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                   />
-                  {errors.transactionId && (
-                    <p className="text-red-600 text-sm mt-1">
-                      {errors.transactionId}
-                    </p>
-                  )}
+               
                 </div>
               </div>
               <div className="flex flex-col mb-4">

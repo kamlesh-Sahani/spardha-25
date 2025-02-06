@@ -17,6 +17,7 @@ export const registerAction = async (teamData: any) => {
     transactionId,
     transactionImage,
     captain,
+    amount
   } = teamData ;
 
   console.log(teamData);
@@ -26,6 +27,7 @@ export const registerAction = async (teamData: any) => {
       !transactionId ||
       !transactionImage ||
       !captain ||
+      !amount ||
       players.length === 0
     ) {
       return {
@@ -83,6 +85,7 @@ export const registerAction = async (teamData: any) => {
       transactionId,
       transactionSs: transactionSsUrl,
       players: playersData,
+      amount
     });
     if(!team){
       return {
@@ -222,46 +225,6 @@ export const registerAction = async (teamData: any) => {
   }
 };
 
-export const testAction = async()=>{
 
-  await dbConnect();
-  const t = await TeamModel.create({
-    "teamID": 1,
-    "event": "Intercollege Football Tournament",
-    "college": "XYZ University",
-    "players": [
-      {
-        "name": "John Doe",
-        "gender": "Male",
-        "mobile": "9876543210",
-        "email": "john.doe@example.com",
-        "playerIdCard": "ID12345",
-        "isCaptain": true
-      },
-      {
-        "name": "Jane Smith",
-        "gender": "Female",
-        "mobile": "8765432109",
-        "email": "jane.smith@example.com",
-        "playerIdCard": "ID67890",
-        "isCaptain": false
-      }
-    ],
-    "transactionId": "TXN123456",
-    "transactionSs": "txn_screenshot_url.jpg",
-    "password": "hashed_password",
-    "amount": 5000,
-    "status": "pending",
-    "createdAt": "2024-01-31T10:00:00.000Z",
-    "updatedAt": "2024-01-31T12:00:00.000Z"
-  }
-  )
-
-  if(t){
-    console.log("successfuly")
-  }else{
-    console.log("error");
-  }
-}
 
 

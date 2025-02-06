@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaXTwitter,FaPerson } from "react-icons/fa6";
 import { LiaYoutubeSquare } from "react-icons/lia";
 import Link from "next/link";
 import {
@@ -23,8 +23,8 @@ import Image from "next/image";
 const navItems = [
   { icon: Home, label: "Spardha", path: "/" },
   { icon: FileClock, label: "Register", path: "/register" },
-  { icon: ClipboardCopy, label: "Report", path: "/report" },
   { icon: NotebookTabs, label: "Profile", path: "/profile" },
+  { icon: FaPerson, label: "Admin", path: "/admin/dashboard" },
 ];
 
 const Navbar = () => {

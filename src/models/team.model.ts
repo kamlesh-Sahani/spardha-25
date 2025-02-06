@@ -24,6 +24,7 @@ export interface ITeam extends Document {
   password: string;
   status: "pending" | "approved" | "rejected";
   reason:string;
+  amount:number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -69,6 +70,10 @@ const TeamSchema = new Schema<ITeam>(
     reason:{
       type:String,
     },
+    amount:{
+      type:Number,
+      required:[true,"please enter paid amount"]
+    }
   },
   { timestamps: true }
 );
