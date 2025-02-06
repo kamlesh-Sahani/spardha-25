@@ -13,9 +13,6 @@ const charm = Charm({
   display: "swap",
 });
 
-
-
-
 const Header = () => {
   const sportsImages = [
     "https://cdn.pixabay.com/photo/2016/12/25/15/41/ball-1930191_1280.jpg",
@@ -54,13 +51,22 @@ const Header = () => {
   };
 
   return (
-    <header className="mt-[70px] flex flex-col justify-center items-center text-center relative overflow-hidden">
-
+    <header
+      className="flex flex-col border-b-4  border-orange-700  justify-center items-center text-center relative overflow-hidden"
+      style={{
+        backgroundImage:
+          "linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(/back.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "500px",
+        height: "80vh",
+      }}
+    >
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="font-dancing text-4xl md:text-5xl font-bold lg:text-6xl mb-4 text-[#3d2f51] relative z-10"
+        className="font-dancing text-4xl md:text-5xl font-bold lg:text-6xl mb-4 text-[#291d3a] relative z-10"
       >
         Don Bosco Institute of Technology
       </motion.h1>
@@ -90,11 +96,13 @@ const Header = () => {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="font-mono text-xl md:text-2xl font-bold lg:text-3xl mb-4 text-[#472f15] relative z-10"
+        className="font-mono text-xl md:text-2xl font-bold lg:text-3xl mb-4 text-[#291b0b] relative z-10"
       >
         28 February - 01 March, 2025
       </motion.h4>
-      <span className={`${charm.className}  text-3xl md:text-4xl font-dancing font-extrabold text-[#f5a937] mt-1 mb-2 relative z-10`}>
+      <span
+        className={`${charm.className}  text-3xl md:text-4xl font-dancing font-extrabold text-[#91251d] mt-1 mb-2 relative z-10`}
+      >
         <Typewriter
           words={[
             " Beyond Limits, Beyond Victory! 🚀🥇",
@@ -113,9 +121,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-
-
-
-

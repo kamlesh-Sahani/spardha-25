@@ -250,12 +250,24 @@ const Register = () => {
           transition={{ duration: 0.5 }}
           className="w-full max-w-3xl  bg-white rounded-2xl"
         >
-          <div className="md:text-4xl p-4 text-3xl font-bold bg-[#f5a937] text-white text-center mb-6 rounded-t-xl">
+          <div className="md:text-4xl p-4 text-3xl font-bold bg-[#f5a937] text-white text-center rounded-t-xl">
             <h1>Event Registration</h1>
           </div>
-
+          <motion.div
+            // variants={itemVariants}
+            className="col-span-2 p-4  bg-yellow-200 border-l-4 border-red-500"
+            whileInView={{ scale: [0.98, 1.01, 1] }}
+            viewport={{ once: true }}
+          >
+            <p className="text-red-800 text-md font-semibold">
+              <strong>Note:</strong> Enter All the details very carefully
+              without any Spelling mistakes/Typographic errors. Same data will
+              be used to print the Certificates. Player's Name must be as per
+              college records.
+            </p>
+          </motion.div>
           <hr className="border-t border-white/20 my-0" />
-          <form onSubmit={handleSubmit} className="p-11">
+          <form onSubmit={handleSubmit} className="px-6 py-0">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -342,7 +354,7 @@ const Register = () => {
                         name="name"
                         value={currentPlayer.name}
                         onChange={(e) => handlePlayerChange(e, "name")}
-                        placeholder="Enter Player Name"
+                        placeholder="Enter Player Full Name"
                         className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                       />
                       {errors.name && (
@@ -388,12 +400,55 @@ const Register = () => {
                         type="mobile"
                         value={currentPlayer.mobile}
                         onChange={(e) => handlePlayerChange(e, "mobile")}
-                        placeholder="Enter mobile number"
+                        placeholder="Enter Mobile Number"
                         className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                       />
                       {errors.mobile && (
                         <p className="text-red-600 text-sm mt-1">
                           {errors.mobile}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex flex-col text-gray-700 gap-2">
+                      <label>Gender</label>
+                      <div className="flex gap-4">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="gender"
+                            value="male"
+                            checked={currentPlayer.gender === "male"}
+                            onChange={(e) => handlePlayerChange(e, "gender")}
+                            className="mr-2"
+                          />
+                          Male
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="gender"
+                            value="female"
+                            checked={currentPlayer.gender === "female"}
+                            onChange={(e) => handlePlayerChange(e, "gender")}
+                            className="mr-2"
+                          />
+                          Female
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="gender"
+                            value="other"
+                            checked={currentPlayer.gender === "other"}
+                            onChange={(e) => handlePlayerChange(e, "gender")}
+                            className="mr-2"
+                          />
+                          Other
+                        </label>
+                      </div>
+                      {errors.gender && (
+                        <p className="text-red-600 text-sm mt-1">
+                          {errors.gender}
                         </p>
                       )}
                     </div>
@@ -411,49 +466,6 @@ const Register = () => {
                         </p>
                       )}
                     </div>
-                  </div>
-                  <div className="flex flex-col text-gray-700 gap-2">
-                    <label>Gender</label>
-                    <div className="flex gap-4">
-                      <label className="flex items-center">
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="male"
-                          checked={currentPlayer.gender === "male"}
-                          onChange={(e) => handlePlayerChange(e, "gender")}
-                          className="mr-2"
-                        />
-                        Male
-                      </label>
-                      <label className="flex items-center">
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="female"
-                          checked={currentPlayer.gender === "female"}
-                          onChange={(e) => handlePlayerChange(e, "gender")}
-                          className="mr-2"
-                        />
-                        Female
-                      </label>
-                      <label className="flex items-center">
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="other"
-                          checked={currentPlayer.gender === "other"}
-                          onChange={(e) => handlePlayerChange(e, "gender")}
-                          className="mr-2"
-                        />
-                        Other
-                      </label>
-                    </div>
-                    {errors.gender && (
-                      <p className="text-red-600 text-sm mt-1">
-                        {errors.gender}
-                      </p>
-                    )}
                   </div>
 
                   <button
@@ -611,27 +623,41 @@ const Register = () => {
               <h2 className="text-2xl font-semibold text-gray-700 mb-4">
                 Payment Details
               </h2>
-              <div className="flex flex-col mb-4">
-                <label className="text-gray-700 text-lg mb-2">
-                  Transaction ID
-                </label>
-                <input
-                  type="text"
-                  name="transactionId"
-                  value={formData.transactionId}
-                  onChange={handleChange}
-                  placeholder="Enter Transaction ID"
-                  className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
-                />
-                {errors.transactionId && (
-                  <p className="text-red-600 text-sm mt-1">
-                    {errors.transactionId}
-                  </p>
-                )}
+              <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-4">
+                <div className="flex flex-col mb-4">
+                  <input
+                    type="text"
+                    name="transactionId"
+                    value={formData.transactionId}
+                    onChange={handleChange}
+                    placeholder="Enter Transaction ID"
+                    className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
+                  />
+                  {errors.transactionId && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {errors.transactionId}
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-col mb-4">
+                  <input
+                    type="text"
+                    name="transactionId"
+                    value={formData.transactionId}
+                    onChange={handleChange}
+                    placeholder="Enter Amount Paid"
+                    className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
+                  />
+                  {errors.transactionId && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {errors.transactionId}
+                    </p>
+                  )}
+                </div>
               </div>
               <div className="flex flex-col mb-4">
                 <label className="text-gray-700 text-lg mb-2">
-                  Transaction Details Image
+                  Transaction Receipt Image
                 </label>
                 <input
                   type="file"
@@ -665,7 +691,7 @@ const Register = () => {
             >
               <button
                 type="submit"
-                className="w-full px-6 py-3 text-lg font-semibold bg-[#f5a937] text-white rounded-lg shadow-md hover:bg-yellow-500 transition flex items-center justify-center"
+                className="w-full mb-8 px-6 py-3 text-lg font-semibold bg-[#f5a937] text-white rounded-lg shadow-md hover:bg-yellow-500 transition flex items-center justify-center"
                 disabled={loading}
               >
                 {loading ? (
@@ -712,15 +738,17 @@ const Register = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            <h1 className="text-gray-700  text-3xl mb-6">Event Details:</h1>
-            <p className="text-lg text-gray-500 ">
+            <h1 className="text-gray-700 text-center text-3xl mb-6">
+              Event Details:
+            </h1>
+            <p className="text-lg text-center text-gray-500 ">
               <span className="font-bold text-gray-700">
                 {selectedEvent?.sport || "NA"}
               </span>
             </p>
             <div className="grid grid-cols-1">
               <div>
-                <p className=" text-gray-700">
+                <p className="text-center text-gray-700">
                   Minimum Players:{" "}
                   <span className="text-base text-gray-500">
                     {selectedEvent?.minPlayers || "NA"}
@@ -728,7 +756,7 @@ const Register = () => {
                 </p>
               </div>
               <div>
-                <p className=" text-gray-700">
+                <p className="text-center text-gray-700">
                   Substitution:{" "}
                   <span className="text-base text-gray-500">
                     {selectedEvent?.substitute || "NA"}
@@ -738,7 +766,7 @@ const Register = () => {
             </div>
             <hr className="border-t border-gray-600 my-8" />
           </motion.div>
-          <h2 className="text-gray-700 md:text-3xl text-2xl font-extrabold mb-6">
+          <h2 className="text-gray-700 md:text-3xl text-center text-2xl font-extrabold mb-6">
             Payment Option
           </h2>
           <div className="flex flex-col justify-center items-center rounded-lg">
@@ -761,7 +789,7 @@ const Register = () => {
           <hr className="border-t border-gray-600 my-7" />
           <div className="grid grid-cols-1  gap-6">
             <div className="text-gray-700 text-lg space-y-4">
-              <div className="bg-[#f5a937] text-white px-6 py-3 font-semibold rounded-full w-fit">
+              <div className="bg-[#f5a937] w-full flex justify-center items-center text-white px-6 py-3 font-semibold rounded-full">
                 <h3>NEFT Bank Details:</h3>
               </div>
               <div className="space-y-2">

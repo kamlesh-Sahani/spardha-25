@@ -2,7 +2,6 @@ import Badminton from "@/app/assets/Badminton S.png";
 import Basketball from "@/app/assets/basketball S.png";
 import BodyBuilding from "@/app/assets/body building S.png";
 import Chess from "@/app/assets/Chess S.png";
-
 import Footbll from "@/app/assets/football S.png";
 import Kabaddi from "@/app/assets/kabaddi S.png";
 import PowerLifting from "@/app/assets/Power Lifting S.png";
@@ -49,7 +48,7 @@ const eventImage = [
       "The match is won when one competitor pins their opponent's hand onto the touch pad. At this point, if the head referee is happy that it is a valid pin, they will shout 'stop!' and indicate the winner by immediately raising their arm.",
       "A valid pin is when any part of the competitor's natural wrist touches the touch pad.",
       "There are numerous fouls that can be committed in Arm wrestling. These include touching a part of your own body during the match, crossing their shoulder into the opposition area, dropping the shoulder below the height of the touch pad, foul language, abuse or poor sportsmanship to name a few.",
-      "Two warnings = one foul and two fouls equals disqualification meaning that their opponent immediately wins the match.",
+      "Two warnings one foul and two fouls equals disqualification meaning that their opponent immediately wins the match.",
       "Only winner and runner-up team will be rewarded by cash prize, certificate of appreciation and medals.",
     ],
   },
@@ -95,7 +94,7 @@ const eventImage = [
     name: "Basketball",
     type: "(Men | Women)",
     hovername: "Basketball (Men / Women)",
-    fee: "1200/- per Player (One Hundred Only)",
+    fee: "₹1200/- per Team (One Thousand Two Hundred Only)",
     image: Basketball,
     cashReward: {
       winner: "3000/-",
@@ -163,7 +162,7 @@ const eventImage = [
     id: 5,
     name: "Chess",
     type: "(Mixed)",
-    fee: " fee: 1200/- per Player (One Hundred Only)",
+    fee: " fee: ₹600/- per Team (Six Hundred Only)",
     cashReward: {
       winner: "1500/-",
       runnerUp: "700/-",
@@ -188,9 +187,9 @@ const eventImage = [
       "The duty of checking whether a player has exhausted all his/her moves, depends on the player itself.",
       "IN GAME RULES: CHECK It is not allowed to make a move; such that one’s king is in check after the move. If a player accidentally tries to make such a move, he must take the move back and make another move (following touch move rules).",
       "Note that there are three different possible ways to remove a check: ",
-      "i.  Move the king away to a square where he is not in check.",
-      "Ii. Take the piece that gives the check. (In case of a check, given by a rook, bishop or queen) ",
-      "iii. Move a piece between the checking piece and the king.",
+      "  i.  Move the king away to a square where he is not in check.",
+      "  Ii. Take the piece that gives the check. (In case of a check, given by a rook, bishop or queen) ",
+      "  iii. Move a piece between the checking piece and the king.",
       "CHECKMATE: When a player is in check, and he cannot make a move that removes his king from the check, then he is mated. The player that is mated lost the match, and the player that mated him won the match.",
       "STALEMATE: When a player cannot make any legal move, but he is not in check, then the player is said to be stalemated. In case of a stalemate, the winner will be determined by the points of captured pieces.",
       "TOUCH MOVE: If player touch a piece, they are required to move that piece, unless it has no legal moves.",
@@ -210,7 +209,7 @@ const eventImage = [
     name: "Football",
     type: "(Men)",
     hovername: "Football (Men)",
-    fee: "₹1600/- Per Team (One Thousand Six Hundrad Only)",
+    fee: "₹1600/- Per Team (One Thousand Six Hundred Only)",
     image: Footbll,
     cashReward: {
       winner: "10,000/-",
@@ -246,9 +245,9 @@ const eventImage = [
   {
     id: 7,
     name: "Kabaddi",
-    type: "(Men|& Women)",
+    type: "(Men | Women)",
     hovername: "Kabbadi (Men / Women)",
-    fee: "₹1200/- Per Team(One Thousand Two Hundred Only)",
+    fee: "₹1200/- Per Team (One Thousand Two Hundred Only)",
     image: Kabaddi,
     cashReward: {
       winner: "3,000/-",
@@ -293,7 +292,7 @@ const eventImage = [
     image: PowerLifting,
     type: "(Men)",
     hovername: "Power Lifting (Men)",
-    fee: "150/- per Player (One Hundred Only)",
+    fee: "₹150/- per Player (One Hundred Fifty Only)",
     cashReward: {
       winner: "600/-",
       runnerUp: "300/-",
@@ -374,7 +373,7 @@ const eventImage = [
     name: "Tug of War",
     type: "(Men)",
     hovername: "Tug of War (Men)",
-    fee: "₹1200/- Per Team (One Thousand Only)",
+    fee: "₹1200/- Per Team (One Thousand Two Hundred Only)",
     image: TugofWar,
     cashReward: {
       winner: "3,000/-",
@@ -408,7 +407,7 @@ const eventImage = [
     name: "Vollyball",
     type: "(Men | Women)",
     hovername: "Vollyball (Men / Women)",
-    fee: "₹1200/- Per Team(One Thousand Two Hundrad Only) ",
+    fee: "₹1200/- Per Team (One Thousand Two Hundrad Only) ",
     image: Vollyball,
     cashReward: {
       winner: "3,000/-",

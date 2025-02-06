@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { FaXTwitter } from "react-icons/fa6";
 import {
   Facebook,
   Twitter,
@@ -37,18 +38,18 @@ const Footer = () => {
                 </p>
               </div>
               <div className="flex space-x-4 mt-8">
-                <a href="#" className="hover:text-[#cca000] transition-colors">
+                <Link href="https://www.facebook.com/bttsggsipu">
                   <Facebook className="w-6 h-6" />
-                </a>
-                <a href="#" className="hover:text-[#cca000] transition-colors">
-                  <Twitter className="w-6 h-6" />
-                </a>
-                <a href="#" className="hover:text-[#cca000] transition-colors">
+                </Link>
+                <Link href="https://x.com/bttsggsipu">
+                  <FaXTwitter size={20} />
+                </Link>
+                <Link href="https://www.youtube.com/channel/UCM4ZafIAJQ20jgpIMqcNshA">
                   <Youtube className="w-6 h-6" />
-                </a>
-                <a href="#" className="hover:text-[#cca000] transition-colors">
+                </Link>
+                <Link href="https://www.instagram.com/donbosco_ggsipu/">
                   <Instagram className="w-6 h-6" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -119,7 +120,9 @@ const Footer = () => {
                 <Link href={"https://github.com/Saadmehmood1234"}>
                   <Github size={16} />
                 </Link>
-                <Link href={" https://www.linkedin.com/in/saad-mehmood-4a6036255/"}>
+                <Link
+                  href={" https://www.linkedin.com/in/saad-mehmood-4a6036255/"}
+                >
                   {""}
                   <Linkedin size={16} />
                 </Link>
@@ -136,10 +139,12 @@ const Footer = () => {
               </div>
               <div className="flex gap-4 justify-start items-center">
                 <p className="text-md">Sovan Kandar</p>
-                <Link href={"#"}>
+                <Link href={"https://github.com/sovankandar"}>
                   <Github size={16} />
                 </Link>
-                <Link href={"#"}>
+                <Link
+                  href={"https://www.linkedin.com/in/sovan-kandar-084b76307/"}
+                >
                   {" "}
                   <Linkedin size={16} />
                 </Link>

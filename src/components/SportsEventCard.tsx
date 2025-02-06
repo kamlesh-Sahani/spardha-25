@@ -110,7 +110,7 @@ const EventCards = () => {
                   {/* Right side - Fee, Reward, Coordinator */}
                   <div className="w-2/3 space-y-4">
                     <h2 className="text-3xl font-bold mb-4">
-                      {selectedEvent.name}
+                      {selectedEvent.name} {selectedEvent.type}
                     </h2>
                     <div className="space-y-4 text-sm">
                       <div>
