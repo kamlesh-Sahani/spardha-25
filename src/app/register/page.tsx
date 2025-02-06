@@ -193,7 +193,6 @@ const Register = () => {
       const res = await registerAction(formData);
       if (res.success) {
         toast.success("Registered successfully! 🎉");
-        router.push("/");
       } else {
         toast.error(res.message);
       }

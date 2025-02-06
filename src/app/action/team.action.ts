@@ -19,7 +19,7 @@ export const registerAction = async (teamData: any) => {
     captain,
   } = teamData ;
 
-    console.log("team-data",teamData);
+  console.log(teamData);
     if (
       !collegeName ||
       !event ||
@@ -44,11 +44,11 @@ export const registerAction = async (teamData: any) => {
     }
     // Check if the team is already registered
    
-    const isExist = await TeamModel.findOne({"players.email":captainEmail});
+    const isExist = await TeamModel.findOne({$or:[{"players.email":captainEmail},{transactionId}]});
     if (isExist) {
       return {
         success: false,
-        message: "Captain is already registered",
+        message: "Already register with this transaction id or Captain email",
       };
     }
 
@@ -84,7 +84,6 @@ export const registerAction = async (teamData: any) => {
       transactionSs: transactionSsUrl,
       players: playersData,
     });
-
     if(!team){
       return {
         success:false,
