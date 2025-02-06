@@ -31,7 +31,7 @@ export interface ITeam extends Document {
 // Player Schema
 const PlayerSchema = new Schema<IPlayer>({
   name: { type: String, required: true, trim: true },
-  gender: { type: String, required: true, enum: ["male", "female", "other"] ,default:"Male"},
+  gender: { type: String, required: true, enum: ["male", "female", "other"] ,default:"male"},
   mobile: {
     type: String,
     required: true,
