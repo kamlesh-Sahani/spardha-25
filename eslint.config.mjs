@@ -10,7 +10,7 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends(["next/core-web-vitals", "next/typescript"]),
   {
     rules: {
       // Add rules you want to disable here
@@ -19,7 +19,9 @@ const eslintConfig = [
       "@typescript-eslint/no-unused-vars": "off", // Disables unused variable checks
     "@typescript-eslint/no-explicit-any": "off" ,// Disables explicit any warnings    
     "@typescript-eslint/no-empty-object-type": "off",  // Disable empty object type warning
-    "prefer-const": "off",
+    "prefer-const": "off", 
+    "react/no-unescaped-entities": "off"
+
 
     },
   },
