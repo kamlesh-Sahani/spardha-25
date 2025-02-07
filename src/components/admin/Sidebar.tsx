@@ -33,14 +33,14 @@ export default function AdminSidebar() {
       {/* Sidebar Toggle Button */}
       <div onClick={() => setShowSidebar(!showSidebar)}>
         {!showSidebar && (
-          <RiMenu4Fill className="text-3xl dark:text-gray-100 text-gray-700 cursor-pointer xl:hidden absolute top-6 z-[100]" />
+          <RiMenu4Fill className="text-3xl bg-black h-[40px] w-[40px] p-2 rounded-full dark:text-gray-100 text-white cursor-pointer xl:hidden absolute top-[10px] left-5 z-[100]" />
         )}
       </div>
 
       {/* Overlay when Sidebar is opened on small screens */}
       {showSidebar && (
         <div
-          className="w-full h-full bg-black/30 fixed top-0 left-0 z-[99] xl:hidden"
+          className="w-[50px] h-[50px] bg-black/30 fixed top-10 left-2 z-[99] xl:hidden"
           onClick={() => setShowSidebar(false)}
         ></div>
       )}
@@ -48,8 +48,8 @@ export default function AdminSidebar() {
       {/* Sidebar Content */}
       {showSidebar && (
         <div
-          className={`bg-[#065B83] text-black xl:w-80 max-xl:w-[350px] fixed top-0 left-0 z-[100] flex flex-col xl:relative p-5  `}
-          style={{ height: "80vh" }}
+          className={`bg-[#065B83] text-black xl:w-80 max-xl:w-[350px] fixed top-0 left-0 z-[100] flex flex-col xl:relative p-5 h-[80vh] max-xl:h-[100vh] `}
+         
         >
           {/* Sidebar Header */}
           <div className="flex gap-5 items-center justify-between mb-7">
