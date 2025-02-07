@@ -3,9 +3,9 @@
 import { useEffect } from "react"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
-import { type EventType } from "@/app/page"
 
-const BentoGrid = ({ events }:{events:EventType[]}) => {
+
+const BentoGrid = ({ events }:{events:any}) => {
   const controls = useAnimation()
   const [ref, inView] = useInView({
     threshold: 0.1,
@@ -50,7 +50,7 @@ const BentoGrid = ({ events }:{events:EventType[]}) => {
         animate={controls}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 relative z-10"
       >
-        {events.map((event, index) => (
+        {events.map((event:any, index:number) => (
           <motion.div
             key={index}
             variants={itemVariants}
