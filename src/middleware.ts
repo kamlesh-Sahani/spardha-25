@@ -6,6 +6,7 @@ export async function middleware(request: NextRequest) {
   const adminAuthToken = cookiesStore.get("admin-token")?.value;
 
   const protectedRoutes = ["/admin","/api/report"];
+  console.log(request.nextUrl.pathname,request.nextUrl.pathname.startsWith("/admin"),request.nextUrl.pathname.startsWith("/api"),"route check")
 
   if (
     protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route))
@@ -17,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
   if(request.nextUrl.pathname.startsWith("/login")){
     if(adminAuthToken){
-        return NextResponse.redirect(new URL("/report", request.url));
+        return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
   }
 
@@ -37,5 +38,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/report/:path*","/login", "/register", "/api/:path*"],
+  matcher: ["/report/:path*","/login", "/register", "/api/:path*","/admin/:path*"],
 };
