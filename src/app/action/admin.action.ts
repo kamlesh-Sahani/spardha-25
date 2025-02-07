@@ -6,10 +6,10 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
-export const adminLogin = async (password: string) => {
+export const adminLogin = async (password: string,mail:string) => {
   try {
     await dbConnect();
-    const email = process.env.ADMIN_EMAIL;
+    const email = mail || process.env.ADMIN_EMAIL;
     const jwtSecret = process.env.JWT_SECRET;
 
     if (!email || !password || !jwtSecret) {
