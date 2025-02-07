@@ -152,6 +152,7 @@ export default function AdminReportPage() {
       try {
         const { data } = await axios.get("/api/report/all");
         setTeams(data.teams);
+        console.log(data);
       } catch (error) {
         console.log(error);
       } finally {
