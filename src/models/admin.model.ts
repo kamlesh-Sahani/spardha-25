@@ -5,7 +5,9 @@ import bcrypt from "bcryptjs";
 interface IAdmin extends Document {
   email: string;
   password: string;
+  role: "admin" | "user";
   comparePassword(candidatePassword: string): Promise<boolean>;
+  active:boolean;
 }
 
 // Admin Schema
@@ -23,7 +25,15 @@ const AdminSchema = new Schema<IAdmin>({
     minlength: 6, // Ensures password security
     select: false, // Password will not be selected by default in queries
   },
-});
+  role: {
+    type: String,
+    required: [true, "please enter the role"],
+  },
+  active:{
+    type:Boolean,
+    default:true
+  }
+},{timestamps:true});
 
 // Hash password before saving
 AdminSchema.pre("save", async function (next) {
@@ -33,12 +43,14 @@ AdminSchema.pre("save", async function (next) {
 });
 
 // Method to compare passwords
-AdminSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
+AdminSchema.methods.comparePassword = async function (
+  candidatePassword: string
+): Promise<boolean> {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
 // Prevent duplicate model issues in Next.js hot reloading
-const AdminModel: Model<IAdmin> =
-  mongoose.models.Admin || mongoose.model<IAdmin>("Admin", AdminSchema);
+const adminModel: Model<IAdmin> =
+  mongoose.models.admin || mongoose.model<IAdmin>("admin", AdminSchema);
 
-export default AdminModel;
+export default adminModel;

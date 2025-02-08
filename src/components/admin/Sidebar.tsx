@@ -135,6 +135,18 @@ export default function AdminSidebar() {
               </div>
             </Link>
 
+
+            <Link href="/admin/roles">
+              <div
+                className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
+                  pathname === "/admin/roles" ? "bg-[#3B82F6]" : ""
+                }`}
+              >
+                <RiCalendarScheduleFill />
+                <p>Manage Roles</p>
+              </div>
+            </Link>
+
             
           </div>
 

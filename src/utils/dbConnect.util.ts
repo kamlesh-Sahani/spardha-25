@@ -9,6 +9,7 @@ if (!MONGODB_URI) {
 let connection:{isConnected?:number} = {} // Track connection status
 
 const dbConnect = async () => {
+  console.log(MONGODB_URI,"url")
   if (connection.isConnected) {
     console.log("✅ MongoDB already connected.");
     return;
@@ -23,7 +24,7 @@ const dbConnect = async () => {
     console.log("✅ MongoDB connected successfully.");
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
-    process.exit(1); // Exit process on failure
+    // process.exit(1); // Exit process on failure
   }
 };
 
