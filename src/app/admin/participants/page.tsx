@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
+import {CheckCircle,XCircle} from "lucide-react"
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -82,6 +82,7 @@ export default function AdminReportPage() {
   const [statusReason, setStatusReason] = useState("");
   const [currentStatus, setCurrentStatus] = useState<"approved" | "rejected">();
   const [currentTeamId, setCurrentTeamId] = useState<string>();
+  const [collegeOrder,setCollegeOrder] = useState<string>("asc")
 
   // Filter teams based on filters
   const filteredTeams =
@@ -244,6 +245,21 @@ export default function AdminReportPage() {
             <SelectItem value="rejected">Rejected</SelectItem>
           </SelectContent>
         </Select>
+
+
+        <Select
+          value={collegeOrder}
+          onValueChange={(value) => setCollegeOrder(value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="All Statuses" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="asc">Asc</SelectItem>
+            <SelectItem value="dec">Dec</SelectItem>
+          </SelectContent>
+        </Select>
+
       </div>
 
       {/* Table */}
@@ -287,7 +303,7 @@ export default function AdminReportPage() {
                               : "bg-yellow-100 text-yellow-800"
                           }`}
                         >
-                          {team.status}
+                          {team.status==="approved"?"Approved":team.status==="pending"?"Pending":"Rejected"}
                         </span>
                       </TableCell>
                       <TableCell className="flex gap-2">
@@ -295,24 +311,26 @@ export default function AdminReportPage() {
                           variant="outline"
                           onClick={() => openPlayerModal(team)}
                         >
-                          View Players
+                          View Team
                         </Button>
                         <Button
                           variant="outline"
                           onClick={() => openTransactionModal(team)}
                         >
-                          View Transaction
+                          View Payment
                         </Button>
                         <Button
                           onClick={() => openStatusDialog(team._id, "approved")}
+                          className="bg-green-800"
+                          
                         >
-                          Approve
+                          <CheckCircle />
                         </Button>
                         <Button
                           variant="destructive"
                           onClick={() => openStatusDialog(team._id, "rejected")}
                         >
-                          Reject
+                          <XCircle />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -325,7 +343,7 @@ export default function AdminReportPage() {
 
       {/* Status Dialog (Reason Submission) */}
       <Dialog open={isStatusDialogOpen} onOpenChange={setIsStatusDialogOpen}>
-        <DialogContent className="max-w-[400px] max-sm:max-w-[90vw] rounded">
+        <DialogContent className="max-w-[400px] max-sm:max-w-[90vw] rounded z-[110]">
           <DialogHeader>
             <DialogTitle>
               Provide a Reason for{" "}
@@ -362,7 +380,7 @@ export default function AdminReportPage() {
       </Dialog>
 
       <Dialog open={isPlayerModalOpen} onOpenChange={setIsPlayerModalOpen}>
-        <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded">
+        <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded z-[110]">
           <DialogHeader>
             <DialogTitle>Player Details</DialogTitle>
             <DialogDescription>
@@ -411,7 +429,7 @@ export default function AdminReportPage() {
         open={isTransactionModalOpen}
         onOpenChange={setIsTransactionModalOpen}
       >
-        <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded">
+        <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded z-[110]">
           <DialogHeader>
             <DialogTitle>Transaction Screenshot</DialogTitle>
             <DialogDescription>

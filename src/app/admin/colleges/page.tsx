@@ -92,15 +92,16 @@ export default function CollegeTable() {
               <DialogTitle>Add a New College</DialogTitle>
             </DialogHeader>
             <Input
-              placeholder="Enter College Name"
+              placeholder="Enter College Name with city"
               value={newCollegeData.name}
               onChange={(e) =>
                 setNewCollegeData((prev) => ({ ...prev, name: e.target.value }))
               }
               className="mt-3"
             />
+            <p>Eg. Don Bosco Institute of Technology, Delhi</p>
             {/* Location Fields */}
-            <p>Location (optional)</p>
+            {/* <p>Location (optional)</p>
             <div className="space-y-3">
               <Input
                 placeholder="State"
@@ -131,8 +132,8 @@ export default function CollegeTable() {
                     location: { ...prev.location, country: e.target.value },
                   }))
                 }
-              />
-            </div>
+              /> */}
+            {/* </div> */}
             <DialogFooter className="mt-4 flex justify-end gap-2">
               <Button variant="outline" onClick={() => setOpen(false)}>
                 Cancel

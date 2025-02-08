@@ -131,7 +131,7 @@ export default function AdminSidebar() {
                 }`}
               >
                 <RiCalendarScheduleFill />
-                <p>Colleges</p>
+                <p>Manage Colleges</p>
               </div>
             </Link>
 
