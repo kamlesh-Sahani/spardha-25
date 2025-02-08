@@ -302,8 +302,8 @@ export default function AdminReportPage() {
                       <TableCell>{team.teamID}</TableCell>
                       <TableCell>
                         {team?.createdAt
-                          ?  String(new Date(team.createdAt).toLocaleDateString()) +"  " + 
-                          String(new Date(team.createdAt).toLocaleTimeString())
+                          ?  String(new Date(team.createdAt).toLocaleDateString()) +"  (" + 
+                          String(new Date(team.createdAt).toLocaleTimeString())+ ")"
                           : "N/A"}
                       </TableCell>
                    

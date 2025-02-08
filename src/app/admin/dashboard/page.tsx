@@ -1,21 +1,50 @@
+"use client";
+import { dashboardData } from '@/app/action/dashboard.action';
 import {
   ClipboardList, Users, Gamepad, IndianRupee, School,
   User, UserCheck, CheckCircle, XCircle, Clock, Calendar
 } from 'lucide-react';
+import { useState, useEffect } from "react";
 
 export default function Dashboard() {
-  // Dummy Data
+  // State to store the fetched dashboard data
+  const [dashboardStats, setDashboardStats] = useState({
+    totalRegistration: 0,
+    totalPlayer: 0,
+    approved: 0,
+    rejected: 0,
+    pending: 0,
+    male: 0,
+    female: 0,
+    college: 0,
+    events: 0,
+    totalPayment: 0
+  });
+
+  useEffect(() => {
+    (async function() {
+      try {
+        const res = await dashboardData();
+        setDashboardStats(JSON.parse(res.data!));
+     
+      } catch (error) {
+        console.log("Error:", error);
+      }
+    })();
+  }, []);
+
+  // Dummy stat cards with dynamic values based on fetched data
   const stats = [
-    { title: 'Total Registration', value: '800', icon: <ClipboardList className="w-6 h-6" /> },
-    { title: 'Player Registered', value: '1200', icon: <Users className="w-6 h-6" /> },
-    { title: 'Registrations Approved', value: '700', icon: <CheckCircle className="w-6 h-6" /> },
-    { title: 'Registrations Rejected', value: '50', icon: <XCircle className="w-6 h-6" /> },
-    { title: 'Registrations Pending', value: '50', icon: <Clock className="w-6 h-6" /> },
-    { title: 'Male Registrations', value: '500', icon: <User className="w-6 h-6" /> },
-    { title: 'Female Registrations', value: '300', icon: <UserCheck className="w-6 h-6" /> },
-    { title: 'Colleges Participated ', value: '42', icon: <School className="w-6 h-6" /> },
-    { title: 'Active Events', value: '15', icon: <Gamepad className="w-6 h-6" /> },
-    { title: 'Total Payments', value: '₹ 75,000', icon: <IndianRupee className="w-6 h-6" /> },
+    { title: 'Total Registration', value: dashboardStats.totalRegistration, icon: <ClipboardList className="w-6 h-6" /> },
+    { title: 'Player Registered', value: dashboardStats.totalPlayer, icon: <Users className="w-6 h-6" /> },
+    { title: 'Registrations Approved', value: dashboardStats.approved, icon: <CheckCircle className="w-6 h-6" /> },
+    { title: 'Registrations Rejected', value: dashboardStats.rejected, icon: <XCircle className="w-6 h-6" /> },
+    { title: 'Registrations Pending', value: dashboardStats.pending, icon: <Clock className="w-6 h-6" /> },
+    { title: 'Male Registrations', value: dashboardStats.male, icon: <User className="w-6 h-6" /> },
+    { title: 'Female Registrations', value: dashboardStats.female, icon: <UserCheck className="w-6 h-6" /> },
+    { title: 'Colleges Participated ', value: dashboardStats.college, icon: <School className="w-6 h-6" /> },
+    { title: 'Active Events', value: dashboardStats.events, icon: <Gamepad className="w-6 h-6" /> },
+    { title: 'Total Payments', value: `₹ ${dashboardStats.totalPayment.toLocaleString()}`, icon: <IndianRupee className="w-6 h-6" /> },
   ];
 
   return (
