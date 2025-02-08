@@ -32,7 +32,7 @@ const AdminLogin: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center mt-10 ">
+    <div className="flex items-center justify-center mt-10 mb-3 h-[80vh] ">
     <div className="bg-[#fff] p-8 w-96 rounded-xl shadow-2xl ">
       <div className="flex justify-center mb-6">
         <Lock className="text-blue-600" size={48} />

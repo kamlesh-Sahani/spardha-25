@@ -156,3 +156,19 @@ export const adminRole = async(adminId:string,role:"user"|"admin")=>{
   }
 }
 
+export const adminLogout = async ()=>{
+  try{
+    const cookieStore = await cookies();
+    cookieStore.delete("admin-token");
+    return {
+      success: true,
+      message: "Admin Logout successfully",
+    };
+
+  }catch(error:any){
+    return {
+      success:false,
+      message:error.message || "internal error"
+    }
+  }
+}

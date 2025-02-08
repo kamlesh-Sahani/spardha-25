@@ -24,7 +24,7 @@ const InstructionPage = () => {
   return (
     <motion.div
       ref={containerRef}
-      className="min-h-screen relative"
+      className="min-h-screen relative pb-10"
       style={{ backgroundColor }}
     >
       <div className="relative z-10">
@@ -46,7 +46,7 @@ const InstructionPage = () => {
           <EventCards />
           <EventDetails />
         </motion.div>
-        <Footer />
+        
       </div>
     </motion.div>
   );
