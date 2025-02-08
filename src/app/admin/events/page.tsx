@@ -22,7 +22,7 @@ import {
 import Loader from "@/components/Loader";
 
 interface Event {
-  id: number;
+  _id: number;
   name: string;
   type: string;
   hovername: string;
@@ -56,61 +56,13 @@ export default function EventsPage() {
     }
   };
   useEffect(() => {
-    // Simulated data
-    const mockData: Event[] = [
-      {
-        id: 1,
-        name: "Armwrestling",
-        type: "(Men)",
-        hovername: "Armwrestling (Men / Women)",
-        fee: "₹100/- Per Player (One Hundred Only)",
-        image: "path/to/armwrestling.jpg",
-        cashReward: {
-          winner: "500/-",
-          runnerUp: "250/-",
-        },
-        coordinators: [
-          { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
-          { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
-        ],
-        rules: [
-          "Matches are held at an official arm wrestling table.",
-          "Players must report 30 min. before match time.",
-          "No sharp objects allowed.",
-        ],
-        status: "Active",
-      },
-      {
-        id: 2,
-        name: "Badminton",
-        type: "(Men | Women | Mixed)",
-        hovername: "Badminton (Men / Women)",
-        fee: "Singles: ₹150 || Doubles: ₹300",
-        image: "path/to/badminton.jpg",
-        cashReward: {
-          winner: "600/-(Singles) || 1000/-(Doubles)",
-          runnerUp: "300/-(Singles) || 500/-(Doubles)",
-        },
-        coordinators: [
-          { name: "Mr. Pranav Kaushik", phone: "+91 92682 78249" },
-          { name: "Mr. Harsh Tyagi", phone: "+91 98735 29734" },
-        ],
-        rules: [
-          "All games played in Outdoor Court.",
-          "Qualifying rounds knockout matches of 11 points.",
-        ],
-        status: "Disabled",
-      },
-    ];
-    setEvents(mockData);
-
     fetchEvents();
   }, []);
 
   const toggleStatus = (id: number) => {
     setEvents((prevEvents) =>
       prevEvents.map((event) =>
-        event.id === id
+        event._id === id
           ? {
               ...event,
               status: event.status === "Active" ? "Disabled" : "Active",
@@ -157,7 +109,7 @@ export default function EventsPage() {
               <TableCell>
                 <Switch
                   checked={event.status === "Active"}
-                  onCheckedChange={() => toggleStatus(event.id)}
+                  onCheckedChange={() => toggleStatus(event._id)}
                 />
                 <span
                   className={`ml-2 font-medium ${
