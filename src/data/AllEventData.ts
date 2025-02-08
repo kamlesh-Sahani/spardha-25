@@ -1,17 +1,19 @@
 interface Sports {
-    sport: string;
-    minPlayers: number;
-    substitute: number | "NA";
-    entryFee: number;
-    maxEntry: number | "Open";
-  }
-export const sportsData:Sports[] = [
+  sport: string;
+  minPlayers: number;
+  substitute: number | "NA";
+  entryFee: number;
+  maxEntry: number | "Open";
+  qrImage:string
+}
+export const sportsData: Sports[] = [
   {
     sport: "Football",
     minPlayers: 11,
     substitute: 5,
     entryFee: 1600,
     maxEntry: 20,
+    qrImage:'/football.jpeg'
   },
   {
     sport: "Basketball (Boys)",
@@ -19,6 +21,7 @@ export const sportsData:Sports[] = [
     substitute: 7,
     entryFee: 1200,
     maxEntry: 20,
+     qrImage:'/basketball.jpeg'
   },
   {
     sport: "Basketball (Girls)",
@@ -26,6 +29,7 @@ export const sportsData:Sports[] = [
     substitute: 7,
     entryFee: 1200,
     maxEntry: 20,
+     qrImage:'/basketball.jpeg'
   },
   {
     sport: "Volleyball (Boys)",
@@ -33,6 +37,7 @@ export const sportsData:Sports[] = [
     substitute: 6,
     entryFee: 1200,
     maxEntry: 20,
+     qrImage:'/basketball.jpeg'
   },
   {
     sport: "Volleyball (Girls)",
@@ -40,6 +45,7 @@ export const sportsData:Sports[] = [
     substitute: 6,
     entryFee: 1200,
     maxEntry: 20,
+     qrImage:'/basketball.jpeg'
   },
   {
     sport: "Badminton Singles (Boy)",
@@ -47,6 +53,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
   },
   {
     sport: "Badminton Singles (Girl)",
@@ -54,6 +61,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
   },
   {
     sport: "Badminton Doubles (Boy)",
@@ -61,6 +69,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
+     qrImage:'/badmintondouble.jpeg'
   },
   {
     sport: "Badminton Doubles (Girl)",
@@ -68,6 +77,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
+     qrImage:'/badmintondouble.jpeg'
   },
   {
     sport: "Badminton Doubles (Mix)",
@@ -75,6 +85,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
+     qrImage:'/badmintondouble.jpeg'
   },
   {
     sport: "Table Tennis Singles (Boy)",
@@ -82,6 +93,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
   },
   {
     sport: "Table Tennis Singles (Girl)",
@@ -89,6 +101,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
   },
   {
     sport: "Table Tennis Doubles (Boy)",
@@ -96,6 +109,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
+     qrImage:'/badmintondouble.jpeg'
   },
   {
     sport: "Table Tennis Doubles (Girl)",
@@ -103,6 +117,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
   },
   {
     sport: "Table Tennis Doubles (Mix)",
@@ -110,6 +125,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
+     qrImage:'/badmintondouble.jpeg'
   },
   {
     sport: "Tug of war (Boys)",
@@ -117,6 +133,7 @@ export const sportsData:Sports[] = [
     substitute: 4,
     entryFee: 1200,
     maxEntry: 20,
+     qrImage:'/basketball.jpeg'
   },
   {
     sport: "Tug of war (Girls)",
@@ -124,6 +141,7 @@ export const sportsData:Sports[] = [
     substitute: 4,
     entryFee: 1200,
     maxEntry: 20,
+     qrImage:'/basketball.jpeg'
   },
   {
     sport: "Chess",
@@ -131,6 +149,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 600,
     maxEntry: 12,
+     qrImage:'/chess.jpeg'
   },
   {
     sport: "Kabaddi (Boys)",
@@ -138,6 +157,7 @@ export const sportsData:Sports[] = [
     substitute: 5,
     entryFee: 1200,
     maxEntry: 20,
+     qrImage:'/basketball.jpeg'
   },
   {
     sport: "Kabaddi (Girls)",
@@ -145,13 +165,15 @@ export const sportsData:Sports[] = [
     substitute: 5,
     entryFee: 1200,
     maxEntry: 20,
+     qrImage:'/basketball.jpeg'
   },
   {
     sport: "Arm Wrestling",
     minPlayers: 1,
     substitute: "NA",
-    entryFee: 150,
+    entryFee: 100,
     maxEntry: "Open",
+     qrImage:'/arm.jpeg'
   },
   {
     sport: "Body Building",
@@ -159,6 +181,7 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
   },
   {
     sport: "Power Lifting",
@@ -166,5 +189,6 @@ export const sportsData:Sports[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
   },
 ];

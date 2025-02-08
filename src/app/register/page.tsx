@@ -28,7 +28,7 @@ const Register = () => {
     }[];
     captain: string;
     transactionId: string;
-    amount:number;
+    amount: number;
     transactionImage: File | null;
   }>({
     event: "",
@@ -36,7 +36,7 @@ const Register = () => {
     players: [],
     captain: "",
     transactionId: "",
-    amount:0,
+    amount: 0,
     transactionImage: null,
   });
   const [selectedEvent, setSelectedEvent] = useState<Sports | undefined>(
@@ -199,7 +199,7 @@ const Register = () => {
         toast.error(res.message);
       }
     } catch (err: any) {
-      console.log(err,"res error")
+      console.log(err, "res error");
       if (err instanceof z.ZodError) {
         console.error("Unexpected ZodError:", err);
         toast.error(
@@ -242,7 +242,7 @@ const Register = () => {
       players: prevData.players.filter((_, index) => index !== indexToDelete),
     }));
   };
-
+  console.log(selectedEvent);
   return (
     <div className="flex max-md:flex-col justify-center gap-4 items-start min-h-screen bg-gradient-to-r from-[#b98867] to-[#f5a937] p-6">
       <div className="flex relative top-[-12px] w-full max-w-3xl flex-col  bg-white rounded-3xl shadow-lg">
@@ -650,7 +650,6 @@ const Register = () => {
                     placeholder="Enter Amount Paid"
                     className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                   />
-               
                 </div>
               </div>
               <div className="flex flex-col mb-4">
@@ -767,23 +766,25 @@ const Register = () => {
           <h2 className="text-gray-700 md:text-3xl text-center text-2xl font-extrabold mb-6">
             Payment Option
           </h2>
-          <div className="flex flex-col justify-center items-center rounded-lg">
-            <Image
-              src="/qr.jpeg"
-              alt="QR Code"
-              width={220}
-              height={220}
-              className="rounded-lg mb-4"
-            />
-            <div className="text-center">
-              <p className="text-3xl font-bold text-gray-700">
-                ₹{selectedEvent?.entryFee || 0}
-              </p>
-              <p className="text-xl text-gray-500 mt-2">
-                UPI: PPQR01.YUZUNL@IOB
-              </p>
+          {selectedEvent?.qrImage && (
+            <div className="flex flex-col justify-center items-center rounded-lg">
+              <Image
+                src={selectedEvent?.qrImage || "/qr.jpg"}
+                alt="QR Code"
+                width={220}
+                height={220}
+                className="rounded-lg mb-4"
+              />
+              <div className="text-center">
+                <p className="text-3xl font-bold text-gray-700">
+                  ₹{selectedEvent?.entryFee || 0}
+                </p>
+                <p className="text-xl text-gray-500 mt-2">
+                  UPI: PPQR01.YUZUNL@IOB
+                </p>
+              </div>
             </div>
-          </div>
+          )}
           <hr className="border-t border-gray-600 my-7" />
           <div className="grid grid-cols-1  gap-6">
             <div className="text-gray-700 text-lg space-y-4">

@@ -52,21 +52,21 @@ const Header = () => {
 
   return (
     <header
-      className="flex flex-col border-b-4  border-orange-700  justify-center items-center text-center relative overflow-hidden"
+      className="flex flex-col border-b-4  border-orange-700  lg:justify-center items-center text-center relative overflow-hidden"
       style={{
         backgroundImage:
           "linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(/back.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "500px",
-        height: "80vh",
+        height: "60vh",
       }}
     >
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="font-dancing text-4xl md:text-5xl font-bold lg:text-6xl mb-4 text-[#291d3a] relative z-10"
+        className="font-dancing mt-12 text-4xl md:text-5xl font-bold lg:text-6xl mb-4 text-[#291d3a] relative z-10"
       >
         Don Bosco Institute of Technology
       </motion.h1>
