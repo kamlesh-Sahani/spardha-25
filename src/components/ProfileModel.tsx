@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
 
       <DialogPortal>
         <DialogOverlay />
-        <DialogContent className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+        <DialogContent className="w-full p-6 bg-white rounded-lg shadow-lg">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-800 mb-4">Enter Password</DialogTitle>
             <DialogDescription className="text-sm text-gray-600 mb-6">

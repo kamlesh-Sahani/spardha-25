@@ -39,7 +39,7 @@ export const registerAction = async (teamData: any) => {
     const emailsData=[];
     for(let i=0;i<players.length;i++){
       emailsData.push(players[i].email);
-      if(captain===players[i]?.name){
+      if(captain===players[i].name){
         captainEmail=players[i].email;
       }
     }
