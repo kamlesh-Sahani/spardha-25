@@ -5,5 +5,5 @@ export interface Sports {
   entryFee: number;
   maxEntry: number | "Open";
   qrImage:string;
-  category:string
+
 }
