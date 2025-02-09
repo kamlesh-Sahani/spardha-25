@@ -18,7 +18,7 @@ export default function Home() {
       setShowModal(false);
       setLoading(true);
       const { data } = await axios.get(`/api/profile?pass=${pass}`);
-
+    
       setProfile(data.profile);
     } catch (error: any) {
       setShowModal(true);
@@ -52,8 +52,8 @@ export default function Home() {
       {loading ? (
         <Loader />
       ) : (
-        <div className=" min-h-screen w-[100vw] bg-green-400 py-8 px-4 sm:px-6 lg:px-8">
-          <div className="bg-red-600 w-full mx-auto">
+        <div className="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
             {/* Team Info */}
             <div className="text-center mb-12">
               <h1 className="text-4xl font-bold text-gray-800">Team Profile</h1>
@@ -107,7 +107,7 @@ export default function Home() {
             </div>
 
             {/* Transaction Info */}
-            <div className="mt-12 bg-white shadow-xl rounded-lg p-6 flex justify-between">
+            <div className="mt-12 bg-white shadow-xl rounded-lg p-6 flex justify-between   max-sm:flex-col">
               <div>
               <h2 className="text-2xl font-semibold text-gray-800 mb-1">
                 Transaction Details
@@ -117,13 +117,13 @@ export default function Home() {
               </p>
               </div>
             
-              <div className="mt-3">
+              <div className="mt-3  flex max-sm:flex-col">
                 <p className="text-md text-gray-600">Transaction Screenshot:</p>
                 <div className="w-full h-64 mt-2 relative">
                   <img
                     src={profile?.transactionSs}
                     alt="Transaction Screenshot"
-                    className="w-[400px] object-cover"
+                    className="w-full sm:w-[400px] object-cover"
                   />
                 </div>
               </div>

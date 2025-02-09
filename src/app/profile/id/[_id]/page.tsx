@@ -107,7 +107,7 @@ const pathname= usePathname();
                   <img
                     src={profile?.transactionSs}
                     alt="Transaction Screenshot"
-                    className="w-[400px] object-cover"
+                   className="w-full sm:w-[400px] object-cover"
                   />
                 </div>
               </div>
