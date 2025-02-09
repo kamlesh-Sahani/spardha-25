@@ -6,10 +6,9 @@ export async function middleware(request: NextRequest) {
   const cookiesStore = await cookies();
   const adminAuthToken = cookiesStore.get("admin-token")?.value;
   const res = await adminProfile();
-  console.log(res,"admin res");
+ 
   const protectedRoutes = ["/admin","/api/report"];
-  console.log(request.nextUrl.pathname,request.nextUrl.pathname.startsWith("/admin"),request.nextUrl.pathname.startsWith("/api"),"route check")
-
+ 
   if (
     protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route))
   ) {

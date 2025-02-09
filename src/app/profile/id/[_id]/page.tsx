@@ -12,7 +12,7 @@ const pathname= usePathname();
     try {
       setLoading(true);
       const res = await getTeam(_id);
-      console.log(res);
+     
       setProfile(JSON.parse(res.team!));
     } catch (error: any) {
       console.log(error);
@@ -23,7 +23,7 @@ const pathname= usePathname();
 
   useEffect(() => {
     const _id = pathname.split("/").at(-1);
-    console.log(_id)
+
     if(_id){
         getProfile(_id);
     }else{

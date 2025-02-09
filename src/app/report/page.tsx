@@ -166,7 +166,7 @@ export default function AdminReportPage() {
         const { data } = await axios.get("/api/report/data");
         setCollegeData(data.data.colleges);
         setEventData(data.data.events);
-        console.log(data);
+    
       } catch (error) {
         console.log(error);
       }

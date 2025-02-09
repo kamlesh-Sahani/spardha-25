@@ -163,9 +163,9 @@ export default function AdminReportPage() {
       setLoading(true);
       try {
         const { data } = await axios.get("/api/report/all");
-        console.log(data);
+      
         setTeams(data.teams);
-        console.log(data);
+       
       } catch (error) {
         console.log(error);
       } finally {
@@ -180,7 +180,7 @@ export default function AdminReportPage() {
         const { data } = await axios.get("/api/report/data");
         setCollegeData(data.data.colleges);
         setEventData(data.data.events);
-        console.log(data);
+        
       } catch (error) {
         console.log(error);
       }

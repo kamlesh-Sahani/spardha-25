@@ -63,7 +63,7 @@ export default function AdminSidebar() {
         }else{
           setAdmin(null);
         }
-        console.log(res);
+     
       }catch(error:any){
         console.log(error);
         setAdmin(null);

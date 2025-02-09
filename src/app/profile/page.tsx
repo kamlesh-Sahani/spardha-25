@@ -18,7 +18,7 @@ export default function Home() {
       setShowModal(false);
       setLoading(true);
       const { data } = await axios.get(`/api/profile?pass=${pass}`);
-      console.log(data);
+
       setProfile(data.profile);
     } catch (error: any) {
       setShowModal(true);

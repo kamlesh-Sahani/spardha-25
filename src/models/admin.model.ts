@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
+import mongoose, { Document, Model } from "mongoose";
 import bcrypt from "bcryptjs";
 
 // Define TypeScript Interface for Admin
@@ -11,7 +11,7 @@ interface IAdmin extends Document {
 }
 
 // Admin Schema
-const AdminSchema = new Schema<IAdmin>({
+const AdminSchema = new mongoose.Schema<IAdmin>({
   email: {
     type: String,
     required: true,

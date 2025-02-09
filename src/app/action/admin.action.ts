@@ -1,5 +1,4 @@
 "use server";
-
 import adminModel from "@/models/admin.model";
 import dbConnect from "@/utils/dbConnect.util";
 import bcrypt from "bcryptjs";
@@ -201,7 +200,6 @@ export const adminProfile = async()=>{
     const cookieStore = await cookies();
 
     const token = cookieStore.get("admin-token")?.value;
-    console.log("token",token);
     if(!token){
       return{
         success:false,
