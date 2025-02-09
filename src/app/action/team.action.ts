@@ -201,6 +201,7 @@ export const registerAction = async (teamData: any) => {
         <li><strong>Event:</strong> ${event}</li>
         <li><strong>College:</strong> ${collegeName}</li>
         <li><strong>Transaction ID:</strong> ${transactionId}</li>
+        <li><strong>Your Password:</strong> ${password}</li>
       </ul>
       <p>We can’t wait to see your participation in the event! If you have any questions, feel free to reach out to us.</p>
       <a href="${teamDetailLink}" class="button">View Team Details</a>
