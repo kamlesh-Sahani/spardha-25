@@ -52,7 +52,7 @@ export default function Home() {
       {loading ? (
         <Loader />
       ) : (
-        <div className="bg-gray-50 min-h-screen w-full py-8 px-4 sm:px-6 lg:px-8">
+        <div className=" min-h-screen w-[100vw] bg-green-400 py-8 px-4 sm:px-6 lg:px-8">
           <div className="bg-red-600 w-full mx-auto">
             {/* Team Info */}
             <div className="text-center mb-12">
