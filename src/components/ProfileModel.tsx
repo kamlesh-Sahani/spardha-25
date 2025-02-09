@@ -12,9 +12,7 @@ import {
   DialogFooter,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog"; // Importing ShadCN dialog components
-import { cn } from "@/lib/utils"; // Assuming you have a utility for conditional classnames
-import { X } from "lucide-react"; // Using X for the close button icon
+} from "@/components/ui/dialog"; 
 
 interface ModalProps {
   onClose: () => void;
@@ -32,13 +30,10 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogTrigger asChild>
-        {/* Trigger can be anything that opens the modal, e.g., a button */}
-      </DialogTrigger>
-
+    
       <DialogPortal>
         <DialogOverlay />
-        <DialogContent className="w-full p-6 bg-white rounded-lg shadow-lg">
+        <DialogContent className="w-[90vw] p-6 bg-white rounded-lg shadow-lg">
           <DialogHeader>
             <DialogTitle className="text-2xl font-semibold text-gray-800 mb-4">Enter Password</DialogTitle>
             <DialogDescription className="text-sm text-gray-600 mb-6">
@@ -55,8 +50,8 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
               placeholder="Enter your password"
             />
             
-            <DialogFooter>
-              <DialogClose asChild>
+            <DialogFooter className="flex flex-col gap-3">
+              <DialogClose asChild >
                 <button
                   type="button"
                   className="bg-gray-300 text-black py-2 px-6 rounded-md font-semibold hover:bg-gray-400 transition-colors"
@@ -75,7 +70,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, onSubmit }) => {
           
           <DialogClose asChild>
             <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
-              <X className="h-5 w-5" />
+              
               <span className="sr-only">Close</span>
             </button>
           </DialogClose>

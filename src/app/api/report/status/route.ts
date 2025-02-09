@@ -26,11 +26,11 @@ export async function POST(req:NextRequest){
             team.reason=reason;
         }
 
-        let captainEmail;
+        let captainEmail=[] as string[];
 
         for(let i=0;i<team.players.length;i++){
             if(team.players[i].isCaptain){
-                captainEmail=team.players[i].email;
+                captainEmail.push(team.players[i].email!);
             }
         }
         const collegeEmail=process.env.EMAIL_USER!;
@@ -139,7 +139,7 @@ export async function POST(req:NextRequest){
 </body>
 </html>
 `
-        await sendMail(captainEmail!,`Status Update for Team ${team.teamID}`,htmlTemplate)
+        await sendMail(captainEmail,`Status Update for Team ${team.teamID}`,htmlTemplate)
         return NextResponse.json({
             message:"Status successfuly Updated ",
             success:true
