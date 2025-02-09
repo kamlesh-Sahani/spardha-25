@@ -51,6 +51,6 @@ AdminSchema.methods.comparePassword = async function (
 
 // Prevent duplicate model issues in Next.js hot reloading
 const adminModel =
-  mongoose.models?.admin as Model<IAdmin> || mongoose.model<IAdmin>("admin", AdminSchema);
+  mongoose.models.admin as Model<IAdmin> || mongoose.model<IAdmin>("admin", AdminSchema);
 
 export default adminModel;
