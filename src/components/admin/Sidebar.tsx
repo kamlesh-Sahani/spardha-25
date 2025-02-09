@@ -12,11 +12,14 @@ import {
 Gamepad } from "lucide-react";
 import { adminLogout } from "@/app/action/admin.action";
 import toast from "react-hot-toast";
-import {useRouter} from "next/navigation"
+import {useRouter} from "next/navigation";
+import { adminProfile } from "@/app/action/admin.action";
 export default function AdminSidebar() {
   const pathname = usePathname();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [showSidebar, setShowSidebar] = useState<boolean>(true);
+  const [admin,setAdmin] = useState<{email:string,role:string}|null>(null);
+  const [loading,setLoading]=useState<boolean>(false);
   const router = useRouter();
   useEffect(() => {
     const handleResize = () => {
@@ -47,6 +50,28 @@ export default function AdminSidebar() {
       toast.error(error?.reponse?.data?.message || "internal error")
     }
   }
+
+
+
+  useEffect(()=>{
+    (async function(){
+      try{
+        setLoading(true);
+        const res = await adminProfile();
+        if(res.success){
+          setAdmin(JSON.parse(res?.admin!))
+        }else{
+          setAdmin(null);
+        }
+        console.log(res);
+      }catch(error:any){
+        console.log(error);
+        setAdmin(null);
+      }finally{
+        setLoading(false);
+      }
+    })()
+      },[])
 
   return (
     <>
@@ -144,7 +169,11 @@ export default function AdminSidebar() {
               </div>
             </Link>
 
-            <Link href="/admin/colleges">
+
+  { loading ? <h1>Loading...</h1>:
+    admin && admin.role==="admin" && <>
+    
+    <Link href="/admin/colleges">
               <div
                 className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
                   pathname === "/admin/colleges" ? "bg-[#3B82F6]" : ""
@@ -166,6 +195,10 @@ export default function AdminSidebar() {
                 <p>Manage Roles</p>
               </div>
             </Link>
+    </>
+  }
+  
+
 
             
           </div>

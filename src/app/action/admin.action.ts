@@ -194,3 +194,37 @@ export const adminLogout = async ()=>{
     }
   }
 }
+
+
+export const adminProfile = async()=>{
+  try{
+    const cookieStore = await cookies();
+
+    const token = cookieStore.get("admin-token")?.value;
+    console.log("token",token);
+    if(!token){
+      return{
+        success:false,
+        message:"unauthenticated user"
+      }
+    }
+    const decoded = jwt.verify(token,process.env.JWT_SECRET!)
+    if(!decoded){
+      return{
+        success:false,
+        message:"unauthenticated user"
+      }
+    }
+    return {
+      success: true,
+      message: "Admin found successfully",
+      admin:JSON.stringify(decoded)
+    };
+
+  }catch(error:any){
+    return {
+      success:false,
+      message:error.message || "internal error"
+    }
+  }
+}

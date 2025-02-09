@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef,useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 // import BentoGrid from "@/components/BentoGrid";
 import Header from "@/components/Header";
