@@ -1,243 +1,212 @@
 "use client";
-import { useEffect, useState } from "react";
-import { Bars } from "react-loader-spinner";
-import * as XLSX from "xlsx";
-import { Download, UserX } from "lucide-react";
 
-interface Participant {
-  id: string;
-  fullname: string;
-  isVerified: boolean;
-  isPresent: boolean;
-  enrollment: string;
-  semester: string;
-  course: string;
-  eventId: string;
-  phone: string;
-  email: string;
+import { useState, useEffect } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { attendTeams, markAttendance } from "@/app/action/team.action";
+import Loader from "@/components/Loader";
+import { FaRegEye } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+
+interface Team {
+  _id: string;
+  teamID: number;
   event: string;
-  teamMemberName: string;
-  transaction: string;
-  teamName: string;
-  universityName: string;
-  collegeName: string;
+  college: string;
+  reported: boolean;
 }
-const ParticipantsList: React.FC = () => {
-  const [participants, setParticipants] = useState<Participant[]>([]);
-  const [filteredParticipants, setFilteredParticipants] = useState<
-    Participant[]
-  >([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+
+export default function AttendancePage() {
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [filteredTeams, setFilteredTeams] = useState<Team[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filter, setFilter] = useState<string>("present");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [teamID, setTeamID] = useState<number | null>(null);
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [uiUpdate, setUiUpdate] = useState<boolean>(false);
+  const [atttendanceLoading, setAttendanceLoading] = useState<boolean>(false);
+  const router = useRouter();
 
-
-
-  useEffect(() => {
-    let filtered = participants;
-    if (filter === "present") {
-      filtered = participants.filter((p) => p.isPresent);
-    } else if (filter === "absent") {
-      filtered = participants.filter((p) => !p.isPresent);
-    }
-    if (searchQuery) {
-      filtered = filtered.filter((p) =>
-        p.fullname.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    setFilteredParticipants(filtered);
-  }, [searchQuery, filter, participants]);
-  const exportToExcel = () => {
-    const verifiedParticipants = participants
-      .filter((participant) => participant.isVerified && participant.isPresent)
-      .map(
-        ({
-          fullname,
-          universityName,
-          collegeName,
-          enrollment,
-          semester,
-          course,
-          phone,
-          email,
-          event,
-        }) => ({
-          Name: fullname,
-          University: universityName,
-          College: collegeName,
-          Enrollment: enrollment,
-          Semester: semester,
-          Course: course,
-          "Phone No.": phone,
-          Email: email,
-          Event: event,
-        })
-      );
-
-    if (verifiedParticipants.length === 0) {
-      alert("No verified participants to export.");
+  const handleMarkAttendance = async () => {
+    if (!teamID || !password) {
+      toast.error("Please enter Team ID and Password");
       return;
     }
-    const worksheet = XLSX.utils.json_to_sheet(verifiedParticipants);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Verified Participants");
-    XLSX.writeFile(workbook, `VerifiedParticipants.xlsx`);
+    try {
+      setAttendanceLoading(true);
+      const res = await markAttendance(teamID, password);
+      if (res.success) {
+        toast.success(res.message);
+        setIsDialogOpen(false);
+        setTeamID(null);
+        setPassword("");
+        setUiUpdate((prev) => !prev);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setAttendanceLoading(false);
+    }
   };
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[300px] h-screen">
-        <Bars height="80" width="80" color="#3B82F6" />
-      </div>
-    );
-  }
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-screen text-red-500">
-        {error}
-      </div>
-    );
-  }
+  const teamDetail = (teamId: string) => {
+    router.push(`/profile/id/${teamId}`);
+  };
 
-  if (filteredParticipants.length === 0) {
-    return (
-      <div className="flex items-center bg-white dark:bg-gray-900 justify-center min-h-screen text-red-500">
-        No participant found
-      </div>
+  const fetchAttendTeams = async () => {
+    try {
+      setLoading(true);
+      const res = await attendTeams();
+      const parsedTeams = JSON.parse(res.teams!);
+      setTeams(parsedTeams);
+      setFilteredTeams(parsedTeams);
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAttendTeams();
+  }, [uiUpdate]);
+
+  useEffect(() => {
+    const lowercasedQuery = searchQuery.toLowerCase();
+    const filtered = teams.filter(
+      (team) =>
+        team.teamID.toString().includes(lowercasedQuery) ||
+        team.event.toLowerCase().includes(lowercasedQuery) ||
+        team.college.toLowerCase().includes(lowercasedQuery)
     );
-  }
+    setFilteredTeams(filtered);
+  }, [searchQuery, teams]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 shadow-lg shadow-white p-4 sm:p-8">
-      <div className="mx-auto max-w-7xl bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
-        <div className="p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold">Participants</h1>
-              <p className="text-sm text-gray-500 mt-1">
-                {filteredParticipants.length} total entries
-              </p>
-            </div>
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="container mx-auto p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-2xl font-bold">Event Attendance</h1>
+         
 
-            <div className="flex max-sm:flex-col w-full justify-center gap-4">
-              <input
-                type="text"
-                placeholder="Search by name..."
-                className="px-4 py-2 border rounded-lg"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <select
-                className="px-4 py-2 border rounded-lg"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-              >
-                <option value="present">Present</option>
-                <option value="absent">Absent</option>
-                <option value="all">All</option>
-              </select>
-            </div>
-            <div className="flex justify-center items-center">
-              <button
-                onClick={exportToExcel}
-                className="flex justify-center items-center  w-40 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-              >
-                <Download className="w-5 h-5" />
-                <span className="text-sm font-medium">Export CSV</span>
-              </button>
-            </div>
-          </div>
+<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild className="z-[110]">
+                <Button variant="outline">Mark Attendance</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Mark Attendance</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <Label htmlFor="teamID">Team ID</Label>
+                  <Input
+                    id="teamID"
+                    value={!teamID ? "" : teamID}
+                    onChange={(e) => setTeamID(Number(e.target.value))}
+                    placeholder="Enter Team ID"
+                  />
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter Password"
+                  />
+                </div>
+                <DialogFooter>
+                  <Button onClick={handleMarkAttendance}>
+                    {atttendanceLoading ? "Marking..." : "Submit"}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
 
-          <div className="border rounded-xl overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50 dark:bg-gray-800 ">
-                  <tr>
-                    {[
-                      "Name",
-                      "Enrollment",
-                      "Sem",
-                      "Course",
-                      "Phone",
-                      "Event",
-                      "College",
-                      "Attendance",
-                    ].map((header) => (
-                      <th
-                        key={header}
-                        className="px-4 py-3.5 text-left text-sm font-semibold dark:text-gray-100 text-gray-900"
-                      >
-                        {header}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white dark:bg-gray-700">
-                  {filteredParticipants.length === 0 ? (
-                    <tr>
-                      <td colSpan={9} className="px-4 py-6 text-center">
-                        <div className="flex flex-col items-center p-8 text-gray-400 dark:text-gray-100">
-                          <UserX className="w-12 h-12 mb-4" />
-                          <p className="text-lg font-medium">
-                            No participants found
-                          </p>
-                          <p className="text-sm mt-1">
-                            All entries will appear here
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    filteredParticipants.map((participant) => (
-                      <tr
-                        key={participant.id}
-                        className="hover:bg-gray-50 dark:hover:bg-gray-600 dark:text-gray-100 transition-colors"
-                      >
-                        <td className="px-4 py-3.5 text-sm">
-                          {participant.fullname}
-                        </td>
-                        <td className="px-4 py-3.5 text-sm">
-                          {participant.enrollment}
-                        </td>
-                        <td className="px-4 py-3.5 text-sm">
-                          {participant.semester}
-                        </td>
-                        <td className="px-4 py-3.5 text-sm">
-                          {participant.course}
-                        </td>
-                        <td className="px-4 py-3.5 text-sm">
-                          {participant.phone}
-                        </td>
-                        <td className="px-4 py-3.5 text-sm">
-                          {participant.event}
-                        </td>
-                        <td className="px-4 py-3.5 text-sm">
-                          {participant.collegeName}
-                        </td>
-                        <td className="px-4 py-3.5">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              participant.isPresent
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
-                            }`}
-                          >
-                            {participant.isPresent ? "Present" : "Absent"}
-                          </span>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
           </div>
+          <Input
+              placeholder="Search by Team ID, Event, or College"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-1/3 mb-2"
+            />
+
+          {/* Teams Table */}
+          <Card className="p-4">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Team ID</TableHead>
+                  <TableHead>Event</TableHead>
+                  <TableHead>College</TableHead>
+                  <TableHead>Reported</TableHead>
+                  <TableHead>View Team Detail</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredTeams.length > 0 ? (
+                  filteredTeams.map((team) => (
+                    <TableRow key={team.teamID}>
+                      <TableCell>{team.teamID}</TableCell>
+                      <TableCell>{team.event}</TableCell>
+                      <TableCell>{team.college}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded text-sm ${
+                            team.reported
+                              ? "bg-green-100 text-green-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {team.reported ? "Reported" : "Not Reported"}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => teamDetail(team._id)}
+                          variant={"outline"}
+                        >
+                          <FaRegEye />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center py-4">
+                      No teams found.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </Card>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
-};
-
-export default ParticipantsList;
-
+}

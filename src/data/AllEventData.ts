@@ -1,4 +1,4 @@
-interface Sports {
+export interface SportsType {
   sport: string;
   minPlayers: number;
   substitute: number | "NA";
@@ -6,7 +6,7 @@ interface Sports {
   maxEntry: number | "Open";
   qrImage:string
 }
-export const sportsData: Sports[] = [
+export const sportsData: SportsType[] = [
   {
     sport: "Football",
     minPlayers: 11,

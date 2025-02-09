@@ -73,6 +73,15 @@ export default function AdminSidebar() {
     })()
       },[])
 
+      useEffect(()=>{
+        if(admin){
+          if(admin.role!=="admin"){
+            if(pathname==="/admin/colleges" || pathname==="/admin/roles"){
+              router.push("/admin/dashboard");
+            }
+          }
+        }
+      },[pathname,admin])
   return (
     <>
       {/* Sidebar Toggle Button */}

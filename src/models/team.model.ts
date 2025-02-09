@@ -27,6 +27,7 @@ export interface ITeam extends Document {
   amount:number;
   createdAt: Date;
   updatedAt: Date;
+  reported:boolean;
 }
 
 // Player Schema
@@ -73,6 +74,10 @@ const TeamSchema = new Schema<ITeam>(
     amount:{
       type:Number,
       required:[true,"please enter paid amount"]
+    },
+    reported:{
+      type:Boolean,
+      default:false
     }
   },
   { timestamps: true }

@@ -19,8 +19,6 @@ export const registerAction = async (teamData: any) => {
     captain,
     amount
   } = teamData ;
-
-  console.log(teamData);
     if (
       !collegeName ||
       !event ||
@@ -38,15 +36,23 @@ export const registerAction = async (teamData: any) => {
 
     
     let captainEmail;
+    const emailsData=[];
     for(let i=0;i<players.length;i++){
+      emailsData.push(players[i].email);
       if(captain===players[i]?.name){
         captainEmail=players[i].email;
-        break;
       }
     }
     // Check if the team is already registered
    
-    const isExist = await TeamModel.findOne({$or:[{"players.email":captainEmail},{transactionId}]});
+    const isExist = await TeamModel.findOne(
+    {$or:
+      [
+      {$and:[{event},{"players.email":captainEmail}]},
+      
+      {transactionId:transactionId}
+     ]
+    });
     if (isExist) {
       return {
         success: false,
@@ -211,7 +217,7 @@ export const registerAction = async (teamData: any) => {
 
   `;
 
-    await sendMail(captainEmail, "Spardha Team Registeration", htmlTemplate);
+    await sendMail(emailsData, "Spardha Team Registeration", htmlTemplate);
 
     return {
       success: true,
@@ -226,5 +232,100 @@ export const registerAction = async (teamData: any) => {
 };
 
 
+export const markAttendance = async(teamID:number,password:string)=>{
+  try{
+    await dbConnect();
+    if(!teamID || !password){
+      return{
+        success:false,
+        message:"please fill the all fields"
+      }
+    }
+    const team = await TeamModel.findOne({teamID});
+    if(!team){
+      return{
+        success:false,
+        message:"Team is not found"
+      }
+    }
+    if(team.reported){
+      return{
+        success:false,
+        message:"Team atteandance is already marked"
+      }
+    }
+
+    if(team.status!=="approved"){
+      return{
+        success:false,
+        message:"Team is not approved"
+      }
+    }
+    if(team.password !== password){
+      return{
+        success:false,
+        message:"Wrong teamId or password"
+      }
+    }
+
+
+    team.reported=true;
+    await team.save({validateBeforeSave:true});
+    return{
+      success:false,
+      message:"Team attendance is marked successfuly"
+    }
+
+  }catch(error:any){
+    return{
+      success:false,
+      message:error.message ||"internal error"
+    }
+  }
+}
+
+export const attendTeams = async()=>{
+
+  try{
+    await dbConnect();
+    const teams = await TeamModel.find({reported:true}).select("teamID event college reported");
+    return{
+      message:"successfuly got",
+      success:false,
+      teams:JSON.stringify(teams)
+    }
+}catch(error:any){
+  return{
+    success:false,
+    message:error.message ||"internal error"
+  }
+}
+}
+
+
+export const getTeam = async(_id:string)=>{
+
+  try{
+    await dbConnect();
+    const team = await TeamModel.findById(_id);
+
+    if(!team){
+      return{
+        success:false,
+        message:"Team is not found"
+      }
+    }
+    return{
+      message:"successfuly got",
+      success:false,
+      team:JSON.stringify(team)
+    }
+}catch(error:any){
+  return{
+    success:false,
+    message:error.message ||"internal error"
+  }
+}
+}
 
 
