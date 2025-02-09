@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-const sendMail = async (emailsData: string[] | string, subject: string, html: string) => {
+const sendMail = async (emailsData: string[], subject: string, html: string) => {
   try {
     if (!emailsData || emailsData.length === 0) {
       throw new Error("Email list is empty.");
