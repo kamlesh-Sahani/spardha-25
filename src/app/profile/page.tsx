@@ -52,8 +52,8 @@ export default function Home() {
       {loading ? (
         <Loader />
       ) : (
-        <div className="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
+        <div className="bg-gray-50 min-h-screen w-full py-8 px-4 sm:px-6 lg:px-8">
+          <div className="bg-red-600 w-full mx-auto">
             {/* Team Info */}
             <div className="text-center mb-12">
               <h1 className="text-4xl font-bold text-gray-800">Team Profile</h1>
