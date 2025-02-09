@@ -5,6 +5,7 @@ export interface SportsType {
   entryFee: number;
   maxEntry: number | "Open";
   qrImage:string
+  watsapp:string
 }
 export const sportsData: SportsType[] = [
   {
@@ -13,7 +14,8 @@ export const sportsData: SportsType[] = [
     substitute: 5,
     entryFee: 1600,
     maxEntry: 20,
-    qrImage:'/football.jpeg'
+    qrImage:'/football.jpeg',
+    watsapp:"https://chat.whatsapp.com/EiIaWdUpIkBI3KGBVub6HZ"
   },
   {
     sport: "Basketball (Boys)",
@@ -21,7 +23,8 @@ export const sportsData: SportsType[] = [
     substitute: 7,
     entryFee: 1200,
     maxEntry: 20,
-     qrImage:'/basketball.jpeg'
+     qrImage:'/basketball.jpeg',
+     watsapp:"https://chat.whatsapp.com/BooS1lIf9b5DSJeDIskL4P"
   },
   {
     sport: "Basketball (Girls)",
@@ -29,7 +32,8 @@ export const sportsData: SportsType[] = [
     substitute: 7,
     entryFee: 1200,
     maxEntry: 20,
-     qrImage:'/basketball.jpeg'
+     qrImage:'/basketball.jpeg',
+     watsapp:"https://chat.whatsapp.com/BooS1lIf9b5DSJeDIskL4P"
   },
   {
     sport: "Volleyball (Boys)",
@@ -37,7 +41,8 @@ export const sportsData: SportsType[] = [
     substitute: 6,
     entryFee: 1200,
     maxEntry: 20,
-     qrImage:'/basketball.jpeg'
+     qrImage:'/basketball.jpeg',
+     watsapp:"https://chat.whatsapp.com/JWgQHCz4oKvFcRIYpQzi1Z"
   },
   {
     sport: "Volleyball (Girls)",
@@ -45,7 +50,8 @@ export const sportsData: SportsType[] = [
     substitute: 6,
     entryFee: 1200,
     maxEntry: 20,
-     qrImage:'/basketball.jpeg'
+     qrImage:'/basketball.jpeg',
+     watsapp:"https://chat.whatsapp.com/JWgQHCz4oKvFcRIYpQzi1Z"
   },
   {
     sport: "Badminton Singles (Boy)",
@@ -53,7 +59,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/BifMUpY8Kcq9ZS6gZRDOVb"
   },
   {
     sport: "Badminton Singles (Girl)",
@@ -61,7 +68,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/BifMUpY8Kcq9ZS6gZRDOVb"
   },
   {
     sport: "Badminton Doubles (Boy)",
@@ -69,7 +77,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
-     qrImage:'/badmintondouble.jpeg'
+     qrImage:'/badmintondouble.jpeg',
+     watsapp:"https://chat.whatsapp.com/BifMUpY8Kcq9ZS6gZRDOVb"
   },
   {
     sport: "Badminton Doubles (Girl)",
@@ -77,7 +86,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
-     qrImage:'/badmintondouble.jpeg'
+     qrImage:'/badmintondouble.jpeg',
+     watsapp:"https://chat.whatsapp.com/BifMUpY8Kcq9ZS6gZRDOVb"
   },
   {
     sport: "Badminton Doubles (Mix)",
@@ -85,7 +95,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
-     qrImage:'/badmintondouble.jpeg'
+     qrImage:'/badmintondouble.jpeg',
+     watsapp:"https://chat.whatsapp.com/BifMUpY8Kcq9ZS6gZRDOVb"
   },
   {
     sport: "Table Tennis Singles (Boy)",
@@ -93,7 +104,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/KmQvkfZ6jw48CIx6GgTXc0"
   },
   {
     sport: "Table Tennis Singles (Girl)",
@@ -101,7 +113,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/KmQvkfZ6jw48CIx6GgTXc0"
   },
   {
     sport: "Table Tennis Doubles (Boy)",
@@ -109,7 +122,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
-     qrImage:'/badmintondouble.jpeg'
+     qrImage:'/badmintondouble.jpeg',
+     watsapp:"https://chat.whatsapp.com/KmQvkfZ6jw48CIx6GgTXc0"
   },
   {
     sport: "Table Tennis Doubles (Girl)",
@@ -117,7 +131,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/KmQvkfZ6jw48CIx6GgTXc0"
   },
   {
     sport: "Table Tennis Doubles (Mix)",
@@ -125,7 +140,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 300,
     maxEntry: "Open",
-     qrImage:'/badmintondouble.jpeg'
+     qrImage:'/badmintondouble.jpeg',
+     watsapp:"https://chat.whatsapp.com/KmQvkfZ6jw48CIx6GgTXc0"
   },
   {
     sport: "Tug of war (Boys)",
@@ -133,7 +149,8 @@ export const sportsData: SportsType[] = [
     substitute: 4,
     entryFee: 1200,
     maxEntry: 20,
-     qrImage:'/basketball.jpeg'
+     qrImage:'/basketball.jpeg',
+     watsapp:"https://chat.whatsapp.com/EYtWvL46iWR63oBt9AclTz"
   },
   {
     sport: "Tug of war (Girls)",
@@ -141,7 +158,8 @@ export const sportsData: SportsType[] = [
     substitute: 4,
     entryFee: 1200,
     maxEntry: 20,
-     qrImage:'/basketball.jpeg'
+     qrImage:'/basketball.jpeg',
+     watsapp:"https://chat.whatsapp.com/EYtWvL46iWR63oBt9AclTz"
   },
   {
     sport: "Chess",
@@ -149,7 +167,8 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: 12,
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/Cl9wgoi82GqAB0LGBFPEPi"
   },
   {
     sport: "Kabaddi (Boys)",
@@ -157,7 +176,8 @@ export const sportsData: SportsType[] = [
     substitute: 5,
     entryFee: 1200,
     maxEntry: 20,
-     qrImage:'/basketball.jpeg'
+     qrImage:'/basketball.jpeg',
+     watsapp:"https://chat.whatsapp.com/LouTxDo98jDJI9RNP2QYOI"
   },
   {
     sport: "Kabaddi (Girls)",
@@ -165,7 +185,8 @@ export const sportsData: SportsType[] = [
     substitute: 5,
     entryFee: 1200,
     maxEntry: 20,
-     qrImage:'/basketball.jpeg'
+     qrImage:'/basketball.jpeg',
+     watsapp:"https://chat.whatsapp.com/LouTxDo98jDJI9RNP2QYOI"
   },
   {
     sport: "Arm Wrestling Featherweight ( <65 Kg)",
@@ -173,31 +194,35 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 100,
     maxEntry: "Open",
-     qrImage:'/arm.jpeg'
+     qrImage:'/arm.jpeg',
+     watsapp:"https://chat.whatsapp.com/EPVHHMmnCc3BG2ygPFvC7D"
   },
   {
-    sport: "Arm Wrestling  Lightweight (65+ - 75 Kg)",
+    sport: "Arm Wrestling  Lightweight (65 - 75 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 100,
     maxEntry: "Open",
-     qrImage:'/arm.jpeg'
+     qrImage:'/arm.jpeg',
+     watsapp:"https://chat.whatsapp.com/EPVHHMmnCc3BG2ygPFvC7D"
   },
   {
-    sport: "Arm Wrestling Middleweight (75+ - 85 Kg)",
+    sport: "Arm Wrestling Middleweight (75 - 85 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 100,
     maxEntry: "Open",
-     qrImage:'/arm.jpeg'
+     qrImage:'/arm.jpeg',
+     watsapp:"https://chat.whatsapp.com/EPVHHMmnCc3BG2ygPFvC7D"
   },
   {
-    sport: "Arm Wrestling Heavyweight (85+ - 100 Kg)",
+    sport: "Arm Wrestling Heavyweight (85 - 100 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 100,
     maxEntry: "Open",
-     qrImage:'/arm.jpeg'
+     qrImage:'/arm.jpeg',
+     watsapp:"https://chat.whatsapp.com/EPVHHMmnCc3BG2ygPFvC7D"
   },
   {
     sport: "Body Building Lightweight (65 - 75 Kg)",
@@ -205,23 +230,26 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/ISqqAil1BKSKHpnv8HUgYi"
   },
   {
-    sport: "Body Building Middleweight (65+ - 75 Kg)",
+    sport: "Body Building Middleweight (65 - 75 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/ISqqAil1BKSKHpnv8HUgYi"
   },
   {
-    sport: "Body Building Heavyweight (75+ - 85 Kg)",
+    sport: "Body Building Heavyweight (75 - 85 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/ISqqAil1BKSKHpnv8HUgYi"
   },
   {
     sport: "Power Lifting Lightweight (65 - 75 Kg)",
@@ -229,23 +257,26 @@ export const sportsData: SportsType[] = [
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/KWj8eSHU0ZN9nU5AWEZbz9"
   },
   {
-    sport: "Power Lifting Middleweight (75+ - 85 Kg)",
+    sport: "Power Lifting Middleweight (75 - 85 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/KWj8eSHU0ZN9nU5AWEZbz9"
   },
   {
-    sport: "Power Lifting Heavyweight (85+ - 100 Kg)",
+    sport: "Power Lifting Heavyweight (85 - 100 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 150,
     maxEntry: "Open",
-     qrImage:'/badminton.jpeg'
+     qrImage:'/badminton.jpeg',
+     watsapp:"https://chat.whatsapp.com/KWj8eSHU0ZN9nU5AWEZbz9"
   },
 ];
 				
