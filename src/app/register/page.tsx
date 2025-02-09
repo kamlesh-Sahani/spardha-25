@@ -5,13 +5,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import eventImage from "@/data/EventData";
 import { registerAction } from "../action/team.action";
-import { colleges } from "@/data/CollegeData";
 import { sportsData } from "@/data/AllEventData";
 import { z } from "zod";
 import { default as ReactSelect } from "react-select";
 import { playerSchema, registrationSchema } from "@/data/Zod";
 import { useRouter } from "next/navigation";
 import { Sports } from "@/lib/type";
+import { allColleges } from "../action/college.action";
 const Register = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<{
@@ -226,22 +226,39 @@ const Register = () => {
         })) || [];
       return events;
     });
-
-    setCollegeOptions(() => {
-      const collegeData =
-        colleges?.map((college) => ({
-          value: college.name.toLowerCase(),
-          label: college.name,
-        })) || [];
-      return collegeData;
-    });
-  }, [sportsData, colleges]);
+   
+  }, [sportsData]);
   const handleDeletePlayer = (indexToDelete: number) => {
     setFormData((prevData) => ({
       ...prevData,
       players: prevData.players.filter((_, index) => index !== indexToDelete),
     }));
   };
+
+
+
+
+
+  const  fetchCollegeAndEvent = async()=>{
+    try{
+      const res = await allColleges();
+      const collegeRes= JSON.parse(res.colleges!);
+      setCollegeOptions(() => {
+        const collegeData =
+        collegeRes?.map((college:{name:string,_id:string}) => ({
+            value: college.name.toLowerCase(),
+            label: college.name,
+          })) || [];
+        return collegeData;
+      });
+
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    fetchCollegeAndEvent();
+  },[])
   console.log(selectedEvent);
   return (
     <div className="flex max-md:flex-col justify-center gap-4 items-start min-h-screen bg-gradient-to-r from-[#b98867] to-[#f5a937] p-6">

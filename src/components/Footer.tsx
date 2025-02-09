@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 const Footer = () => {
   return (
-    <footer className="bg-[#065b83] mt-8 text-white">
+    <footer className="bg-[#065b83]  text-white">
       <div className="container mx-auto px-4 py-8">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">

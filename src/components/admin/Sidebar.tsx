@@ -1,18 +1,23 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { RiCalendarScheduleFill } from "react-icons/ri";
-import { FaCalendarPlus } from "react-icons/fa6";
-import { MdEvent } from "react-icons/md";
-import { HiChartPie, HiUser, HiUserGroup } from "react-icons/hi";
 import { RiMenu4Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
-import { Download, UserRoundCheck, ShieldCheck } from "lucide-react";
+import { 
+  ShieldCheck,
+  PieChart,
+  Users,
+  School,
+  Key,
+Gamepad } from "lucide-react";
+import { adminLogout } from "@/app/action/admin.action";
+import toast from "react-hot-toast";
+import {useRouter} from "next/navigation"
 export default function AdminSidebar() {
   const pathname = usePathname();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [showSidebar, setShowSidebar] = useState<boolean>(true);
-
+  const router = useRouter();
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1280) {
@@ -27,6 +32,21 @@ export default function AdminSidebar() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const logoutHandler = async()=>{
+    try{
+      const res = await adminLogout();
+      if(res.success){
+        toast.success(res.message);
+        router.push("/login");
+      }else{
+        toast.error(res.message);
+      }
+    }catch(error:any){
+      console.log(error);
+      toast.error(error?.reponse?.data?.message || "internal error")
+    }
+  }
 
   return (
     <>
@@ -84,7 +104,7 @@ export default function AdminSidebar() {
                   pathname === "/admin/dashboard" ? "bg-[#3B82F6]" : ""
                 }`}
               >
-                <HiChartPie />
+                <PieChart />
                 <p>Dashboard</p>
               </div>
             </Link>
@@ -97,7 +117,7 @@ export default function AdminSidebar() {
                   pathname === "/admin/participants" ? "bg-[#3B82F6]" : ""
                 }`}
               >
-                <UserRoundCheck />
+                 <Users />
                 <p>Participants</p>
               </div>
             </Link>
@@ -119,7 +139,7 @@ export default function AdminSidebar() {
                   pathname === "/admin/events" ? "bg-[#3B82F6]" : ""
                 }`}
               >
-                <MdEvent />
+               <Gamepad />
                 <p>Events</p>
               </div>
             </Link>
@@ -130,8 +150,20 @@ export default function AdminSidebar() {
                   pathname === "/admin/colleges" ? "bg-[#3B82F6]" : ""
                 }`}
               >
-                <RiCalendarScheduleFill />
+               <School />
                 <p>Manage Colleges</p>
+              </div>
+            </Link>
+
+
+            <Link href="/admin/roles">
+              <div
+                className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
+                  pathname === "/admin/roles" ? "bg-[#3B82F6]" : ""
+                }`}
+              >
+                 <Key />
+                <p>Manage Roles</p>
               </div>
             </Link>
 
@@ -164,7 +196,7 @@ export default function AdminSidebar() {
             <div className="flex justify-center gap-4">
               <button
                 className="px-4 py-2 text-white bg-indigo-500 hover:bg-indigo-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-300"
-               
+               onClick={logoutHandler}
               >
                 Yes, I'm sure
               </button>

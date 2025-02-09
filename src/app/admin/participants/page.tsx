@@ -59,6 +59,7 @@ interface Filters {
   event: string;
   college: string;
   status: string;
+  collegeOrder:string;
 }
 
 export default function AdminReportPage() {
@@ -67,6 +68,7 @@ export default function AdminReportPage() {
     event: "",
     college: "",
     status: "",
+    collegeOrder:""
   });
   const [selectedTeam, setSelectedTeam] = useState<Team>();
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
@@ -82,24 +84,33 @@ export default function AdminReportPage() {
   const [statusReason, setStatusReason] = useState("");
   const [currentStatus, setCurrentStatus] = useState<"approved" | "rejected">();
   const [currentTeamId, setCurrentTeamId] = useState<string>();
-  const [collegeOrder,setCollegeOrder] = useState<string>("asc")
+  const filteredTeams = (teams || [])
+  .filter((team) => {
+    return (
+      (filters.event && filters.event !== "all"
+        ? team.event.toLowerCase().includes(filters.event.toLowerCase())
+        : true) &&
+      (filters.college && filters.college !== "all"
+        ? team.college.toLowerCase().includes(filters.college.toLowerCase())
+        : true) &&
+      (filters.status && filters.status !== "all"
+        ? team.status === filters.status
+        : true)
+    );
+  })
+  .sort((a, b) => {
+    if (filters.collegeOrder === "asc") {
+      return a.college.localeCompare(b.college);
+    } else if (filters.collegeOrder === "desc") {
+      return b.college.localeCompare(a.college);
+    }
+    return 0;
+  });
 
-  // Filter teams based on filters
-  const filteredTeams =
-    teams &&
-    teams.filter((team) => {
-      return (
-        (filters.event && filters.event !== "all"
-          ? team.event.toLowerCase().includes(filters.event.toLowerCase())
-          : true) &&
-        (filters.college && filters.college !== "all"
-          ? team.college.toLowerCase().includes(filters.college.toLowerCase())
-          : true) &&
-        (filters.status && filters.status !== "all"
-          ? team.status === filters.status
-          : true)
-      );
-    });
+
+
+
+
 
   // Update team status
   const updateTeamStatus = async () => {
@@ -152,6 +163,7 @@ export default function AdminReportPage() {
       setLoading(true);
       try {
         const { data } = await axios.get("/api/report/all");
+        console.log(data);
         setTeams(data.teams);
         console.log(data);
       } catch (error) {
@@ -248,17 +260,20 @@ export default function AdminReportPage() {
 
 
         <Select
-          value={collegeOrder}
-          onValueChange={(value) => setCollegeOrder(value)}
+          value={filters.collegeOrder}
+          onValueChange={(value) => setFilters({ ...filters, collegeOrder: value })}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All Statuses" />
+            <SelectValue placeholder="Sort by college" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="asc">Asc</SelectItem>
-            <SelectItem value="dec">Dec</SelectItem>
+          <SelectItem value="all">Default</SelectItem>
+            <SelectItem value="asc">College (A → Z)</SelectItem>
+            <SelectItem value="dec">College (Z → A)</SelectItem>
           </SelectContent>
         </Select>
+
+
 
       </div>
 
@@ -273,7 +288,7 @@ export default function AdminReportPage() {
                 <TableRow>
                   <TableHead>Team ID</TableHead>
                   <TableHead>Date</TableHead>
-
+                
                   <TableHead>Event</TableHead>
                   <TableHead>College</TableHead>
                   <TableHead>Status</TableHead>
@@ -287,9 +302,12 @@ export default function AdminReportPage() {
                       <TableCell>{team.teamID}</TableCell>
                       <TableCell>
                         {team?.createdAt
-                          ? new Date(team.createdAt).toLocaleDateString()
+                          ?  String(new Date(team.createdAt).toLocaleDateString()) +"  (" + 
+                          String(new Date(team.createdAt).toLocaleTimeString())+ ")"
                           : "N/A"}
                       </TableCell>
+                   
+
 
                       <TableCell>{team.event}</TableCell>
                       <TableCell>{team.college}</TableCell>
