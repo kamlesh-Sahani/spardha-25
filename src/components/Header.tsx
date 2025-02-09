@@ -59,7 +59,7 @@ const Header = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "500px",
-        height: "60vh",
+        height: "80vh",
       }}
     >
       <motion.h1

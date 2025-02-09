@@ -145,11 +145,11 @@ export const sportsData: Sports[] = [
   },
   {
     sport: "Chess",
-    minPlayers: 4,
+    minPlayers: 1,
     substitute: "NA",
-    entryFee: 600,
+    entryFee: 150,
     maxEntry: 12,
-     qrImage:'/chess.jpeg'
+     qrImage:'/badminton.jpeg'
   },
   {
     sport: "Kabaddi (Boys)",

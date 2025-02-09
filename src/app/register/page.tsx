@@ -780,7 +780,7 @@ const Register = () => {
                   ₹{selectedEvent?.entryFee || 0}
                 </p>
                 <p className="text-xl text-gray-500 mt-2">
-                  UPI: PPQR01.YUZUNL@IOB
+                UPI ID: bhanujsobti01@okaxis
                 </p>
               </div>
             </div>
@@ -795,23 +795,23 @@ const Register = () => {
                 <p className="font-semibold">
                   A/c Name:{" "}
                   <span className="text-gray-500">
-                    Don Bosco Institute of Technology
+                  BHANUJ SOBTI
                   </span>
                 </p>
                 <p className="font-semibold">
-                  A/c No: <span className="text-gray-500">179502000000526</span>
+                  A/c No: <span className="text-gray-500"> 918010087588719</span>
                 </p>
                 <p className="font-semibold">
-                  IFSC Code: <span className="text-gray-500">IOBA0001795</span>
+                  IFSC Code: <span className="text-gray-500">UTIB0000096</span>
                 </p>
                 <p className="font-semibold">
                   Account Type:{" "}
-                  <span className="text-gray-500">Current Account</span>
+                  <span className="text-gray-500">Savings</span>
                 </p>
                 <p className="font-semibold">
                   Branch Name:{" "}
                   <span className="text-gray-500">
-                    Indian Overseas Bank, New Friends Colony, New Delhi
+                    Axis Bank, Paschim Vihar, New Delhi
                   </span>
                 </p>
               </div>
