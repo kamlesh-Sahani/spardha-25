@@ -168,7 +168,7 @@ export const sportsData: Sports[] = [
      qrImage:'/basketball.jpeg'
   },
   {
-    sport: "Arm Wrestling",
+    sport: "Arm Wrestling Featherweight ( <65 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 100,
@@ -176,7 +176,31 @@ export const sportsData: Sports[] = [
      qrImage:'/arm.jpeg'
   },
   {
-    sport: "Body Building",
+    sport: "Arm Wrestling  Lightweight (65+ - 75 Kg)",
+    minPlayers: 1,
+    substitute: "NA",
+    entryFee: 100,
+    maxEntry: "Open",
+     qrImage:'/arm.jpeg'
+  },
+  {
+    sport: "Arm Wrestling Middleweight (75+ - 85 Kg)",
+    minPlayers: 1,
+    substitute: "NA",
+    entryFee: 100,
+    maxEntry: "Open",
+     qrImage:'/arm.jpeg'
+  },
+  {
+    sport: "Arm Wrestling Heavyweight (85+ - 100 Kg)",
+    minPlayers: 1,
+    substitute: "NA",
+    entryFee: 100,
+    maxEntry: "Open",
+     qrImage:'/arm.jpeg'
+  },
+  {
+    sport: "Body Building Lightweight (65 - 75 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 150,
@@ -184,7 +208,39 @@ export const sportsData: Sports[] = [
      qrImage:'/badminton.jpeg'
   },
   {
-    sport: "Power Lifting",
+    sport: "Body Building Middleweight (65+ - 75 Kg)",
+    minPlayers: 1,
+    substitute: "NA",
+    entryFee: 150,
+    maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
+  },
+  {
+    sport: "Body Building Heavyweight (75+ - 85 Kg)",
+    minPlayers: 1,
+    substitute: "NA",
+    entryFee: 150,
+    maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
+  },
+  {
+    sport: "Power Lifting Lightweight (65 - 75 Kg)",
+    minPlayers: 1,
+    substitute: "NA",
+    entryFee: 150,
+    maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
+  },
+  {
+    sport: "Power Lifting Middleweight (75+ - 85 Kg)",
+    minPlayers: 1,
+    substitute: "NA",
+    entryFee: 150,
+    maxEntry: "Open",
+     qrImage:'/badminton.jpeg'
+  },
+  {
+    sport: "Power Lifting Heavyweight (85+ - 100 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 150,
@@ -192,3 +248,4 @@ export const sportsData: Sports[] = [
      qrImage:'/badminton.jpeg'
   },
 ];
+				

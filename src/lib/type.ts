@@ -4,5 +4,6 @@ export interface Sports {
   substitute: number | "NA";
   entryFee: number;
   maxEntry: number | "Open";
-  qrImage:string
+  qrImage:string;
+  category:string
 }

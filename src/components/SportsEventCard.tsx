@@ -21,8 +21,6 @@ const EventCards = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-
-
   return (
     <>
       <motion.div
@@ -37,8 +35,8 @@ const EventCards = () => {
           <motion.div
             key={event.id}
             className="relative"
-            initial={{opacity:0}}
-            whileInView={{opacity:1}}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
           >
             <div className="bg-white/80 backdrop-blur-lg rounded-xl overflow-hidden shadow-xl  hover:shadow-md transition-shadow duration-300 h-full w-[300px]">
               <div className="p-4 flex flex-col items-center h-full">
@@ -52,10 +50,10 @@ const EventCards = () => {
                 </h3>
                 <p className="text-md mb-6 text-black">{event.type}</p>
                 <div className="flex flex-col   w-full mt-auto justify-between items-center gap-3">
-                <Link href={"/register"} className="w-full">
-                  <button className="w-full bg-[#065b83] font-semibold text-white px-2 py-3 rounded-full hover:bg-[#2e7494] transition-colors text-base">
-                    Register
-                  </button>
+                  <Link href={"/register"} className="w-full">
+                    <button className="w-full bg-[#065b83] font-semibold text-white px-2 py-3 rounded-full hover:bg-[#2e7494] transition-colors text-base">
+                      Register
+                    </button>
                   </Link>
                   <button
                     onClick={() => setSelectedEvent(event)}
@@ -112,6 +110,15 @@ const EventCards = () => {
                     <h2 className="text-3xl font-bold mb-4">
                       {selectedEvent.name} {selectedEvent.type}
                     </h2>
+                    {selectedEvent.category && (
+                      <ul className="list-disc text-sm pl-5 space-y-2 mt-2 overflow-y-auto">
+                        {selectedEvent.category.map(
+                          (rule: string, index: number) => (
+                            <li key={index}>{rule}</li>
+                          )
+                        )}
+                      </ul>
+                    )}
                     <div className="space-y-4 text-sm">
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -196,7 +203,7 @@ const EventCards = () => {
                 </div>
 
                 {/* Register button at the bottom */}
-                <Link href={"/register"} >
+                <Link href={"/register"}>
                   <div className="px-6 pb-6">
                     <button className="w-full bg-[#065b83] text-white px-6 py-3 rounded-lg hover:bg-[#55aad1] transition-colors">
                       Register Now
