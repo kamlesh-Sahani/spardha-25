@@ -63,19 +63,41 @@ export const adminLogin = async (password: string,mail:string) => {
 export const adminRegister  = async (password?:string,mail?:string,role?:"admin"|"user")=>{
   try {
     await dbConnect();
+    if(!password || !mail || !role){
+      return{
+        message:"please fill the all fields",
+        success:false
+      }
+    }
+    const isExist  = await adminModel.findOne({email:mail});
+    if(isExist){
+      return{
+        message:"Role already register",
+        success:false
+      }
+    }
+
     const admin = await adminModel.create({
-      password:"a@HICIX123",
-      email:"spardha.dbit@gmail.com",
-      role:"admin"
+      password,
+      email:mail,
+      role
     })
 
     if(!admin){
-      console.log("faied") 
-      return;
+      return{
+        message:"Failed to role registered",
+        success:false
+      }
     }
-    console.log("successful")
-  } catch (error) {
-    console.log(error,"admin register error");
+    return{
+      message:"Admin successfuly registered",
+      success:true
+    }
+  } catch (error:any) {
+    return{
+      message:error.message ||"internal error",
+      success:false
+    }
   }
 }
 
