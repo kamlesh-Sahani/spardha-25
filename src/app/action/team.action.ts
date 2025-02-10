@@ -76,7 +76,7 @@ export const registerAction = async (teamData: any) => {
         )
       
     // Generate password for the team
-    const password = generatePassword();
+    const password = generatePassword(teamID);
 
     // Process the players and add their data
     const playersData = players.map((player: any, index: number) => ({
@@ -275,7 +275,7 @@ export const markAttendance = async(teamID:number,password:string)=>{
     team.reported=true;
     await team.save({validateBeforeSave:true});
     return{
-      success:false,
+      success:true,
       message:"Team attendance is marked successfuly"
     }
 

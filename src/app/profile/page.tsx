@@ -64,68 +64,70 @@ export default function Home() {
             </div>
 
             {/* Team & Players Section */}
-            <div className="bg-white shadow-xl rounded-lg p-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-                Team Details
+            <div className="bg-white shadow rounded-xl p-6 sm:p-8 mb-3">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                Team Members
               </h2>
-
-              <div className="space-y-6">
-                {/* Player Details */}
-                {profile?.players.map((player: any, index: number) => (
+              <div className="grid gap-6 md:gap-8 h-[400px] overflow-y-auto">
+                {profile?.players?.map((player: any, index: number) => (
                   <div
                     key={index}
-                    className="flex items-center space-x-4 border-b pb-4"
+                    className="flex items-start gap-4 md:gap-6 p-4 bg-gray-50 rounded-lg"
                   >
-                    <div className="relative w-24 h-24 rounded-full overflow-hidden">
-                      <img
-                        src={player.playerIdCard}
-                        alt={`ID Card of ${player.name}`}
-                      />
+                    <div className="flex-shrink-0">
+                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-white shadow">
+                        <img
+                          src={player.playerIdCard}
+                          alt={`${player.name}'s ID`}
+                          className="w-full h-full object-cover"
+                         
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-xl font-semibold text-gray-800">
-                        {player.gender=="male"?"Mr. ":"Ms. "}{player.name}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Gender: {player.gender}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Mobile: {player.mobile}
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        Email: {player.email}
-                      </p>
-                      {player.isCaptain && (
-                        <p className="text-sm text-green-600 font-bold mt-2">
-                          Captain
-                        </p>
-                      )}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-baseline gap-2 mb-1">
+                        <h3 className="text-lg font-semibold text-gray-900 truncate">
+                          {" "}
+                          {player.gender == "male" ? "Mr. " : "Ms. "}{" "}
+                          {player.name}
+                        </h3>
+                        {player.isCaptain && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Captain
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-sm text-gray-600 space-y-1">
+                        <p className="truncate">{player.email}</p>
+                        <p>{player.mobile}</p>
+                        <p>Gender: {player.gender}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Transaction Info */}
-            <div className="mt-12 bg-white shadow-xl rounded-lg p-6 flex justify-between   max-sm:flex-col">
-              <div>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-1">
-                Transaction Details
+            <div className="bg-white shadow rounded-xl p-6 sm:p-8">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+                Payment Details
               </h2>
-              <p className="text-md text-gray-600">
-                Transaction ID: {profile?.transactionId}
-              </p>
-              </div>
-            
-              <div className="mt-3  flex max-sm:flex-col">
-                <p className="text-md text-gray-600">Transaction Screenshot:</p>
-                <div className="w-full h-64 mt-2 relative">
-                  <img
-                    src={profile?.transactionSs}
-                    alt="Transaction Screenshot"
-                    className="w-full sm:w-[400px] object-cover"
-                  />
+              <div className="flex flex-col justify-between items-center gap-2 ">
+                <div className="flex gap-1">
+                  <p className="text-sm font-medium text-gray-500">
+                    Transaction ID
+                  </p>
+                  <p className="font-mono text-gray-900 break-all">
+                    {profile?.transactionId}
+                  </p>
                 </div>
+                <p className="text-md text-gray-600">Transaction Screenshot:</p>
+
+                <img
+                  src={profile?.transactionSs}
+                  alt="Transaction Screenshot"
+                  className="w-[400px] h-[400px]  object-contain rounded "
+                />
               </div>
             </div>
 
