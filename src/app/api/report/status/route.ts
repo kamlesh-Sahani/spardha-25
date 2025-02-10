@@ -35,7 +35,9 @@ export async function POST(req:NextRequest){
         }
         const collegeEmail=process.env.EMAIL_USER!;
         const teamDetailLink = `${process.env.BASE_URL}/profile?pass=${team.password}`;
+        const whatsappGroupLink = team.whatsapp;
         await team.save({validateBeforeSave:false});
+
         const htmlTemplate=`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,10 +128,15 @@ export async function POST(req:NextRequest){
             ${status === 'approved' ? '<p>🎉 Congratulations! Your team is approved.</p>' : ''}
             ${status === 'rejected' ? '<p>⚠️ Unfortunately, your request was not approved.</p>' : ''}
             ${reason ? `<div class="reason"><strong>Reason:</strong> ${reason}</div>` : ""}
+             <p>Passwod <span class="cta-button">${team.password}</span></p>
             <p>Check your team details below:</p>
             <a href="${teamDetailLink}" class="cta-button">View Team Details</a>
+             <p>Join the official WhatsApp group for updates:</p>
+            <a href="${whatsappGroupLink}" class="cta-button">Join WhatsApp Group</a>
+            
             <p>Need help? Contact the Spardha Team.</p>
-            <a href="mailto:${collegeEmail}" class="cta-button">Contact Admin</a>
+            <a href="mailto:${collegeEmail}" class="cta-button">Contact Spardha Team</a>
+            
         </div>
         <div class="footer">
             Best regards,<br>

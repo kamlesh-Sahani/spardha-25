@@ -17,7 +17,8 @@ export const registerAction = async (teamData: any) => {
     transactionId,
     transactionImage,
     captain,
-    amount
+    amount,
+    whatsapp
   } = teamData ;
     if (
       !collegeName ||
@@ -26,6 +27,7 @@ export const registerAction = async (teamData: any) => {
       !transactionImage ||
       !captain ||
       !amount ||
+      !whatsapp ||
       players.length === 0
     ) {
       return {
@@ -33,8 +35,6 @@ export const registerAction = async (teamData: any) => {
         message: "Please fill all fields and add at least one player.",
       };
     }
-
-    
     let captainEmail;
     const emailsData=[] as string[];
     for(let i=0;i<players.length;i++){
@@ -49,7 +49,6 @@ export const registerAction = async (teamData: any) => {
     {$or:
       [
       {$and:[{event},{"players.email":captainEmail}]},
-      
       {transactionId:transactionId}
      ]
     });
@@ -91,7 +90,8 @@ export const registerAction = async (teamData: any) => {
       transactionId,
       transactionSs: transactionSsUrl,
       players: playersData,
-      amount
+      amount,
+      whatsapp
     });
     if(!team){
       return {
@@ -219,7 +219,6 @@ export const registerAction = async (teamData: any) => {
   `;
 
     await sendMail(emailsData, "Spardha Team Registeration", htmlTemplate);
-
     return {
       success: true,
       message: "Team registered successfully"
