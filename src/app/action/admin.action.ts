@@ -37,7 +37,7 @@ export const adminLogin = async (password: string,mail:string) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign({ email: admin.email, role: "admin" }, jwtSecret, {
+    const token = jwt.sign({ email: admin.email, role: "admin",active:admin.active }, jwtSecret, {
       expiresIn: "7d",
     });
 

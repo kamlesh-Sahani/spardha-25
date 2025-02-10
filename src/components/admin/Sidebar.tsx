@@ -3,23 +3,28 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { RiMenu4Fill } from "react-icons/ri";
 import { usePathname } from "next/navigation";
-import { 
+import {
   ShieldCheck,
   PieChart,
   Users,
   School,
   Key,
-Gamepad } from "lucide-react";
+  Gamepad,
+} from "lucide-react";
 import { adminLogout } from "@/app/action/admin.action";
 import toast from "react-hot-toast";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { adminProfile } from "@/app/action/admin.action";
 export default function AdminSidebar() {
   const pathname = usePathname();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [showSidebar, setShowSidebar] = useState<boolean>(true);
-  const [admin,setAdmin] = useState<{email:string,role:string}|null>(null);
-  const [loading,setLoading]=useState<boolean>(false);
+  const [admin, setAdmin] = useState<{
+    email: string;
+    role: string;
+    active: boolean;
+  } | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   useEffect(() => {
     const handleResize = () => {
@@ -36,52 +41,62 @@ export default function AdminSidebar() {
     };
   }, []);
 
-  const logoutHandler = async()=>{
-    try{
+  const logoutHandler = async () => {
+    try {
       const res = await adminLogout();
-      if(res.success){
+      if (res.success) {
         toast.success(res.message);
         router.push("/login");
-      }else{
+      } else {
         toast.error(res.message);
       }
-    }catch(error:any){
+    } catch (error: any) {
       console.log(error);
-      toast.error(error?.reponse?.data?.message || "internal error")
+      toast.error(error?.reponse?.data?.message || "internal error");
     }
-  }
+  };
 
-
-
-  useEffect(()=>{
-    (async function(){
-      try{
+  useEffect(() => {
+    (async function () {
+      try {
         setLoading(true);
         const res = await adminProfile();
-        if(res.success){
-          setAdmin(JSON.parse(res.admin!))
-        }else{
+        if (res.success) {
+          console.log(JSON.parse(res.admin!));
+          setAdmin(JSON.parse(res.admin!));
+        } else {
           setAdmin(null);
         }
-     
-      }catch(error:any){
+      } catch (error: any) {
         console.log(error);
         setAdmin(null);
-      }finally{
+      } finally {
         setLoading(false);
       }
-    })()
-      },[])
+    })();
+  }, []);
 
-      useEffect(()=>{
-        if(admin){
-          if(admin.role!=="admin"){
-            if(pathname==="/admin/colleges" || pathname==="/admin/roles"){
-              router.push("/admin/dashboard");
-            }
+  useEffect(() => {
+    if (admin) {
+      if (admin.active) {
+        if (admin.role !== "admin") {
+          if (pathname === "/admin/colleges" || pathname === "/admin/roles") {
+            router.push("/admin/dashboard");
           }
         }
-      },[pathname,admin])
+      } else {
+        if (
+          pathname === "/admin/colleges" ||
+          pathname === "/admin/roles" ||
+          pathname === "/admin/attendance" ||
+          pathname === "/admin/events" ||
+          pathname === "/admin/participants"
+        ) {
+          router.push("/admin/dashboard");
+        }
+      }
+    }
+  }, [pathname, admin]);
   return (
     <>
       {/* Sidebar Toggle Button */}
@@ -103,7 +118,6 @@ export default function AdminSidebar() {
       {showSidebar && (
         <div
           className={`bg-[#065B83] text-black xl:w-80 max-xl:w-[350px] fixed top-0 left-0 z-[100] flex flex-col xl:relative p-5 h-[80vh] max-xl:h-[100vh] `}
-         
         >
           {/* Sidebar Header */}
           <div className="flex gap-5 items-center justify-between mb-7">
@@ -143,73 +157,75 @@ export default function AdminSidebar() {
               </div>
             </Link>
 
-            
+            {admin && admin.active ? (
+              <>
+                <Link href="/admin/participants">
+                  <div
+                    className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
+                      pathname === "/admin/participants" ? "bg-[#3B82F6]" : ""
+                    }`}
+                  >
+                    <Users />
+                    <p>Participants</p>
+                  </div>
+                </Link>
 
-            <Link href="/admin/participants">
-              <div
-                className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
-                  pathname === "/admin/participants" ? "bg-[#3B82F6]" : ""
-                }`}
-              >
-                 <Users />
-                <p>Participants</p>
-              </div>
-            </Link>
+                <Link href="/admin/attendance">
+                  <div
+                    className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
+                      pathname === "/admin/attendance" ? "bg-[#3B82F6]" : ""
+                    }`}
+                  >
+                    <ShieldCheck />
+                    <p>Attendance</p>
+                  </div>
+                </Link>
+                <Link href="/admin/events">
+                  <div
+                    className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
+                      pathname === "/admin/events" ? "bg-[#3B82F6]" : ""
+                    }`}
+                  >
+                    <Gamepad />
+                    <p>Events</p>
+                  </div>
+                </Link>
+              </>
+            ) : (
+              ""
+            )}
 
-           
-            <Link href="/admin/attendance">
-              <div
-                className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
-                  pathname === "/admin/attendance" ? "bg-[#3B82F6]" : ""
-                }`}
-              >
-                <ShieldCheck />
-                <p>Attendance</p>
-              </div>
-            </Link>
-            <Link href="/admin/events">
-              <div
-                className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
-                  pathname === "/admin/events" ? "bg-[#3B82F6]" : ""
-                }`}
-              >
-               <Gamepad />
-                <p>Events</p>
-              </div>
-            </Link>
+            {loading ? (
+              <h1>Loading...</h1>
+            ) : (
+              admin &&
+              admin.active &&
+              admin.role === "admin" && (
+                <>
+                  <Link href="/admin/colleges">
+                    <div
+                      className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
+                        pathname === "/admin/colleges" ? "bg-[#3B82F6]" : ""
+                      }`}
+                    >
+                      <School />
+                      <p>Manage Colleges</p>
+                    </div>
+                  </Link>
 
-
-  { loading ? <h1>Loading...</h1>:
-    admin && admin.role==="admin" && <>
-    
-    <Link href="/admin/colleges">
-              <div
-                className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
-                  pathname === "/admin/colleges" ? "bg-[#3B82F6]" : ""
-                }`}
-              >
-               <School />
-                <p>Manage Colleges</p>
-              </div>
-            </Link>
-
-
-            <Link href="/admin/roles">
-              <div
-                className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
-                  pathname === "/admin/roles" ? "bg-[#3B82F6]" : ""
-                }`}
-              >
-                 <Key />
-                <p>Manage Roles</p>
-              </div>
-            </Link>
-    </>
-  }
-  
-
-
-            
+                  <Link href="/admin/roles">
+                    <div
+                      className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
+                        pathname === "/admin/roles" ? "bg-[#3B82F6]" : ""
+                      }`}
+                    >
+                      <Key />
+                      <p>Manage Roles</p>
+                    </div>
+                  </Link>
+                </>
+              )
+            )}
           </div>
 
           {/* Logout Button */}
@@ -238,7 +254,7 @@ export default function AdminSidebar() {
             <div className="flex justify-center gap-4">
               <button
                 className="px-4 py-2 text-white bg-indigo-500 hover:bg-indigo-600 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-300"
-               onClick={logoutHandler}
+                onClick={logoutHandler}
               >
                 Yes, I'm sure
               </button>

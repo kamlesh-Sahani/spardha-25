@@ -65,7 +65,7 @@ export default function Home() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline gap-2 mb-1">
-                        <h3 className="text-lg font-semibold text-gray-900 truncate">{player.name}</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 truncate">   {player.gender=="male"?"Mr. ":"Ms. "} {player.name}</h3>
                         {player.isCaptain && (
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                             Captain

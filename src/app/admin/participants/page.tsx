@@ -408,6 +408,7 @@ export default function AdminReportPage() {
           <Table>
             <TableHeader>
               <TableRow>
+              <TableHead>ID</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Gender</TableHead>
                 <TableHead>Mobile</TableHead>
@@ -418,6 +419,7 @@ export default function AdminReportPage() {
             <TableBody>
               {selectedTeam?.players.map((player, index) => (
                 <TableRow key={index}>
+                  <TableCell>{index+1}</TableCell>
                   <TableCell>{player.name}</TableCell>
                   <TableCell>{player.gender}</TableCell>
                   <TableCell>{player.mobile}</TableCell>
@@ -427,14 +429,15 @@ export default function AdminReportPage() {
               ))}
             </TableBody>
           </Table>
-          <h1>Players Id Cards</h1>
+          <div  className="bg-[#a3a2a2] h-[2px] rounded w-full"> </div>
+          <h1 className="font-semibold">Players Id Cards</h1>
           <div className="flex overflow-x-auto gap-5 ">
             {selectedTeam?.players.map((player, index) => (
-              <div className="flex flex-col" key={index}>
+              <div className="flex flex-col " key={index}>
                 <h3>{player.name}</h3>
                 <img
                   src={player.playerIdCard}
-                  className="w-[400px] object-contain rounded "
+                  className="min-w-[400px] h-[300px] object-contain rounded "
                 />
               </div>
             ))}
@@ -447,7 +450,7 @@ export default function AdminReportPage() {
         open={isTransactionModalOpen}
         onOpenChange={setIsTransactionModalOpen}
       >
-        <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded z-[110]">
+        <DialogContent className="max-w-[50vw] max-sm:max-w-[90vw] rounded z-[110]">
           <DialogHeader>
             <DialogTitle>Transaction Screenshot</DialogTitle>
             <DialogDescription>
@@ -460,7 +463,7 @@ export default function AdminReportPage() {
           <img
             src={selectedTeam?.transactionSs || ""}
             alt="Transaction Screenshot"
-            className="w-[400px] object-contain rounded "
+            className="w-[400px] h-[400px]  object-contain rounded "
           />
         </DialogContent>
       </Dialog>
