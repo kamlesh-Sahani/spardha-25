@@ -241,7 +241,6 @@ const Register = () => {
       players: prevData.players.filter((_, index) => index !== indexToDelete),
     }));
   };
-
   const  fetchCollegeAndEvent = async()=>{
     try{
       const res = await allColleges();
