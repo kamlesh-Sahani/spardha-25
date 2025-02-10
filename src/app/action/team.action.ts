@@ -10,6 +10,7 @@ import dbConnect from "@/utils/dbConnect.util";
 export const registerAction = async (teamData: any) => {
   try {
     await dbConnect();
+    console.log(teamData,"in api");
   const {
     event,
     collegeName,
@@ -221,7 +222,8 @@ export const registerAction = async (teamData: any) => {
     await sendMail(emailsData, "Spardha Team Registeration", htmlTemplate);
     return {
       success: true,
-      message: "Team registered successfully"
+      message: "Team registered successfully",
+      password:JSON.stringify(team.password)
     };
   } catch (error: any) {
     return {
