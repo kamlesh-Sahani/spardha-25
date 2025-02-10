@@ -18,7 +18,7 @@ import { adminProfile } from "@/app/action/admin.action";
 export default function AdminSidebar() {
   const pathname = usePathname();
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [showSidebar, setShowSidebar] = useState<boolean>(true);
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [admin, setAdmin] = useState<{
     email: string;
     role: string;
