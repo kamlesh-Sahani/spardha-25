@@ -33,7 +33,7 @@ export const registerAction = async (teamData: any) => {
     ) {
       return {
         success: false,
-        message: "Please fill all fields and add at least one player.",
+        message: "Please fill all fields",
       };
     }
     let captainEmail;

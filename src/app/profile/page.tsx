@@ -10,7 +10,6 @@ export default function Home() {
   const searchParams = useSearchParams();
   const [profile, setProfile] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [pass, setPass] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const getProfile = async (pass: string) => {
@@ -38,15 +37,10 @@ export default function Home() {
   }, []);
 
   const handlePasswordSubmit = (password: string) => {
-    setPass(password);
     getProfile(password);
   };
 
-  useEffect(() => {
-    if (!profile) {
-      setShowModal(true);
-    }
-  }, [profile]);
+
   return (
     <>
       {loading ? (
