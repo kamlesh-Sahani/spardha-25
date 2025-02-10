@@ -29,6 +29,7 @@ const Register = () => {
     captain: string;
     transactionId: string;
     amount: number;
+    whatsapp:string | undefined;
     transactionImage: File | null;
   }>({
     event: "",
@@ -37,6 +38,7 @@ const Register = () => {
     captain: "",
     transactionId: "",
     amount: 0,
+    whatsapp:"",
     transactionImage: null,
   });
   const [selectedEvent, setSelectedEvent] = useState<Sports | undefined>(
@@ -191,6 +193,10 @@ const Register = () => {
       return;
     }
     try {
+      setFormData({
+        ...formData,
+        whatsapp: selectedEvent?.watsapp,
+      });
       const res = await registerAction(formData);
       if (res.success) {
         toast.success("Registered successfully! 🎉");
@@ -259,6 +265,7 @@ const Register = () => {
   useEffect(()=>{
     fetchCollegeAndEvent();
   },[])
+  console.log("New Data",formData)
   return (
     <div className="flex max-md:flex-col justify-center gap-4 items-start min-h-screen bg-gradient-to-r from-[#b98867] to-[#f5a937] p-6">
       <div className="flex relative top-[-12px] w-full max-w-3xl flex-col  bg-white rounded-3xl shadow-lg">
@@ -658,14 +665,14 @@ const Register = () => {
                   )}
                 </div>
                 <div className="flex flex-col mb-4">
-                  <input
-                    type="number"
-                    name="amount"
-                    value={formData.amount}
-                    onChange={handleChange}
-                    placeholder="Enter Amount Paid"
-                    className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
-                  />
+                <input
+                  type="number"
+                  name="amount"
+                  value={formData.amount === 0 ? "" : formData.amount}
+                  onChange={handleChange}
+                  placeholder="Enter Amount Paid"
+                  className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
+                />
                 </div>
               </div>
               <div className="flex flex-col mb-4">
