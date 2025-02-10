@@ -671,6 +671,7 @@ const Register = () => {
                   value={formData.amount === 0 ? "" : formData.amount}
                   onChange={handleChange}
                   placeholder="Enter Amount Paid"
+                  required
                   className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
                 />
                 </div>
