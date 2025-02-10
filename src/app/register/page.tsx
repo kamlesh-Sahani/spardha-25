@@ -179,6 +179,10 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setFormData({
+      ...formData,
+      whatsapp: selectedEvent?.watsapp,
+    });
     setApiResponseMessage("");
     const validation = registrationSchema.safeParse(formData);
    
@@ -193,10 +197,7 @@ const Register = () => {
       return;
     }
     try {
-      setFormData({
-        ...formData,
-        whatsapp: selectedEvent?.watsapp,
-      });
+    
       const res = await registerAction(formData);
       if (res.success) {
         toast.success("Registered successfully! 🎉");
@@ -241,10 +242,6 @@ const Register = () => {
     }));
   };
 
-
-
-
-
   const  fetchCollegeAndEvent = async()=>{
     try{
       const res = await allColleges();
@@ -265,7 +262,6 @@ const Register = () => {
   useEffect(()=>{
     fetchCollegeAndEvent();
   },[])
-  console.log("New Data",formData)
   return (
     <div className="flex max-md:flex-col justify-center gap-4 items-start min-h-screen bg-gradient-to-r from-[#b98867] to-[#f5a937] p-6">
       <div className="flex relative top-[-12px] w-full max-w-3xl flex-col  bg-white rounded-3xl shadow-lg">
