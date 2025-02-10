@@ -1,8 +1,9 @@
 "use client";
 import { dashboardData } from '@/app/action/dashboard.action';
+import Loader from '@/components/Loader';
 import {
   ClipboardList, Users, Gamepad, IndianRupee, School,
-  User, UserCheck, CheckCircle, XCircle, Clock, Calendar
+  User, UserCheck, CheckCircle, XCircle, Clock
 } from 'lucide-react';
 import { useState, useEffect } from "react";
 
@@ -20,15 +21,19 @@ export default function Dashboard() {
     events: 0,
     totalPayment: 0
   });
+  const [loading,setLoading]= useState<boolean>(false);
 
   useEffect(() => {
     (async function() {
+      setLoading(true);
       try {
         const res = await dashboardData();
         setDashboardStats(JSON.parse(res.data!));
      
       } catch (error) {
         console.log("Error:", error);
+      }finally{
+        setLoading(false);
       }
     })();
   }, []);
@@ -46,9 +51,10 @@ export default function Dashboard() {
     { title: 'Active Events', value: dashboardStats.events, icon: <Gamepad className="w-6 h-6" /> },
     { title: 'Total Payments', value: `₹ ${dashboardStats.totalPayment.toLocaleString()}`, icon: <IndianRupee className="w-6 h-6" /> },
   ];
-
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <>
+    {
+      loading ?<Loader />:<div className="min-h-screen bg-gray-50 p-6">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h1>
 
       {/* Key Statistics */}
@@ -71,5 +77,7 @@ export default function Dashboard() {
         ))}
       </div>
     </div>
+    }
+    </>
   );
 }

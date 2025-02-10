@@ -228,7 +228,7 @@ const Register = () => {
     setEventOptions(() => {
       const events =
         sportsData?.map((event) => ({
-          value: event.sport.toLowerCase(),
+          value: event.sport,
           label: event.sport,
         })) || [];
       return events;
@@ -249,7 +249,7 @@ const Register = () => {
       setCollegeOptions(() => {
         const collegeData =
         collegeRes?.map((college:{name:string,_id:string}) => ({
-            value: college.name.toLowerCase(),
+            value: college.name,
             label: college.name,
           })) || [];
         return collegeData;

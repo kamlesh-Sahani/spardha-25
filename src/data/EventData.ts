@@ -431,10 +431,10 @@ const eventImage = [
   },
   {
     id: 11,
-    name: "Vollyball",
+    name: "Volleyball",
     type: "(Men | Women)",
     category: "",
-    hovername: "Vollyball (Men / Women)",
+    hovername: "Volleyball (Men / Women)",
     fee: "₹1200/- Per Team (One Thousand Two Hundrad Only) ",
     image: Vollyball,
     cashReward: {
@@ -464,7 +464,7 @@ const eventImage = [
       "Only the captain/coach of the team is allowed to talk to the jury of appeal regarding any appeal or protest.",
       "Only the winner and runner-up team will be rewarded by cash prize, certificate of appreciation, and medals.",
     ],
-    description: "Annual Vollyball Event",
+    description: "Annual Volleyball Event",
   },
 ];
 
