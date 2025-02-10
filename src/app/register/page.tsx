@@ -233,7 +233,7 @@ const Register = () => {
         })) || [];
       return events;
     });
-   
+
   }, [sportsData]);
   const handleDeletePlayer = (indexToDelete: number) => {
     setFormData((prevData) => ({
