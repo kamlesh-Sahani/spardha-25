@@ -29,7 +29,7 @@ const Register = () => {
     captain: string;
     transactionId: string;
     amount: number;
-    whatsapp:string;
+    whatsapp: string;
     transactionImage: File | null;
   }>({
     event: "",
@@ -38,7 +38,7 @@ const Register = () => {
     captain: "",
     transactionId: "",
     amount: 0,
-    whatsapp:"",
+    whatsapp: "",
     transactionImage: null,
   });
   const [selectedEvent, setSelectedEvent] = useState<Sports | undefined>(
@@ -146,48 +146,44 @@ const Register = () => {
         players: [...prev.players, currentPlayer],
       }));
 
-    setCurrentPlayer({
-      name: "",
-      enrollment: "",
-      mobile: "",
-      playerIdCard: null, // Reset image field
-      gender: "",
-      email: "",
-      isCaptain: false,
-    });
+      setCurrentPlayer({
+        name: "",
+        enrollment: "",
+        mobile: "",
+        playerIdCard: null, // Reset image field
+        gender: "",
+        email: "",
+        isCaptain: false,
+      });
 
-    setErrors({
-      name: "",
-      enrollment: "",
-      email: "",
-      mobile: "",
-      playerIdCard: "",
-      gender: "",
-    });
+      setErrors({
+        name: "",
+        enrollment: "",
+        email: "",
+        mobile: "",
+        playerIdCard: "",
+        gender: "",
+      });
     } catch (err: any) {
       if (err instanceof z.ZodError) {
         console.error("Unexpected ZodError:", err);
-        setApiResponseMessage(
-          "Validation failed, but it should be handled before API call."
-        );
+        setApiResponseMessage("Something went wrong.");
       } else {
-        setApiResponseMessage(
-          "An unexpected error occurred. Please try again."
-        );
+        setApiResponseMessage("Something went wrong. Please try again.");
       }
     }
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const newUser={
+    const newUser = {
       ...formData,
       whatsapp: selectedEvent!.watsapp,
-    }
-    console.log(newUser)
+    };
+    console.log(newUser);
     setApiResponseMessage("");
     const validation = registrationSchema.safeParse(newUser);
-   
+
     if (!validation.success) {
       const errors = validation.error.errors.reduce(
         (acc, curr) => ({ ...acc, [curr.path[0]]: curr.message }),
@@ -199,18 +195,24 @@ const Register = () => {
       return;
     }
     try {
-    
       const res = await registerAction(newUser);
       if (res.success) {
-        toast.success("Registered successfully! 🎉");
-        router.push(`/profile?pass=${JSON.parse(res.password!)}`)
+        toast.success(
+          "Registration successful! 🎉 Check your email to track your application status.",
+          {
+            duration: 3000,
+          }
+        );
+
+        router.push(`/profile?pass=${JSON.parse(res.password!)}`);
       } else {
         toast.error(res.message);
       }
     } catch (err: any) {
-     console.log(err,"register error");
-     toast.error(err?.response?.data?.message || "something went wrong try again ");
-
+      console.log(err, "register error");
+      toast.error(
+        err?.response?.data?.message || "something went wrong try again "
+      );
     } finally {
       setLoading(false);
     }
@@ -229,7 +231,6 @@ const Register = () => {
         })) || [];
       return events;
     });
-
   }, [sportsData]);
   const handleDeletePlayer = (indexToDelete: number) => {
     setFormData((prevData) => ({
@@ -237,26 +238,25 @@ const Register = () => {
       players: prevData.players.filter((_, index) => index !== indexToDelete),
     }));
   };
-  const  fetchCollegeAndEvent = async()=>{
-    try{
+  const fetchCollegeAndEvent = async () => {
+    try {
       const res = await allColleges();
-      const collegeRes= JSON.parse(res.colleges!);
+      const collegeRes = JSON.parse(res.colleges!);
       setCollegeOptions(() => {
         const collegeData =
-        collegeRes?.map((college:{name:string,_id:string}) => ({
+          collegeRes?.map((college: { name: string; _id: string }) => ({
             value: college.name,
             label: college.name,
           })) || [];
         return collegeData;
       });
-
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-  }
-  useEffect(()=>{
+  };
+  useEffect(() => {
     fetchCollegeAndEvent();
-  },[])
+  }, []);
   return (
     <div className="flex max-md:flex-col justify-center gap-4 items-start min-h-screen bg-gradient-to-r from-[#b98867] to-[#f5a937] p-6">
       <div className="flex relative top-[-12px] w-full max-w-3xl flex-col  bg-white rounded-3xl shadow-lg">
@@ -359,7 +359,7 @@ const Register = () => {
               className="mt-6"
             >
               <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-              Add Player to List
+                Add Player to List
               </h2>
               {formData.players?.length < (selectedEvent?.minPlayers ?? 0) && (
                 <div className="flex flex-col gap-4 mb-4">
@@ -657,15 +657,15 @@ const Register = () => {
                   )}
                 </div>
                 <div className="flex flex-col mb-4">
-                <input
-                  type="number"
-                  name="amount"
-                  value={formData.amount === 0 ? "" : formData.amount}
-                  onChange={handleChange}
-                  placeholder="Enter Amount Paid"
-                  required
-                  className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
-                />
+                  <input
+                    type="number"
+                    name="amount"
+                    value={formData.amount === 0 ? "" : formData.amount}
+                    onChange={handleChange}
+                    placeholder="Enter Amount Paid"
+                    required
+                    className="w-full p-3 placeholder-gray-600 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
+                  />
                 </div>
               </div>
               <div className="flex flex-col mb-4">
@@ -796,7 +796,7 @@ const Register = () => {
                   ₹{selectedEvent?.entryFee || 0}
                 </p>
                 <p className="text-xl text-gray-500 mt-2">
-                UPI ID: bhanujsobti01@okaxis
+                  UPI ID: bhanujsobti01@okaxis
                 </p>
               </div>
             </div>
@@ -809,20 +809,17 @@ const Register = () => {
               </div>
               <div className="space-y-2">
                 <p className="font-semibold">
-                  A/c Name:{" "}
-                  <span className="text-gray-500">
-                  BHANUJ SOBTI
-                  </span>
+                  A/c Name: <span className="text-gray-500">BHANUJ SOBTI</span>
                 </p>
                 <p className="font-semibold">
-                  A/c No: <span className="text-gray-500"> 918010087588719</span>
+                  A/c No:{" "}
+                  <span className="text-gray-500"> 918010087588719</span>
                 </p>
                 <p className="font-semibold">
                   IFSC Code: <span className="text-gray-500">UTIB0000096</span>
                 </p>
                 <p className="font-semibold">
-                  Account Type:{" "}
-                  <span className="text-gray-500">Savings</span>
+                  Account Type: <span className="text-gray-500">Savings</span>
                 </p>
                 <p className="font-semibold">
                   Branch Name:{" "}

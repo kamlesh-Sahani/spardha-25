@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Custom validation for files
 const fileSchema = z
   .instanceof(File, { message: "File must be a valid upload" })
   .nullable()
@@ -8,14 +7,13 @@ const fileSchema = z
     message: "File is required",
   });
 
-// Player Schema
 const playerSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   enrollment: z.string().min(1, { message: "Enrollment number is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   mobile: z
     .string()
-    .regex(/^\d{10}$/, { message: "Mobile number must be exactly 10 digits" }),
+    .regex(/^\d{10}$/, { message: "Please enter valid mobile number!" }),
   playerIdCard: fileSchema, // Ensures file is not null and valid
   gender: z.string().min(1, { message: "Gender is required" }),
 });
