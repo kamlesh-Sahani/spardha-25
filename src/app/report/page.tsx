@@ -355,7 +355,7 @@ export default function AdminReportPage() {
             >
               Cancel
             </Button>
-            <Button onClick={updateTeamStatus}>{statusLoading ? "Updateing...": "Submit Reason"}</Button>
+            <Button onClick={updateTeamStatus}>{statusLoading ? "Updating...": "Submit Reason"}</Button>
           </div>
         </DialogContent>
       </Dialog>
