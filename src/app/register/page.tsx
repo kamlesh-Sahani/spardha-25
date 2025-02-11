@@ -74,6 +74,7 @@ const Register = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement> | any
   ) => {
+    // if(selectedEvent) return
     const { name, value } = e.target || e;
     if (name === "event") {
       const selectedSport = value?.toLowerCase();
@@ -145,24 +146,24 @@ const Register = () => {
         players: [...prev.players, currentPlayer],
       }));
 
-      setCurrentPlayer({
-        name: "",
-        enrollment: "",
-        mobile: "",
-        playerIdCard: null,
-        gender: "",
-        email: "",
-        isCaptain: false,
-      });
+    setCurrentPlayer({
+      name: "",
+      enrollment: "",
+      mobile: "",
+      playerIdCard: null, // Reset image field
+      gender: "",
+      email: "",
+      isCaptain: false,
+    });
 
-      setErrors({
-        name: "",
-        enrollment: "",
-        email: "",
-        mobile: "",
-        playerIdCard: "",
-        gender: "",
-      });
+    setErrors({
+      name: "",
+      enrollment: "",
+      email: "",
+      mobile: "",
+      playerIdCard: "",
+      gender: "",
+    });
     } catch (err: any) {
       if (err instanceof z.ZodError) {
         console.error("Unexpected ZodError:", err);
@@ -307,6 +308,7 @@ const Register = () => {
                         value: selectedOption?.value || "",
                       })
                     }
+                    isDisabled={!!selectedEvent} // ✅ Convert to boolean
                     options={eventOptions}
                     placeholder="Select Event"
                   />
@@ -357,7 +359,7 @@ const Register = () => {
               className="mt-6"
             >
               <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-                Add Players
+              Add Player to List
               </h2>
               {formData.players?.length < (selectedEvent?.minPlayers ?? 0) && (
                 <div className="flex flex-col gap-4 mb-4">
@@ -412,7 +414,7 @@ const Register = () => {
                     <div className="flex flex-col text-gray-700 gap-2">
                       {/* <label>Player mobile Number</label> */}
                       <input
-                        type="mobile"
+                        type="number"
                         value={currentPlayer.mobile}
                         onChange={(e) => handlePlayerChange(e, "mobile")}
                         placeholder="Enter Mobile Number"
@@ -488,7 +490,7 @@ const Register = () => {
                     onClick={addPlayer}
                     className="px-4 py-2 bg-orange-400 text-gray-100 rounded-lg shadow-md hover:bg-green-500 transition"
                   >
-                    Add Player
+                    Add Player to List
                   </button>
                 </div>
               )}
