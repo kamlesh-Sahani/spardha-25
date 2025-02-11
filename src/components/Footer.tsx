@@ -74,42 +74,15 @@ const Footer = () => {
                   <span>About us</span>
                 </a>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center space-x-2 hover:text-[#cca000] transition-colors"
-                >
-                  <FileText className="w-4 h-4 text-white" />
-                  <span>Mandatory Disclosure</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center space-x-2 hover:text-[#cca000] transition-colors"
-                >
-                  <AlertCircle className="w-4 h-4 text-white" />
-                  <span>Grievance Redressal</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center space-x-2 hover:text-[#cca000] transition-colors"
-                >
-                  <Mail className="w-4 h-4 text-white" />
-                  <span>E-magazine</span>
-                </a>
-              </li>
+             
             </ul>
           </div>
           <div>
             <h3 className="text-2xl font-bold mb-4">Contact Us</h3>
             <div className="space-y-2">
               <p>Okhla Road, New Delhi-110025</p>
-              <p>+91-9868045426</p>
-              <p>+91-9911297657</p>
-              <p>hr@donboscoitggsipu.org</p>
+              <p>+91 98736 68165</p>
+              <p>spardha.dbit@gmail.com</p>
             </div>
           </div>
           <div>
@@ -117,11 +90,11 @@ const Footer = () => {
             <div className="space-y-2">
               <div className="flex gap-4 justify-start items-center">
                 <p className="text-md">Saad Mehmood</p>
-                <Link href={"https://github.com/Saadmehmood1234"}>
+                <Link href={"https://github.com/Saadmehmood1234"} target="_blank">
                   <Github size={16} />
                 </Link>
                 <Link
-                  href={" https://www.linkedin.com/in/saad-mehmood-4a6036255/"}
+                  href={" https://www.linkedin.com/in/saad-mehmood-4a6036255/"} target="_blank"
                 >
                   {""}
                   <Linkedin size={16} />
@@ -129,21 +102,21 @@ const Footer = () => {
               </div>
               <div className="flex gap-4 justify-start items-center">
                 <p className="text-md">Kamlesh Sahani</p>
-                <Link href={"https://github.com/kamlesh-Sahani"}>
+                <Link href={"https://github.com/kamlesh-Sahani"} target="_blank">
                   <Github size={16} />
                 </Link>
-                <Link href={"https://www.linkedin.com/in/kamlesh-sahani/"}>
+                <Link href={"https://www.linkedin.com/in/kamlesh-sahani/"} target="_blank">
                   {" "}
                   <Linkedin size={16} />
                 </Link>
               </div>
               <div className="flex gap-4 justify-start items-center">
                 <p className="text-md">Sovan Kandar</p>
-                <Link href={"https://github.com/sovankandar"}>
+                <Link href={"https://github.com/sovankandar"} target="_blank">
                   <Github size={16} />
                 </Link>
                 <Link
-                  href={"https://www.linkedin.com/in/sovan-kandar-084b76307/"}
+                  href={"https://www.linkedin.com/in/sovan-kandar-084b76307/" } target="_blank"
                 >
                   {" "}
                   <Linkedin size={16} />
