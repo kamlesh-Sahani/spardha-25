@@ -83,12 +83,12 @@ const Register = () => {
       setSelectedEvent(filteredEvent);
     }
 
-    if (name === "captain") {
+    if (name == "captain") {
       setFormData((prevData) => ({
         ...prevData,
         players: prevData.players.map((player) => ({
           ...player,
-          isCaptain: player.name === value,
+          isCaptain: player.name == value,
         })),
         [name]: value,
       }));
@@ -183,7 +183,7 @@ const Register = () => {
       ...formData,
       whatsapp: selectedEvent!.watsapp,
     }
-
+    console.log(newUser)
     setApiResponseMessage("");
     const validation = registrationSchema.safeParse(newUser);
    

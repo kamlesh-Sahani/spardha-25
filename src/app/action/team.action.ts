@@ -40,10 +40,11 @@ export const registerAction = async (teamData: any) => {
     const emailsData=[] as string[];
     for(let i=0;i<players.length;i++){
       emailsData.push(players[i].email);
-      if(captain===players[i].name){
+      if(players[i].isCaptain){
         captainEmail=players[i].email;
       }
     }
+
     // Check if the team is already registered
    
     const isExist = await TeamModel.findOne(
