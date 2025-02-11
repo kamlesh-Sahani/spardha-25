@@ -209,7 +209,7 @@ const Register = () => {
       }
     } catch (err: any) {
      console.log(err,"register error");
-     toast.error(err?.response?.data?.message);
+     toast.error(err?.response?.data?.message || "something went wrong try again ");
 
     } finally {
       setLoading(false);
