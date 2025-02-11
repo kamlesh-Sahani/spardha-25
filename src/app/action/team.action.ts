@@ -21,6 +21,7 @@ export const registerAction = async (teamData: any) => {
     amount,
     whatsapp
   } = teamData ;
+  console.log(teamData);
     if (
       !collegeName ||
       !event ||
@@ -76,6 +77,13 @@ export const registerAction = async (teamData: any) => {
           players?.map((player: any) => uploadImage(player.playerIdCard,teamID))
         )
       
+
+        if(!transactionSsUrl || playerIdCardUrls.length===0){
+          return {
+            success: false,
+            message: "Failed to upload image try again..",
+          };
+        }
     // Generate password for the team
     const password = generatePassword(teamID);
 
@@ -321,7 +329,7 @@ export const getTeam = async(_id:string)=>{
     }
     return{
       message:"successfuly got",
-      success:false,
+      success:true,
       team:JSON.stringify(team)
     }
 }catch(error:any){

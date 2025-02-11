@@ -9,25 +9,35 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function uploadImage(file:File,teamID:number) {
+export async function uploadImage(file: File, teamID: number) {
   try {
-
     if (!file) {
       throw new Error("No file uploaded.");
     }
 
     // Convert the file to a buffer
     const buffer = await file.arrayBuffer();
-    const base64File = Buffer.from(buffer).toString("base64");
+    const bytes = Buffer.from(buffer);
 
-    // Upload to Cloudinary
-    const result = await cloudinary.uploader.upload(
-      `data:${file.type};base64,${base64File}`,
-      { folder: `spardha/team-${teamID}` }
-    );
+    return new Promise<string>((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: "auto",
+          folder: `spardha/team-${teamID}`,
+        },
+        (err, result) => {
+          if (err) {
+            reject(err.message);
+          } else if (result) {
+            resolve(result.secure_url);
+          } else {
+            reject("Upload failed with unknown error.");
+          }
+        }
+      );
 
-    // Return the secure URL
-    return result.secure_url;
+      uploadStream.end(bytes);
+    });
   } catch (error) {
     console.error("Error uploading image:", error);
     return null;
