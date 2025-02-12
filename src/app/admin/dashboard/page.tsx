@@ -23,7 +23,7 @@ export default function Dashboard() {
     totalPayment: 0
   });
   const [loading,setLoading]= useState<boolean>(false);
-  const [stats,useStats]=useState<{title:string,value:number | string,icon:ReactNode}[]>();
+  const [stats,setStats]=useState<{title:string,value:number | string,icon:ReactNode}[]>();
   const [barData,setBarData]=useState<{name:string,value:number}[]>();
   const [pieData,setPieData]=useState<{name:string,value:number}[]>();
 
@@ -47,7 +47,7 @@ export default function Dashboard() {
 
 
   useEffect(()=>{
-    useStats([
+    setStats([
       { title: 'Total Registration', value: dashboardStats.totalRegistration, icon: <ClipboardList className="w-6 h-6" /> },
       { title: 'Player Registered', value: dashboardStats.totalPlayer, icon: <Users className="w-6 h-6" /> },
       { title: 'Registrations Approved', value: dashboardStats.approved, icon: <CheckCircle className="w-6 h-6" /> },
