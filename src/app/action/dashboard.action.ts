@@ -34,15 +34,19 @@ export const dashboardData = async () => {
         for (let i = 0; i < teams.length; i++) {
             const team = teams[i];
             // Count teams by status
-            if (team.status === 'approved') data.approved++;
+            if (team.status === 'approved')
+                {
+                     
+            data.totalPayment += team.amount;
+                    data.approved++;
+                } 
             if (team.status === 'rejected') data.rejected++;
             if (team.status === 'pending') data.pending++;
 
             // Add the college to the Set to get unique colleges
             collegeSet.add(team.college);
 
-            // Count the total payment
-            data.totalPayment += team.amount;
+          
 
             // Iterate over the players in each team
             for (let j = 0; j < team.players.length; j++) {

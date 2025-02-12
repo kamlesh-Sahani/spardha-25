@@ -41,8 +41,7 @@ export default function Dashboard() {
       }
     })();
   }, []);
-
-
+  
   const COLORS = ["#0088FE", "#FF8042"];
 
 
