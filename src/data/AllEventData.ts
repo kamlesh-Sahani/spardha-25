@@ -251,32 +251,6 @@ export const sportsData: SportsType[] = [
      qrImage:'/badminton.jpeg',
      watsapp:"https://chat.whatsapp.com/ISqqAil1BKSKHpnv8HUgYi"
   },
-  {
-    sport: "Power Lifting Lightweight (65 - 75 Kg)",
-    minPlayers: 1,
-    substitute: "NA",
-    entryFee: 150,
-    maxEntry: "Open",
-     qrImage:'/badminton.jpeg',
-     watsapp:"https://chat.whatsapp.com/KWj8eSHU0ZN9nU5AWEZbz9"
-  },
-  {
-    sport: "Power Lifting Middleweight (75 - 85 Kg)",
-    minPlayers: 1,
-    substitute: "NA",
-    entryFee: 150,
-    maxEntry: "Open",
-     qrImage:'/badminton.jpeg',
-     watsapp:"https://chat.whatsapp.com/KWj8eSHU0ZN9nU5AWEZbz9"
-  },
-  {
-    sport: "Power Lifting Heavyweight (85 - 100 Kg)",
-    minPlayers: 1,
-    substitute: "NA",
-    entryFee: 150,
-    maxEntry: "Open",
-     qrImage:'/badminton.jpeg',
-     watsapp:"https://chat.whatsapp.com/KWj8eSHU0ZN9nU5AWEZbz9"
-  },
+  
 ];
 				
