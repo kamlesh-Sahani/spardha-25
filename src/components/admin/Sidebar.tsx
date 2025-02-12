@@ -180,6 +180,16 @@ export default function AdminSidebar() {
                     <p>Attendance</p>
                   </div>
                 </Link>
+                <Link href="/admin/event">
+                  <div
+                    className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
+                      pathname === "/admin/event" ? "bg-[#3B82F6]" : ""
+                    }`}
+                  >
+                    <Gamepad />
+                    <p>visualize Events</p>
+                  </div>
+                </Link>
                 <Link href="/admin/events">
                   <div
                     className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${

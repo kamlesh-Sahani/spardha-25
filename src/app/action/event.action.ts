@@ -1,6 +1,5 @@
 "use server";
 
-import { IEvent } from "@/models/event.model";
 import dbConnect from "@/utils/dbConnect.util";
 import eventModel from "@/models/event.model";
 export const newEvent = async(eventData:any)=>{
@@ -37,6 +36,7 @@ export const newEvent = async(eventData:any)=>{
 
 export const allEvents = async()=>{
     try{
+        await dbConnect();
 const events = await eventModel.find({});
 return {
     message:"successfuly find",
@@ -50,3 +50,5 @@ return {
         }
     }
 }
+
+

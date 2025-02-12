@@ -367,3 +367,72 @@ export const deleteTeam = async(_id:string)=>{
   }
 }
 }
+
+export const getTeamByEvent = async(eventName:string)=>{
+  try{
+      await dbConnect();
+      const teams = await TeamModel.find({event:eventName});
+      if(teams.length===0){
+          return{
+              message:"teams is not found",
+              success:false
+          }
+      }
+      const collegeData = new Map<string, number>();
+      // Iterate through teams to populate events and collegeData
+      for (let i = 0; i < teams.length; i++) {
+        const team = teams[i];
+        // Update college registration count
+        if (collegeData.has(team.college)) {
+          const registrations = collegeData.get(team.college)! + 1;
+          collegeData.set(team.college, registrations);
+        } else {
+          collegeData.set(team.college, 1);
+        }
+      }
+
+         // Convert the Map to an array of objects for easier use
+    const collegeDataArray = Array.from(collegeData).map(([name, registrations]) => ({
+      name,
+      registrations,
+    }));
+
+      return{
+          message:"teams finded",
+          success:true,
+          teams:JSON.stringify(teams),
+          collegeData:JSON.stringify(collegeDataArray)
+      }
+  }catch(error:any){
+      return{
+          message:error.message || "internal error",
+          success:false
+      }
+  }
+}
+
+
+export const getEvets = async()=>{
+  try{
+      await dbConnect();
+      const events = await TeamModel.find({}).select("event");
+      if(events.length===0){
+          return{
+              message:"event is not found",
+              success:false
+          }
+      }
+
+      return{
+          message:"events finded",
+          success:true,
+          events:JSON.stringify(events)
+      }
+  }catch(error:any){
+      return{
+          message:error.message || "internal error",
+          success:false
+      }
+  }
+}
+
