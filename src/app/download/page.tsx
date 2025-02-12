@@ -121,7 +121,7 @@ const Download = () => {
                   href={doc.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block p-6 bg-slate-800 rounded-lg shadow-lg hover:bg-slate-100 transition-colors duration-200"
+                  className="group block p-6 bg-slate-800 rounded-lg shadow-lg hover:bg-white/10 transition-colors duration-200"
                 >
                   <h2 className="text-xl font-semibold text-sky-400 group-hover:text-emerald-400 mb-2 transition-colors duration-200">
                     {doc.title}
