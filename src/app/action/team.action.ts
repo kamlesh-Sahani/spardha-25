@@ -340,10 +340,6 @@ export const getTeam = async(_id:string)=>{
 }
 }
 
-
-
-
-
 export const deleteTeam = async(_id:string)=>{
 
   try{
@@ -435,4 +431,28 @@ export const getEvets = async()=>{
       }
   }
 }
+
+export const getTeamByTeamID = async(teamID:number,password:string)=>{
+  try{
+      await dbConnect();
+      const team = await TeamModel.findOne({teamID,password});
+      if(!team){
+          return{
+              message:"Check again TeamID or password",
+              success:false
+          }
+      }
+      return{
+          message:"Team successfuly find",
+          success:true,
+          team:JSON.stringify(team)
+      }
+  }catch(error:any){
+      return{
+          message:error.message || "internal error",
+          success:false
+      }
+  }
+}
+
 
