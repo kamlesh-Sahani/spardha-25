@@ -217,7 +217,6 @@ const Register = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     setEventData(eventImage);
   }, []);
@@ -702,6 +701,19 @@ const Register = () => {
               transition={{ delay: 1.4, duration: 0.5 }}
               className=""
             >
+              <div className="flex items-center mb-4">
+                <input
+                  type="checkbox"
+                  id="acceptance"
+                  required
+                  className="mr-2"
+                />
+                <label htmlFor="acceptance" className="text-gray-700">
+                  I hereby accept that I will abide by the Rules, Instructions
+                  and Guidelines of SPARDHA'25
+                </label>
+              </div>
+
               <button
                 type="submit"
                 className="w-full mb-8 px-6 py-3 text-lg font-semibold bg-[#f5a937] text-white rounded-lg shadow-md hover:bg-yellow-500 transition flex items-center justify-center"
