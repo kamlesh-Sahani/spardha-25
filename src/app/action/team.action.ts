@@ -341,3 +341,29 @@ export const getTeam = async(_id:string)=>{
 }
 
 
+
+
+
+export const deleteTeam = async(_id:string)=>{
+
+  try{
+    await dbConnect();
+    const team = await TeamModel.findByIdAndDelete(_id);
+
+    if(!team){
+      return{
+        success:false,
+        message:"Team is not found"
+      }
+    }
+    return{
+      message:"successfuly Team Deleted",
+      success:true,
+    }
+}catch(error:any){
+  return{
+    success:false,
+    message:error.message ||"internal error"
+  }
+}
+}

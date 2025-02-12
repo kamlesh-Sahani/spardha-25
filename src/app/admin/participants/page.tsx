@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {CheckCircle,XCircle} from "lucide-react"
+import {CheckCircle,XCircle,Trash2} from "lucide-react"
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/dialog";
 import Loader from "@/components/Loader";
 import { default as ReactSelect } from "react-select"; // ✅ Correct aliasing
+import { deleteTeam } from "@/app/action/team.action";
 
 // Define type
 interface Player {
@@ -78,11 +79,12 @@ export default function AdminReportPage() {
   const [collegeData, setCollegeData] = useState<string[]>();
   const [eventData, setEventData] = useState<string[]>();
   const [statusLoading,setStatusLoading]= useState<boolean>(false);
+  const [deleteDialog,setDeleteDailog]=useState<boolean>(false);
 
   // New state for handling approval/rejection reason
   const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
   const [statusReason, setStatusReason] = useState("");
-  const [currentStatus, setCurrentStatus] = useState<"approved" | "rejected">();
+  const [currentStatus, setCurrentStatus] = useState<"approved" | "rejected" | "delete">();
   const [currentTeamId, setCurrentTeamId] = useState<string>();
   const filteredTeams = (teams || [])
   .filter((team) => {
@@ -116,18 +118,25 @@ export default function AdminReportPage() {
   const updateTeamStatus = async () => {
     try {
       setStatusLoading(true);
-      const { data } = await axios.post("/api/report/status", {
-        _id: currentTeamId,
-        status: currentStatus,
-        reason: statusReason,
-      });
-      if (data.success) {
-        toast.success(data.message || "Successfully updated");
-      } else {
-        toast.error(data.message);
+      let res;
+      if(currentStatus==="delete"){
+        res = await deleteTeam(currentTeamId!)
+      }else{
+        const { data } = await axios.post("/api/report/status", {
+          _id: currentTeamId,
+          status: currentStatus,
+          reason: statusReason,
+        });
+        res=data;
       }
-      setUiUpdate((prev) => !prev);
-      setIsStatusDialogOpen(false); // Close the dialog after submission
+      if (res.success) {
+        toast.success(res.message || "Successfully updated");
+        setUiUpdate((prev) => !prev);
+        setIsStatusDialogOpen(false); // Close the dialog after submission
+      } else {
+        toast.error(res.message);
+      }
+     
     } catch (error: any) {
       toast.error(error?.response?.data?.message || "Something went wrong");
       console.log(error);
@@ -139,7 +148,7 @@ export default function AdminReportPage() {
   // Open status dialog for approve/reject
   const openStatusDialog = (
     teamId: string,
-    status: "approved" | "rejected"
+    status: "approved" | "rejected" | "delete"
   ) => {
     setCurrentTeamId(teamId);
     setCurrentStatus(status);
@@ -157,6 +166,7 @@ export default function AdminReportPage() {
     setSelectedTeam(team);
     setIsTransactionModalOpen(true);
   };
+
 
   useEffect(() => {
     (async function () {
@@ -187,7 +197,6 @@ export default function AdminReportPage() {
     })();
   }, []);
 
-  console.log(selectedTeam,"team")
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-bold mb-6">Team Registrations Report</h1>
@@ -351,6 +360,13 @@ export default function AdminReportPage() {
                         >
                           <XCircle />
                         </Button>
+
+
+                        <Button
+                          onClick={() => openStatusDialog(team._id, "delete")}
+                        >
+                         <Trash2 />
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -365,7 +381,9 @@ export default function AdminReportPage() {
         <DialogContent className="max-w-[400px] max-sm:max-w-[90vw] rounded z-[110]">
           <DialogHeader>
             <DialogTitle>
-              Provide a Reason for{" "}
+              {
+                currentStatus ==="delete" ? "Are you sure to want to delete ?":<>
+                 Provide a Reason for{" "}
               <span
                 className={`${
                   currentStatus == "rejected"
@@ -375,17 +393,26 @@ export default function AdminReportPage() {
               >
                 {currentStatus}
               </span>
+                 </>
+              }
+             
             </DialogTitle>
-            <DialogDescription>
+            {
+              currentStatus !=="delete" && <DialogDescription>
               Please provide a reason for the {currentStatus} status.
             </DialogDescription>
+            }
+          
           </DialogHeader>
-          <Input
+          {
+            currentStatus!=="delete" && <Input
             value={statusReason}
             onChange={(e) => setStatusReason(e.target.value)}
             placeholder={`Reason for ${currentStatus} optional`}
             className="w-full mb-4"
           />
+          }
+         
           <div className="flex justify-end gap-2">
             <Button
               variant="outline"
@@ -393,7 +420,7 @@ export default function AdminReportPage() {
             >
               Cancel
             </Button>
-            <Button onClick={updateTeamStatus}>{statusLoading ? "Updating...": "Submit Reason"}</Button>
+            <Button onClick={updateTeamStatus}>{statusLoading ? "Updating...": "Submit"}</Button>
           </div>
         </DialogContent>
       </Dialog>
