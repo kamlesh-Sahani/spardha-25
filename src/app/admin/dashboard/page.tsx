@@ -5,7 +5,7 @@ import {
   ClipboardList, Users, Gamepad, IndianRupee, School,
   User, UserCheck, CheckCircle, XCircle, Clock
 } from 'lucide-react';
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 export default function Dashboard() {
@@ -23,6 +23,9 @@ export default function Dashboard() {
     totalPayment: 0
   });
   const [loading,setLoading]= useState<boolean>(false);
+  const [stats,useStats]=useState<{title:string,value:number | string,icon:ReactNode}[]>();
+  const [barData,setBarData]=useState<{name:string,value:number}[]>();
+  const [pieData,setPieData]=useState<{name:string,value:number}[]>();
 
   useEffect(() => {
     (async function() {
@@ -39,35 +42,36 @@ export default function Dashboard() {
     })();
   }, []);
 
-  // Dummy stat cards with dynamic values based on fetched data
-  const stats = useMemo(() => [
-    { title: 'Total Registration', value: dashboardStats.totalRegistration, icon: <ClipboardList className="w-6 h-6" /> },
-    { title: 'Player Registered', value: dashboardStats.totalPlayer, icon: <Users className="w-6 h-6" /> },
-    { title: 'Registrations Approved', value: dashboardStats.approved, icon: <CheckCircle className="w-6 h-6" /> },
-    { title: 'Registrations Rejected', value: dashboardStats.rejected, icon: <XCircle className="w-6 h-6" /> },
-    { title: 'Registrations Pending', value: dashboardStats.pending, icon: <Clock className="w-6 h-6" /> },
-    { title: 'Male Registrations', value: dashboardStats.male, icon: <User className="w-6 h-6" /> },
-    { title: 'Female Registrations', value: dashboardStats.female, icon: <UserCheck className="w-6 h-6" /> },
-    { title: 'Colleges Participated', value: dashboardStats.college, icon: <School className="w-6 h-6" /> },
-    { title: 'Active Events', value: dashboardStats.events, icon: <Gamepad className="w-6 h-6" /> },
-    { title: 'Total Payments', value: `₹ ${dashboardStats.totalPayment.toLocaleString()}`, icon: <IndianRupee className="w-6 h-6" /> },
-  ], [dashboardStats]);
 
-
-   // Data for the bar chart
-   const barData =useMemo(() => [
-    { name: "Approved", value: dashboardStats.approved },
-    { name: "Rejected", value: dashboardStats.rejected },
-    { name: "Pending", value: dashboardStats.pending },
-  ],[dashboardStats])
-
-  // Data for the pie chart
-  const pieData = useMemo(() =>[
-    { name: "Male", value: dashboardStats.male },
-    { name: "Female", value: dashboardStats.female },
-  ],[dashboardStats]);
   const COLORS = ["#0088FE", "#FF8042"];
 
+
+  useEffect(()=>{
+    useStats([
+      { title: 'Total Registration', value: dashboardStats.totalRegistration, icon: <ClipboardList className="w-6 h-6" /> },
+      { title: 'Player Registered', value: dashboardStats.totalPlayer, icon: <Users className="w-6 h-6" /> },
+      { title: 'Registrations Approved', value: dashboardStats.approved, icon: <CheckCircle className="w-6 h-6" /> },
+      { title: 'Registrations Rejected', value: dashboardStats.rejected, icon: <XCircle className="w-6 h-6" /> },
+      { title: 'Registrations Pending', value: dashboardStats.pending, icon: <Clock className="w-6 h-6" /> },
+      { title: 'Male Registrations', value: dashboardStats.male, icon: <User className="w-6 h-6" /> },
+      { title: 'Female Registrations', value: dashboardStats.female, icon: <UserCheck className="w-6 h-6" /> },
+      { title: 'Colleges Participated', value: dashboardStats.college, icon: <School className="w-6 h-6" /> },
+      { title: 'Active Events', value: dashboardStats.events, icon: <Gamepad className="w-6 h-6" /> },
+      { title: 'Total Payments', value: `₹ ${dashboardStats.totalPayment.toLocaleString()}`, icon: <IndianRupee className="w-6 h-6" /> },
+    ])
+
+    setBarData([
+      { name: "Approved", value: dashboardStats.approved },
+      { name: "Rejected", value: dashboardStats.rejected },
+      { name: "Pending", value: dashboardStats.pending },
+    ])
+
+    setPieData([
+      { name: "Male", value: dashboardStats.male },
+      { name: "Female", value: dashboardStats.female },
+    ])
+
+  },[dashboardStats])
 
   return (
     <>
@@ -77,7 +81,7 @@ export default function Dashboard() {
 
       {/* Key Statistics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
+        { stats && stats.map((stat, index) => (
           <div
             key={index}
             className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow"

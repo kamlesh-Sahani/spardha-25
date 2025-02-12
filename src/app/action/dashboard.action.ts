@@ -1,9 +1,11 @@
 "use server";
 import eventModel from "@/models/event.model";
 import TeamModel from "@/models/team.model";
+import dbConnect from "@/utils/dbConnect.util";
 
 export const dashboardData = async () => {
     try {
+        await dbConnect();
         const data = {
             totalRegistration: 0,
             totalPlayer: 0,
