@@ -77,6 +77,11 @@ export default function AdminSidebar() {
   }, []);
 
   useEffect(() => {
+    if (window.innerWidth < 1280) {
+      setShowSidebar(false);
+    } else {
+      setShowSidebar(true);
+    }
     if (admin) {
       if (admin.active) {
         if (admin.role !== "admin") {
@@ -146,7 +151,7 @@ export default function AdminSidebar() {
 
           {/* Sidebar Navigation */}
           <div className="flex flex-col gap-2 flex-[3]">
-            <Link href="/admin/dashboard">
+            <Link href="/admin/dashboard" >
               <div
                 className={`flex gap-3 h-[50px] rounded-md items-center cursor-pointer hover:bg-[#3B82F6] hover:text-white pl-4 text-[20px] text-gray-200/80 ${
                   pathname === "/admin/dashboard" ? "bg-[#3B82F6]" : ""
