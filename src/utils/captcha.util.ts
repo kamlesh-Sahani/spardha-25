@@ -2,7 +2,7 @@ export const getCaptchaToken = (): Promise<string> => {
     return new Promise((resolve, reject) => {
       grecaptcha.ready(async () => {
         try {
-          const siteKey = process.env.CAPTCHA_SITE_KEY;  // Use site key, not secret key
+          const siteKey = process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY;  // Use site key, not secret key
           if (!siteKey) {
             return reject(new Error("CAPTCHA site key is not found"));
           }
