@@ -180,7 +180,7 @@ const Register = () => {
       ...formData,
       whatsapp: selectedEvent!.watsapp,
     };
-    console.log(newUser);
+  
     setApiResponseMessage("");
     const validation = registrationSchema.safeParse(newUser);
 

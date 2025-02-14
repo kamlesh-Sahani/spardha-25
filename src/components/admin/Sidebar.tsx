@@ -62,7 +62,7 @@ export default function AdminSidebar() {
         setLoading(true);
         const res = await adminProfile();
         if (res.success) {
-          console.log(JSON.parse(res.admin!));
+        
           setAdmin(JSON.parse(res.admin!));
         } else {
           setAdmin(null);

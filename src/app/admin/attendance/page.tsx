@@ -77,7 +77,7 @@ export default function AttendancePage() {
     }
   };
 
-  console.log(teamDetails, "detail");
+
 
   const handleMarkAttendance = async () => {
     if (!teamID || !password) {
@@ -229,7 +229,7 @@ export default function AttendancePage() {
             placeholder="Search by Team ID, Event, or College"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-1/3 mb-2"
+            className="w-1/3 mb-2 max-sm:w-full"
           />
 
           {/* Teams Table */}

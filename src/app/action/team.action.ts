@@ -10,7 +10,7 @@ import dbConnect from "@/utils/dbConnect.util";
 export const registerAction = async (teamData: any) => {
   try {
     await dbConnect();
-    console.log(teamData,"in api");
+
   const {
     event,
     collegeName,
@@ -21,7 +21,6 @@ export const registerAction = async (teamData: any) => {
     amount,
     whatsapp
   } = teamData ;
-  console.log(teamData);
     if (
       !collegeName ||
       !event ||
@@ -367,7 +366,7 @@ export const deleteTeam = async(_id:string)=>{
 export const getTeamByEvent = async(eventName:string)=>{
   try{
       await dbConnect();
-      const teams = await TeamModel.find({event:eventName});
+      const teams = await TeamModel.find({event:eventName})
       if(teams.length===0){
           return{
               message:"teams is not found",
@@ -411,7 +410,7 @@ export const getTeamByEvent = async(eventName:string)=>{
 export const getEvets = async()=>{
   try{
       await dbConnect();
-      const events = await TeamModel.find({}).select("event");
+      const events = await TeamModel.find({}).select("event").distinct("event");
       if(events.length===0){
           return{
               message:"event is not found",

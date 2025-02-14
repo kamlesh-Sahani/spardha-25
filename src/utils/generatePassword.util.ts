@@ -5,7 +5,7 @@ const generatePassword = (teamID:number) => {
     const pos = Math.floor(Math.random() * alphaCode.length);
     password += alphaCode.at(pos);
   }
-  console.log("generated passoword",password);
+
   return  password;
 };
 

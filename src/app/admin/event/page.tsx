@@ -31,7 +31,7 @@ const RegistrationsPage = () => {
   );
   const [data, setData] = useState<ITeam[]>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [events, setEvents] = useState<{ _id: string; event: string }[]>();
+  const [events, setEvents] = useState<string[]>();
   const [collegeChartData, setCollegeChartData] =
     useState<{ name: string; registrations: number }[]>();
   const router = useRouter();
@@ -40,15 +40,17 @@ const RegistrationsPage = () => {
     (async function () {
       try {
         const res = await getEvets();
-        console.log(res);
+      
         if (res.success) {
-          setEvents(JSON.parse(res.events!));
+          const parsedEvents = JSON.parse(res.events!);
+          setEvents(parsedEvents);
         }
       } catch (error: any) {
         console.log(error);
       }
     })();
   }, []);
+ 
   const fetchEvent = async () => {
     try {
       if (!selectedEvent) {
@@ -85,19 +87,22 @@ const RegistrationsPage = () => {
       ) : (
         <>
           <div className="max-w-md mx-auto mb-8">
-            <Select value={selectedEvent} onValueChange={setSelectedEvent}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select an event" />
-              </SelectTrigger>
-              <SelectContent>
-                {events &&
-                  events.map((event) => (
-                    <SelectItem key={event._id} value={event.event}>
-                      {event.event}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
+          <Select value={selectedEvent} onValueChange={setSelectedEvent}>
+  <SelectTrigger className="w-full">
+    <SelectValue placeholder="Select an event" />
+  </SelectTrigger>
+  <SelectContent>
+    {events && events.length > 0 ? (
+      events.map((event, index) => (
+        <SelectItem key={index} value={event}>
+          {event}
+        </SelectItem>
+      ))
+    ) : (
+      <p>No events available</p>
+    )}
+  </SelectContent>
+</Select>
           </div>
           {/* Metrics and Charts */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

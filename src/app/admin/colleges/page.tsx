@@ -105,12 +105,12 @@ export default function CollegeTable() {
     <div className="flex justify-between items-center mb-6">
       <h1 className="text-3xl font-bold">Colleges List</h1>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild className="z-[110]">
+        <DialogTrigger asChild className="z-[90]">
           <Button variant="default" className="flex items-center gap-2">
             <PlusCircle className="w-5 h-5" /> Add College
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md  z-[110]">
           <DialogHeader>
             <DialogTitle>Add a New College</DialogTitle>
           </DialogHeader>

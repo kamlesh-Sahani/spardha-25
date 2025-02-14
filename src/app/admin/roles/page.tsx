@@ -147,7 +147,7 @@ try{
             <DialogTrigger asChild>
             <Button variant="default">Add User</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="z-[110]">
             <DialogHeader>
               <DialogTitle>Add New User</DialogTitle>
             </DialogHeader>

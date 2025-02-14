@@ -202,7 +202,7 @@ export default function AdminReportPage() {
       <h1 className="text-2xl font-bold mb-6">Team Registrations Report</h1>
 
       {/* Filters */}
-      <div className="mb-6 flex gap-4">
+      <div className="mb-6 flex flex-wrap gap-4">
         {collegeData && (
           <ReactSelect
             value={
