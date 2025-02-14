@@ -5,6 +5,7 @@ import axios from "axios";
 import Loader from "@/components/Loader";
 import Modal from "@/components/ProfileModel";
 import toast from "react-hot-toast";
+import { registerAction } from "../action/team.action";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -39,6 +40,14 @@ export default function Home() {
   const handlePasswordSubmit = (password: string) => {
     getProfile(password);
   };
+
+  useEffect(()=>{
+    (async function (){
+      const res = await registerAction({})
+      console.log(res,"res")
+    })()
+  
+  },[])
 
 
   return (
