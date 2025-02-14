@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import {Toaster} from "react-hot-toast"
 import "./globals.css"
 import Footer from "@/components/Footer";
-
+import Script from "next/script"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,6 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY}`}/>
       <div>
       <Navbar />
       {children}

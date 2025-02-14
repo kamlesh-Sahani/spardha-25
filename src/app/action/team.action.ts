@@ -7,11 +7,12 @@ import teamIdGenerate from "@/utils/teamIdGenerate.util";
 import dbConnect from "@/utils/dbConnect.util";
 import { LRUCache } from 'lru-cache'
 import {headers} from "next/headers"
+import { verifyToken } from "@/utils/captcha.util";
 
 // Configure the LRU cache (Max 10 requests per IP in 1 hour)
 const rateLimitCache = new LRUCache({
   max: 500, // Store up to 500 different IPs
-  ttl: 1000 * 60 * 10, // 10 minute in milliseconds
+  ttl: 1000 * 60 * 30, // 30 minute in milliseconds
 });
 // Function to get IP address
 const getIP = async() => {
@@ -46,7 +47,8 @@ export const registerAction = async (teamData: any) => {
     transactionImage,
     captain,
     amount,
-    whatsapp
+    whatsapp,
+    captchaToken
   } = teamData ;
     if (
       !collegeName ||
@@ -56,6 +58,7 @@ export const registerAction = async (teamData: any) => {
       !captain ||
       !amount ||
       !whatsapp ||
+      !captchaToken ||
       players.length === 0
     ) {
       return {
@@ -63,6 +66,14 @@ export const registerAction = async (teamData: any) => {
         message: "Please fill all fields | have you clicked add player button?",
       };
     }
+   const captchaData =  await verifyToken(captchaToken);
+   console.log(captchaData);
+   if(!captchaData.success || captchaData.score<0.5){
+    return {
+      success: false,
+      message: "captcha failed",
+    };
+   }
     let captainEmail;
     const emailsData=[] as string[];
     for(let i=0;i<players.length;i++){

@@ -12,6 +12,7 @@ import { playerSchema, registrationSchema } from "@/data/Zod";
 import { useRouter } from "next/navigation";
 import { Sports } from "@/lib/type";
 import { allColleges } from "../action/college.action";
+import { getCaptchaToken } from "@/utils/captcha.util";
 const Register = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<{
@@ -31,6 +32,7 @@ const Register = () => {
     amount: number;
     whatsapp: string;
     transactionImage: File | null;
+    captchaToken:string;
   }>({
     event: "",
     collegeName: "",
@@ -40,6 +42,7 @@ const Register = () => {
     amount: 0,
     whatsapp: "",
     transactionImage: null,
+    captchaToken:""
   });
   const [selectedEvent, setSelectedEvent] = useState<Sports | undefined>(
     undefined
@@ -176,9 +179,12 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    const token =  getCaptchaToken()
+    console.log(token,"token captcha");
     const newUser = {
       ...formData,
       whatsapp: selectedEvent!.watsapp,
+      captchaToken:token
     };
   
     setApiResponseMessage("");
