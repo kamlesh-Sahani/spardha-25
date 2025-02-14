@@ -29,7 +29,6 @@ export const getCaptchaToken = (): Promise<string> => {
   
       const res = await fetch(url, { method: "POST" });
       const captchaData: CaptchaDataType = await res.json();
-      
       return captchaData;
     } catch (error: any) {
       throw new Error(error.message || "Something went wrong");

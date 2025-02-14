@@ -66,7 +66,6 @@ export const registerAction = async (teamData: any) => {
       };
     }
    const captchaData =  await verifyToken(captchaToken);
-   console.log(captchaData);
    if(!captchaData.success || captchaData.score<0.5){
     return {
       success: false,
