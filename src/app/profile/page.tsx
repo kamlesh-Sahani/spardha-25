@@ -41,13 +41,6 @@ export default function Home() {
     getProfile(password);
   };
 
-  useEffect(()=>{
-    (async function (){
-      const res = await registerAction({})
-      console.log(res,"res")
-    })()
-  
-  },[])
 
 
   return (
