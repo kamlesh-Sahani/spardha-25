@@ -86,6 +86,25 @@ export default function AdminReportPage() {
   const [statusReason, setStatusReason] = useState("");
   const [currentStatus, setCurrentStatus] = useState<"approved" | "rejected" | "delete">();
   const [currentTeamId, setCurrentTeamId] = useState<string>();
+
+  // Add new state for large image view
+const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+// Event handler to open the image modal
+const openImageModal = (imageSrc: string) => {
+  setSelectedImage(imageSrc);
+  setIsImageModalOpen(true);
+};
+
+// Event handler to close the image modal
+const closeImageModal = () => {
+  setIsImageModalOpen(false);
+  setSelectedImage(null);
+};
+
+
+
   const filteredTeams = (teams || [])
   .filter((team) => {
     return (
@@ -425,6 +444,24 @@ export default function AdminReportPage() {
         </DialogContent>
       </Dialog>
 
+
+      <Dialog open={isImageModalOpen} onOpenChange={setIsImageModalOpen}>
+  <DialogContent className="max-w-[80vw] max-sm:max-w-[90vw]  rounded z-[110]">
+    <DialogHeader>
+      <DialogTitle>Player ID Card</DialogTitle>
+    </DialogHeader>
+    <img
+      src={selectedImage || ""}
+      alt="Large View"
+      className="w-full h-[70vh] object-contain rounded"
+    />
+    <div className="flex justify-end gap-2 mt-4">
+      <Button variant="outline" onClick={closeImageModal}>Close</Button>
+    </div>
+  </DialogContent>
+</Dialog>
+
+
       <Dialog open={isPlayerModalOpen} onOpenChange={setIsPlayerModalOpen}>
         <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded z-[110]">
           <DialogHeader>
@@ -466,6 +503,7 @@ export default function AdminReportPage() {
                 <img
                   src={player.playerIdCard}
                   className="min-w-[400px] h-[300px] object-contain rounded "
+                  onClick={() => openImageModal(player.playerIdCard)} // Click handler
                 />
               </div>
             ))}
@@ -492,6 +530,7 @@ export default function AdminReportPage() {
             src={selectedTeam?.transactionSs || ""}
             alt="Transaction Screenshot"
             className="w-[400px] h-[400px]  object-contain rounded "
+            onClick={() => openImageModal(selectedTeam?.transactionSs || "")} // Click handler
           />
         </DialogContent>
       </Dialog>
