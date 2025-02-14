@@ -2,30 +2,21 @@
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaXTwitter,FaPerson,FaDownload } from "react-icons/fa6";
-import { LiaYoutubeSquare } from "react-icons/lia";
 import Link from "next/link";
-import {
-  Home,
-  FileClock,
-  ClipboardCopy,
-  Menu,
-  X,
-  NotebookTabs,
-  Mail,
-  Phone,
-  Facebook,
-  Instagram,
-  Linkedin,
-} from "lucide-react";
-import navLogo from "@/app/assets/navLogo.png";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import { FaUser, FaDownload, FaTachometerAlt, FaUserGraduate } from "react-icons/fa";
+import { MdEventAvailable } from "react-icons/md";
+import { IoMdMail, IoMdCall } from "react-icons/io";
+import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
+
+
 const navItems = [
-  { icon: Home, label: "Spardha", path: "/" },
-  { icon: FileClock, label: "Register", path: "/register" },
+  { icon: FaTachometerAlt, label: "Dashboard", path: "/" },
+  { icon: MdEventAvailable, label: "Register", path: "/register" },
   { icon: FaDownload, label: "Download", path: "/download" },
-  { icon: NotebookTabs, label: "Profile", path: "/profile" },
-  { icon: FaPerson, label: "Admin", path: "/admin/dashboard" },
+  { icon: FaUserGraduate, label: "Profile", path: "/profile" },
+  { icon: FaUser, label: "Admin", path: "/admin/dashboard" },
 ];
 
 const Navbar = () => {
@@ -39,26 +30,26 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-4 px-3">
             <span className="flex items-center">
-              <Mail size={20} className="mr-2" /> spardha.dbit@gmail.com
+              <IoMdMail size={20} className="mr-2" /> spardha.dbit@gmail.com
             </span>
             <span className="flex items-center">
-              <Phone size={20} className="mr-2" /> +91 98736 68165
+              <IoMdCall size={20} className="mr-2" /> +91 98736 68165
             </span>
           </div>
           <div className="flex items-center space-x-4 px-2">
             <Link href="https://www.facebook.com/bttsggsipu">
-              <Facebook size={20} />
+              <FaFacebookF size={20} />
             </Link>
             <Link href=" https://x.com/bttsggsipu">
-              <FaXTwitter size={20} />
+              <FaTwitter size={20} />
             </Link>
             <Link href=" https://www.instagram.com/donbosco_ggsipu/">
               {" "}
-              <Instagram size={20} />
+              <FaInstagram size={20} />
             </Link>
             <Link href="https://www.youtube.com/channel/UCM4ZafIAJQ20jgpIMqcNshA">
               {" "}
-              <LiaYoutubeSquare size={20} />
+              <FaYoutube size={20} />
             </Link>
             {/*  */}
           </div>
