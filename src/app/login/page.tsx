@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Lock, Mail } from "lucide-react";
 import { adminLogin } from "../action/admin.action";
 import {useRouter} from "next/navigation";
+import { getCaptchaToken } from "@/utils/captcha.util";
 
 const AdminLogin: React.FC = () => {
   const [passkey, setPasskey] = useState("");
@@ -17,7 +18,8 @@ const AdminLogin: React.FC = () => {
     setError("");
 
     try {
-      const res = await adminLogin(passkey,mail);
+      const token =  await getCaptchaToken()
+      const res = await adminLogin(passkey,mail,token);
       if(!res.success){
         setError(res.message);
       }else{
