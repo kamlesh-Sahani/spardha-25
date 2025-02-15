@@ -84,7 +84,7 @@ export const adminLogin = async (
       { email: admin.email, role: "admin", active: admin.active },
       jwtSecret,
       {
-        expiresIn: "7d",
+        expiresIn: "1d",
       }
     );
 
@@ -92,7 +92,9 @@ export const adminLogin = async (
     // Set the token in a secure HttpOnly cookie
     cookieStore.set("admin-token", token, {
       httpOnly: true, // Prevents client-side access
-      maxAge: 7 * 24 * 60 * 60, // 7 day
+      maxAge: 4 * 60 * 60, //4 minute
+      domain:"https://spardha-25.vercel.app",
+      sameSite:"strict"
     });
 
     return {
@@ -274,6 +276,7 @@ export const adminProfile = async () => {
 
     const token = cookieStore.get("admin-token")?.value;
     if (!token) {
+      cookieStore.delete("admin-token");
       return {
         success: false,
         message: "unauthenticated user",
@@ -294,6 +297,8 @@ export const adminProfile = async () => {
       admin: JSON.stringify(decoded),
     };
   } catch (error: any) {
+    const cookieStore = await cookies();
+    cookieStore.delete("admin-token");
     return {
       success: false,
       message: error.message || "internal error",

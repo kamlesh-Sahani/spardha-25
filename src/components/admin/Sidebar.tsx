@@ -55,7 +55,6 @@ export default function AdminSidebar() {
       toast.error(error?.reponse?.data?.message || "internal error");
     }
   };
-
   useEffect(() => {
     (async function () {
       try {
