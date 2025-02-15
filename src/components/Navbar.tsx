@@ -21,8 +21,7 @@ const navItems = [
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const pathname = usePathname(); // Get current route
-
+  const pathname = usePathname(); 
   return (
     <div>
       {/* Top Contact Bar */}

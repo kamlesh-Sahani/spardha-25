@@ -4,7 +4,6 @@ import {cookies} from "next/headers"
 export async function middleware(request: NextRequest) {
   const cookieStore = await cookies();
   const token = cookieStore.get("auth-token")?.value;
-  
   const protectedRoutes = ["/admin", "/api/report"];
   if (
     protectedRoutes.some((route) => request.nextUrl.pathname.startsWith(route))
@@ -18,7 +17,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
   }
-
   return NextResponse.next();
 }
 export const config = {
