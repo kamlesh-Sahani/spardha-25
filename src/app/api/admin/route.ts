@@ -8,6 +8,7 @@ export async function GET() {
     await dbConnect();
     const cookieStore = await cookies();
     const token = cookieStore.get("auth-token")?.value;
+    console.log(cookieStore,"cookie")
     if (!token) {
       cookieStore.delete("auth-token");
       return NextResponse.json(
