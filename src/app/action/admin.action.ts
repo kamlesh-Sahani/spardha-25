@@ -53,10 +53,11 @@ export const adminLogin = async (
     }
     rateLimitCache.set(ip, requestCount + 1);
     const captchaData = await verifyToken(captchaToken);
+    console.log(captchaData,"captcha Data");
     if (!captchaData.success || captchaData.score < 0.5) {
       return {
         success: false,
-        message: "captcha failed",
+        message: captchaData.error_codes || "captcha failed",
       };
     }
 
