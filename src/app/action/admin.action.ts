@@ -53,14 +53,13 @@ export const adminLogin = async (
     }
     rateLimitCache.set(ip, requestCount + 1);
     const captchaData = await verifyToken(captchaToken);
-    console.log(captchaData,"captcha Data");
-    if (!captchaData.success || captchaData.score < 0.5) {
+
+    if (!captchaData.success) {
       return {
         success: false,
         message: captchaData.error_codes || "captcha failed",
       };
     }
-
     // Find admin by email
     const admin = await adminModel.findOne({ email }).select("+password");
     if (!admin) {
