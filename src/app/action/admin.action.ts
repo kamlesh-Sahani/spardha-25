@@ -52,7 +52,6 @@ export const adminLogin = async (
       };
     }
     rateLimitCache.set(ip, requestCount + 1);
-
     const captchaData = await verifyToken(captchaToken);
     if (!captchaData.success || captchaData.score < 0.5) {
       return {
@@ -92,7 +91,7 @@ export const adminLogin = async (
     // Set the token in a secure HttpOnly cookie
     cookieStore.set("auth-token", token, {
       httpOnly: true, // Prevents client-side access
-      maxAge: 4 * 60 * 60, //4 minute
+      maxAge: 30 * 60 * 60, //30 minute
       domain:"https://spardha-25.vercel.app",
       sameSite:"strict"
     });
