@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Lock, Mail } from "lucide-react";
 import { adminLogin } from "../action/admin.action";
 import {useRouter} from "next/navigation";
@@ -10,6 +10,7 @@ const AdminLogin: React.FC = () => {
   const [mail,setMail]=useState<string>("")
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,7 +26,8 @@ const AdminLogin: React.FC = () => {
       if(!res.success){
         setError(res.message);
       }else{
-        router.push("/admin/dashboard");
+        console.log("inside")
+        setIsLoggedIn(true)
       }
     } catch (err) {
         console.log(err);
@@ -35,6 +37,11 @@ const AdminLogin: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/admin/dashboard"); // Redirect to dashboard
+    }
+  }, [isLoggedIn, router]);
   return (
     <div className="flex items-center justify-center mt-10 mb-3 h-[80vh] ">
     <div className="bg-[#fff] p-8 w-96 rounded-xl shadow-2xl ">
