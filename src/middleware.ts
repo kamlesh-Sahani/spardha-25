@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
 
   try {
     // Fetch the admin data
-    const response = await fetch("/api/admin");
+    const response = await fetch("https://spardha-25.vercel.app/api/admin");
 
     // Ensure the response is okay
     if (!response.ok) {
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
   }
   if(request.nextUrl.pathname.startsWith("/login")){
     if(data.success && admin.email ){
-        return NextResponse.redirect(new URL("https://spardha-25.vercel.app/admin/dashboard", request.url));
+        return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
   }
 } catch (error) {
