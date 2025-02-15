@@ -84,13 +84,13 @@ export const adminLogin = async (
       { email: admin.email, role: "admin", active: admin.active },
       jwtSecret,
       {
-        expiresIn: "1d",
+        expiresIn: "1h",
       }
     );
 
     const cookieStore = await cookies();
     // Set the token in a secure HttpOnly cookie
-    cookieStore.set("admin-token", token, {
+    cookieStore.set("auth-token", token, {
       httpOnly: true, // Prevents client-side access
       maxAge: 4 * 60 * 60, //4 minute
       domain:"https://spardha-25.vercel.app",
@@ -122,7 +122,7 @@ export const adminRegister = async (
       };
     }
     const cookieStore = await cookies();
-    const token = cookieStore.get("admin-token")?.value;
+    const token = cookieStore.get("auth-token")?.value;
     if (!token) {
       return {
         success: false,
@@ -257,7 +257,7 @@ export const adminRole = async (adminId: string, role: "user" | "admin") => {
 export const adminLogout = async () => {
   try {
     const cookieStore = await cookies();
-    cookieStore.delete("admin-token");
+    cookieStore.delete("auth-token");
     return {
       success: true,
       message: "Admin Logout successfully",
@@ -274,21 +274,20 @@ export const adminProfile = async () => {
   try {
     const cookieStore = await cookies();
 
-    const token = cookieStore.get("admin-token")?.value;
+    const token = cookieStore.get("auth-token")?.value;
     if (!token) {
-      cookieStore.delete("admin-token");
+      cookieStore.delete("auth-token");
       return {
         success: false,
         message: "unauthenticated user",
       };
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-    if (!decoded) {
-      return {
-        success: false,
-        message: "unauthenticated user",
-      };
+    if (!decoded || typeof decoded !== "object" || !decoded.email) {
+      cookieStore.delete("auth-token");
+      return { success: false, message: "Invalid token or token expired" };
     }
+
 
   
     return {
@@ -298,7 +297,7 @@ export const adminProfile = async () => {
     };
   } catch (error: any) {
     const cookieStore = await cookies();
-    cookieStore.delete("admin-token");
+    cookieStore.delete("auth-token");
     return {
       success: false,
       message: error.message || "internal error",
