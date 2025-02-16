@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
   }
   if (request.nextUrl.pathname.startsWith("/login")) {
     if (token) {
-      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
   return NextResponse.next();
