@@ -86,18 +86,18 @@ export default function AdminSidebar() {
       setShowSidebar(true);
     }
     console.log(admin,"admin")
-    if (admin) {
-      if (admin.active) {
-        if (admin.role === "user") {
-          if (pathname === "/admin/colleges" || pathname === "/admin/roles") {
-            router.push("/admin/dashboard");
-          }
-        }
-      } else {
-        router.push("/login");
-      }
-    }else{
+    if (!admin) return;  // Wait until admin is loaded
+
+    if (!admin.active) {
+      // If admin is inactive, log them out
       router.push("/login");
+    } else {
+      // If admin is active, check role-based redirection
+      if (admin.role === "user") {
+        if (pathname === "/admin/colleges" || pathname === "/admin/roles") {
+          router.push("/admin/dashboard");
+        }
+      }
     }
   }, [pathname, admin]);
   return (
