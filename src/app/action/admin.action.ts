@@ -90,7 +90,7 @@ export const adminLogin = async (
     // Set the token in a secure HttpOnly cookie
     cookieStore.set("auth-token", token, {
       httpOnly: true, // Prevents client-side access
-      maxAge: 30 * 60 * 60, // 30 minutes
+      maxAge: 60 * 60 * 60, // 30 minutes
       path: '/', // Specify the path to ensure the cookie is available across the app
       sameSite: 'strict', // SameSite option (set to 'Strict' to restrict cross-site request)
       secure: process.env.NODE_ENV === 'production', // Secure cookie for production only

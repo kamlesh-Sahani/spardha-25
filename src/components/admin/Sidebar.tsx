@@ -60,14 +60,13 @@ export default function AdminSidebar() {
       try {
         setLoading(true);
         const res = await adminProfile();
-       
+       console.log(res,"admin res");
         if (res.success) {
           setAdmin(JSON.parse(res.admin!));
         } else {
           setAdmin(null);
          await adminLogout();
          router.push("/login");
-          
         }
       } catch (error: any) {
         console.log(error);
@@ -86,6 +85,7 @@ export default function AdminSidebar() {
     } else {
       setShowSidebar(true);
     }
+    console.log(admin,"admin")
     if (admin) {
       if (admin.active) {
         if (admin.role === "user") {
