@@ -24,11 +24,9 @@ const AdminLogin: React.FC = () => {
       if(!res.success){
         setError(res.message);
       }else{
-        console.log("inside")
         setIsLoggedIn(true)
       }
     } catch (err) {
-        console.log(err);
       setError("An error occurred while verifying the passkey.");
     } finally {
       setIsLoading(false);

@@ -60,21 +60,25 @@ export default function AdminSidebar() {
       try {
         setLoading(true);
         const res = await adminProfile();
-        console.log(res);
+       
         if (res.success) {
-        
           setAdmin(JSON.parse(res.admin!));
         } else {
           setAdmin(null);
+         await adminLogout();
+         router.push("/login");
+          
         }
       } catch (error: any) {
         console.log(error);
         setAdmin(null);
+        await adminLogout();
+        router.push("/login");
       } finally {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (window.innerWidth < 1280) {
@@ -84,22 +88,16 @@ export default function AdminSidebar() {
     }
     if (admin) {
       if (admin.active) {
-        if (admin.role !== "admin") {
+        if (admin.role === "user") {
           if (pathname === "/admin/colleges" || pathname === "/admin/roles") {
             router.push("/admin/dashboard");
           }
         }
       } else {
-        if (
-          pathname === "/admin/colleges" ||
-          pathname === "/admin/roles" ||
-          pathname === "/admin/attendance" ||
-          pathname === "/admin/events" ||
-          pathname === "/admin/participants"
-        ) {
-          router.push("/admin/dashboard");
-        }
+        router.push("/login");
       }
+    }else{
+      router.push("/login");
     }
   }, [pathname, admin]);
   return (

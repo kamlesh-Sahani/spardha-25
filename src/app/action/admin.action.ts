@@ -86,7 +86,6 @@ export const adminLogin = async (
         expiresIn: "1h",
       }
     );
-
     const cookieStore = await cookies();
     // Set the token in a secure HttpOnly cookie
     cookieStore.set("auth-token", token, {
@@ -273,7 +272,6 @@ export const adminLogout = async () => {
 export const adminProfile = async () => {
   try {
     const cookieStore = await cookies();
-
     const token = cookieStore.get("auth-token")?.value;
     if (!token) {
       cookieStore.delete("auth-token");
