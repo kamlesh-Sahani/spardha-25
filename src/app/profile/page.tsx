@@ -96,7 +96,7 @@ export default function Home() {
                         <p className="truncate">email: {player.email}</p>
                         <p>Phone: {player.mobile}</p>
                         <p>Gender: {player.gender}</p>
-                        <p>Enrolment: {player.enrollment}</p>
+                        <p>Enrollment: {player.enrollment}</p>
                       </div>
                     </div>
                   </div>
