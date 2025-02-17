@@ -82,6 +82,8 @@ export default function AdminReportPage() {
   const [statusLoading,setStatusLoading]= useState<boolean>(false);
   const [deleteDialog,setDeleteDailog]=useState<boolean>(false);
 
+
+  console.log(selectedTeam,"selectedTeam")
   // New state for handling approval/rejection reason
   const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
   const [statusReason, setStatusReason] = useState("");
@@ -490,7 +492,7 @@ const closeImageModal = () => {
                   <TableCell>{player.name}</TableCell>
                   <TableCell>{player.gender}</TableCell>
                   <TableCell>{player.mobile}</TableCell>
-                  <TableCell>{player.enrollment}</TableCell>
+                  <TableCell>{player.enrollment ? player.enrollment : "-"}</TableCell>
                   <TableCell>{player.email}</TableCell>
                  
                   <TableCell>{player.isCaptain ? "Yes" : "No"}</TableCell>

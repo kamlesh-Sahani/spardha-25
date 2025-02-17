@@ -47,6 +47,7 @@ const PlayerSchema = new Schema<IPlayer>({
   },
   playerIdCard: { type: String, required: true },
   isCaptain: { type: Boolean, default: false },
+  enrollment:{type:String,required:true}
 });
 
 // Team Schema
