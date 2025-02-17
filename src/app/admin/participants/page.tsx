@@ -480,7 +480,7 @@ const closeImageModal = () => {
                 <TableHead>Name</TableHead>
                 <TableHead>Gender</TableHead>
                 <TableHead>Mobile</TableHead>
-                <TableHead>Enrolment Number</TableHead>
+                <TableHead>Enrollment Number</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Captain</TableHead>
               </TableRow>
