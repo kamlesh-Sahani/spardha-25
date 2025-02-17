@@ -41,6 +41,7 @@ interface Player {
   email: string;
   playerIdCard: string;
   isCaptain: boolean;
+  enrollment:string;
 }
 
 interface Team {
@@ -477,6 +478,7 @@ const closeImageModal = () => {
                 <TableHead>Name</TableHead>
                 <TableHead>Gender</TableHead>
                 <TableHead>Mobile</TableHead>
+                <TableHead>Enrolment Number</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Captain</TableHead>
               </TableRow>
@@ -488,7 +490,9 @@ const closeImageModal = () => {
                   <TableCell>{player.name}</TableCell>
                   <TableCell>{player.gender}</TableCell>
                   <TableCell>{player.mobile}</TableCell>
+                  <TableCell>{player.enrollment}</TableCell>
                   <TableCell>{player.email}</TableCell>
+                 
                   <TableCell>{player.isCaptain ? "Yes" : "No"}</TableCell>
                 </TableRow>
               ))}
