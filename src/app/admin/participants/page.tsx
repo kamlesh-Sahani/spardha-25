@@ -468,7 +468,7 @@ const closeImageModal = () => {
       <Dialog open={isPlayerModalOpen} onOpenChange={setIsPlayerModalOpen}>
         <DialogContent className="max-w-[70vw] max-sm:max-w-[90vw] rounded z-[110]">
           <DialogHeader>
-            <DialogTitle>Player Details (selectedTeam.teamID)</DialogTitle>
+            <DialogTitle>Player Details ({selectedTeam?.teamID})</DialogTitle>
             <DialogDescription>
               Details of players in the team.
             </DialogDescription>
@@ -524,7 +524,7 @@ const closeImageModal = () => {
       >
         <DialogContent className="max-w-[50vw] max-sm:max-w-[90vw] rounded z-[110]">
           <DialogHeader>
-            <DialogTitle>Transaction Screenshot (selectedTeam.teamID)</DialogTitle>
+            <DialogTitle>Transaction Screenshot ({selectedTeam?.teamID})</DialogTitle>
             <DialogDescription>
               Screenshot of the transaction for the team.
             </DialogDescription>
