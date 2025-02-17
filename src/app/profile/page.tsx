@@ -5,7 +5,6 @@ import axios from "axios";
 import Loader from "@/components/Loader";
 import Modal from "@/components/ProfileModel";
 import toast from "react-hot-toast";
-import { registerAction } from "../action/team.action";
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -64,7 +63,7 @@ export default function Home() {
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">
                 Team Members
               </h2>
-              <div className="grid gap-6 md:gap-8 h-[400px] overflow-y-auto">
+              <div className="grid gap-6 md:gap-8 max-h-[400px] overflow-y-auto">
                 {profile?.players?.map((player: any, index: number) => (
                   <div
                     key={index}
@@ -94,9 +93,10 @@ export default function Home() {
                         )}
                       </div>
                       <div className="text-sm text-gray-600 space-y-1">
-                        <p className="truncate">{player.email}</p>
-                        <p>{player.mobile}</p>
+                        <p className="truncate">email: {player.email}</p>
+                        <p>Phone: {player.mobile}</p>
                         <p>Gender: {player.gender}</p>
+                        <p>Enrolment: {player.enrollment}</p>
                       </div>
                     </div>
                   </div>
