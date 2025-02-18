@@ -10,8 +10,8 @@ export interface SportsType {
 export const sportsData: SportsType[] = [
   {
     sport: "Football",
-    minPlayers: 11,
-    substitute: 5,
+    minPlayers: 9,
+    substitute: 16,
     entryFee: 1600,
     maxEntry: 20,
     qrImage:'/football.jpeg',
@@ -20,7 +20,7 @@ export const sportsData: SportsType[] = [
   {
     sport: "Basketball (Boys)",
     minPlayers: 5,
-    substitute: 7,
+    substitute: 12,
     entryFee: 1200,
     maxEntry: 20,
      qrImage:'/basketball.jpeg',
@@ -29,7 +29,7 @@ export const sportsData: SportsType[] = [
   {
     sport: "Basketball (Girls)",
     minPlayers: 5,
-    substitute: 7,
+    substitute: 12,
     entryFee: 1200,
     maxEntry: 20,
      qrImage:'/basketball.jpeg',
@@ -38,7 +38,7 @@ export const sportsData: SportsType[] = [
   {
     sport: "Volleyball (Boys)",
     minPlayers: 6,
-    substitute: 6,
+    substitute: 12,
     entryFee: 1200,
     maxEntry: 20,
      qrImage:'/basketball.jpeg',
@@ -47,7 +47,7 @@ export const sportsData: SportsType[] = [
   {
     sport: "Volleyball (Girls)",
     minPlayers: 6,
-    substitute: 6,
+    substitute: 12,
     entryFee: 1200,
     maxEntry: 20,
      qrImage:'/basketball.jpeg',
@@ -146,7 +146,7 @@ export const sportsData: SportsType[] = [
   {
     sport: "Tug of war (Boys)",
     minPlayers: 8,
-    substitute: 4,
+    substitute: 10,
     entryFee: 1200,
     maxEntry: 20,
      qrImage:'/basketball.jpeg',
@@ -155,7 +155,7 @@ export const sportsData: SportsType[] = [
   {
     sport: "Tug of war (Girls)",
     minPlayers: 8,
-    substitute: 4,
+    substitute: 10,
     entryFee: 1200,
     maxEntry: 20,
      qrImage:'/basketball.jpeg',
@@ -173,7 +173,7 @@ export const sportsData: SportsType[] = [
   {
     sport: "Kabaddi (Boys)",
     minPlayers: 7,
-    substitute: 5,
+    substitute: 12,
     entryFee: 1200,
     maxEntry: 20,
      qrImage:'/basketball.jpeg',
@@ -182,7 +182,7 @@ export const sportsData: SportsType[] = [
   {
     sport: "Kabaddi (Girls)",
     minPlayers: 7,
-    substitute: 5,
+    substitute: 12,
     entryFee: 1200,
     maxEntry: 20,
      qrImage:'/basketball.jpeg',

@@ -32,7 +32,7 @@ const Register = () => {
     amount: number;
     whatsapp: string;
     transactionImage: File | null;
-    captchaToken:string;
+    captchaToken: string;
   }>({
     event: "",
     collegeName: "",
@@ -42,7 +42,7 @@ const Register = () => {
     amount: 0,
     whatsapp: "",
     transactionImage: null,
-    captchaToken:""
+    captchaToken: "",
   });
   const [selectedEvent, setSelectedEvent] = useState<Sports | undefined>(
     undefined
@@ -73,11 +73,9 @@ const Register = () => {
     email: "",
     isCaptain: false,
   });
-
   const handleChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement> | any
   ) => {
-    // if(selectedEvent) return
     const { name, value } = e.target || e;
     if (name === "event") {
       const selectedSport = value?.toLowerCase();
@@ -178,14 +176,18 @@ const Register = () => {
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formData.players.length < (selectedEvent?.minPlayers ?? 0)) {
+      setErrors({ players: "Please add the minimum required players" });
+      return;
+    }
     setLoading(true);
-    const token =  await getCaptchaToken()
+    const token = await getCaptchaToken();
     const newUser = {
       ...formData,
       whatsapp: selectedEvent!.watsapp,
-      captchaToken:token
+      captchaToken: token,
     };
-  
+
     setApiResponseMessage("");
     const validation = registrationSchema.safeParse(newUser);
 
@@ -366,7 +368,10 @@ const Register = () => {
               <h2 className="text-2xl font-semibold text-gray-700 mb-4">
                 Add Player to List
               </h2>
-              {formData.players?.length < (selectedEvent?.minPlayers ?? 0) && (
+              {formData.players?.length <
+                (selectedEvent?.substitute === "NA"
+                  ? selectedEvent.minPlayers
+                  : selectedEvent?.substitute ?? 0) && (
                 <div className="flex flex-col gap-4 mb-4">
                   <div className="grid grid-cols-2 max-lg:grid-cols-1 gap-4">
                     <div className="flex flex-col text-gray-700 gap-2">

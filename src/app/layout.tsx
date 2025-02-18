@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
-import {Toaster} from "react-hot-toast"
-import "./globals.css"
+import { Toaster } from "react-hot-toast";
+import "./globals.css";
 import Footer from "@/components/Footer";
-import Script from "next/script"
+import Script from "next/script";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,20 +24,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Script strategy="beforeInteractive" src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY}`}/>
-      <div>
-      <Navbar />
-      {children}
-      <Footer />
-      </div>
-      <Toaster />
-     
+        <Script
+          strategy="beforeInteractive"
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY}`}
+        />
+        <div>
+          <Navbar />
+          {children}
+          <Footer />
+        </div>
+        <Toaster />
       </body>
     </html>
   );
