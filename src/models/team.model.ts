@@ -29,6 +29,7 @@ export interface ITeam extends Document {
   updatedAt: Date;
   reported:boolean;
   whatsapp:string;
+  isDeleted:boolean;
 }
 
 // Player Schema
@@ -83,6 +84,10 @@ const TeamSchema = new Schema<ITeam>(
     whatsapp:{
       type:String,
       required:[true,"please enter the whatsapp group link"]
+    },
+    isDeleted:{
+      type:Boolean,
+      default:false
     }
   },
   { timestamps: true }

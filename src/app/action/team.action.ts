@@ -295,6 +295,12 @@ export const markAttendance = async(teamID:number,password:string)=>{
         message:"Team is not found"
       }
     }
+    if(team.isDeleted){
+      return{
+        success:false,
+        message:"Team was Deleted "
+      }
+    }
     if(team.reported){
       return{
         success:false,
@@ -362,6 +368,13 @@ export const getTeam = async(_id:string)=>{
         message:"Team is not found"
       }
     }
+
+    if(team.isDeleted){
+      return{
+        success:false,
+        message:"Team is not found"
+      }
+    }
     return{
       message:"successfuly got",
       success:true,
@@ -379,16 +392,16 @@ export const deleteTeam = async(_id:string)=>{
 
   try{
     await dbConnect();
-    const team = await TeamModel.findByIdAndDelete(_id);
-
+    const team = await TeamModel.findById(_id);
     if(!team){
       return{
         success:false,
         message:"Team is not found"
       }
     }
+    team.isDeleted=true;
     return{
-      message:"successfuly Team Deleted",
+      message:`successfuly Team ${team.teamID} Deleted`,
       success:true,
     }
 }catch(error:any){
@@ -402,7 +415,7 @@ export const deleteTeam = async(_id:string)=>{
 export const getTeamByEvent = async(eventName:string)=>{
   try{
       await dbConnect();
-      const teams = await TeamModel.find({event:eventName})
+      const teams = await TeamModel.find({$and:[{isDeleted:false},{event:eventName}]})
       if(teams.length===0){
           return{
               message:"teams is not found",
@@ -446,14 +459,13 @@ export const getTeamByEvent = async(eventName:string)=>{
 export const getEvets = async()=>{
   try{
       await dbConnect();
-      const events = await TeamModel.find({}).select("event").distinct("event");
+      const events = await TeamModel.find({isDeleted:false}).select("event").distinct("event");
       if(events.length===0){
           return{
               message:"event is not found",
               success:false
           }
       }
-
       return{
           message:"events finded",
           success:true,
@@ -477,6 +489,13 @@ export const getTeamByTeamID = async(teamID:number,password:string)=>{
               success:false
           }
       }
+      if(team.isDeleted){
+        return{
+            message:"Team was Deleted",
+            success:false
+        }
+    }
+
       return{
           message:"Team successfuly find",
           success:true,

@@ -83,7 +83,6 @@ export default function AdminReportPage() {
   const [deleteDialog,setDeleteDailog]=useState<boolean>(false);
 
 
-  console.log(selectedTeam,"selectedTeam")
   // New state for handling approval/rejection reason
   const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
   const [statusReason, setStatusReason] = useState("");
@@ -205,7 +204,7 @@ const closeImageModal = () => {
       }
     })();
   }, [uiUpdate]);
-
+  
   useEffect(() => {
     (async function () {
       try {

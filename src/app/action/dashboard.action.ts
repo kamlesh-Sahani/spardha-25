@@ -20,9 +20,12 @@ export const dashboardData = async () => {
     };
 
     // Fetch all teams and events
-    const teams = await TeamModel.find({});
+    const teams = await TeamModel.find({ isDeleted: false });
     const events = await eventModel.find({});
     const timeSeriesData = await TeamModel.aggregate([
+      {
+        $match: { isDeleted: false }, // Filter out deleted teams
+      },
       {
         $group: {
           _id: {
@@ -85,7 +88,7 @@ export const dashboardData = async () => {
       message: "Data fetched successfully",
       success: true,
       data: JSON.stringify(data),
-      timeSeriesData:JSON.stringify(timeSeriesData)
+      timeSeriesData: JSON.stringify(timeSeriesData),
     };
   } catch (error: any) {
     return {
