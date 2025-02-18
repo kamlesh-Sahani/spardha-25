@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
-import { FaUser, FaDownload, FaTachometerAlt, FaUserGraduate } from "react-icons/fa";
+import { FaDownload, FaTachometerAlt, FaUserGraduate } from "react-icons/fa";
 import { MdEventAvailable } from "react-icons/md";
 import { IoMdMail, IoMdCall } from "react-icons/io";
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
@@ -16,7 +16,6 @@ const navItems = [
   { icon: MdEventAvailable, label: "Register", path: "/register" },
   { icon: FaDownload, label: "Download", path: "/download" },
   { icon: FaUserGraduate, label: "Profile", path: "/profile" },
-  { icon: FaUser, label: "Admin", path: "/admin/dashboard" },
 ];
 
 const Navbar = () => {
