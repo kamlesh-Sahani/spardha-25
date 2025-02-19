@@ -225,7 +225,7 @@ export const sportsData: SportsType[] = [
      watsapp:"https://chat.whatsapp.com/EPVHHMmnCc3BG2ygPFvC7D"
   },
   {
-    sport: "Body Building Lightweight (65 - 75 Kg)",
+    sport: "Body Building Lightweight ( <65 Kg)",
     minPlayers: 1,
     substitute: "NA",
     entryFee: 150,

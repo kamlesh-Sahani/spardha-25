@@ -1,6 +1,6 @@
 "use client";
 import toast from "react-hot-toast";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import eventImage from "@/data/EventData";
@@ -55,6 +55,7 @@ const Register = () => {
   );
   const [eventOptions, setEventOptions] = useState<any>();
   const [collegeOptions, setCollegeOptions] = useState<any>();
+  const inputRef = useRef(null);
 
   const [currentPlayer, setCurrentPlayer] = useState<{
     name: string;
@@ -135,7 +136,6 @@ const Register = () => {
         validationResult.error.errors.forEach((err) => {
           newErrors[err.path[0]] = err.message;
         });
-
         setErrors(newErrors);
         setApiResponseMessage(
           "Validation failed. Please check the form fields."
@@ -173,11 +173,14 @@ const Register = () => {
         setApiResponseMessage("Something went wrong. Please try again.");
       }
     }
+    
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.players.length < (selectedEvent?.minPlayers ?? 0)) {
-      setErrors({ players: "Please add the minimum required players" });
+      console.log(formData.players);
+      setErrors({ players: "Please add enough players to meet the minimum requirement" });
+      toast.error("You need to add the minimum number of players. Did you click the 'Add Player' button?");
       return;
     }
     setLoading(true);
@@ -187,7 +190,6 @@ const Register = () => {
       whatsapp: selectedEvent!.watsapp,
       captchaToken: token,
     };
-
     setApiResponseMessage("");
     const validation = registrationSchema.safeParse(newUser);
 
@@ -301,7 +303,7 @@ const Register = () => {
                 <label className="text-gray-700 text-lg mb-2">
                   Select Event
                 </label>
-                {eventOptions && (
+                {eventOptions ? (
                   <ReactSelect
                     name="event"
                     value={
@@ -319,7 +321,7 @@ const Register = () => {
                     options={eventOptions}
                     placeholder="Select Event"
                   />
-                )}
+                ):"Loading..."}
                 {errors.event && (
                   <p className="text-red-600 text-sm mt-1">{errors.event}</p>
                 )}
@@ -329,7 +331,7 @@ const Register = () => {
                 <label className="text-gray-700 text-lg mb-2">
                   Select College
                 </label>
-                {collegeOptions && (
+                {collegeOptions ? (
                   <ReactSelect
                     name="collegeName"
                     value={
@@ -349,7 +351,7 @@ const Register = () => {
                       "If College not Listed Please Contact or WhatsApp @ +91 98970 53555"
                     }
                   />
-                )}
+                ):"Loading..."}
                 {errors.collegeName && (
                   <p className="text-red-600 text-sm mt-1">
                     {errors.collegeName}
