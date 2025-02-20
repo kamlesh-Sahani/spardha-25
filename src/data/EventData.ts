@@ -362,7 +362,7 @@ const eventImage = [
       "If the team does not turn up within 10 minutes of the scheduled time, the opposite party will get a walkover.",
       "Playing team in a Tug of War competition consists of 8 people.",
       "Substitutes are allowed, and a team can have up to 2 substitutes (making a total squad of 10).",
-      "Maximum Team weight allowed 800Kg.  ",
+      "Maximum Team weight allowed 700Kg.",
       "The rope is of circumference of approximately 20-24 mm and is marked in the middle with a Centre line as well as two marks that should be placed 4cm from the centre line.",
       "At the start of the pull, the Centre line of the rope should be immediately above the line marked on the ground.",
       "Both teams pull the rope, the winner being the team who manages to pull the mark on the rope closest to their opponents over the Centre line.",
