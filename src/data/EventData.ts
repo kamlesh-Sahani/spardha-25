@@ -21,7 +21,6 @@ const eventImage = [
     name: "Armwrestling",
     type: "(Men)",
     category: [
-  
       "Featherweight (Below 65Kg)",
       "Lightweight (65+ - 75 Kg)",
       "Middleweight (75+ - 85 Kg)",
@@ -135,9 +134,9 @@ const eventImage = [
     name: "Body Building",
     type: "(Men)",
     category: [
-      "Lightweight (65 - 75 Kg)",
-      "Middleweight (75 - 85 Kg)",
-      "Heavyweight (85 - 100 Kg)",
+      "Lightweight (<65 Kg)",
+      "Middleweight (65 - 75 Kg)",
+      "Heavyweight (75 - 85 Kg)",
     ],
     cashReward: {
       winner: "600/-",
