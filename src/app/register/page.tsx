@@ -277,6 +277,7 @@ const Register = () => {
         >
           <div className="md:text-4xl p-4 text-3xl font-bold bg-[#f5a937] text-white text-center rounded-t-xl">
             <h1>Event Registration</h1>
+            <p className="text-lg mt-2">In case you find difficulty in Registration, contact Dr. Vishal Raghav @9897053555</p>
           </div>
           <motion.div
             // variants={itemVariants}
