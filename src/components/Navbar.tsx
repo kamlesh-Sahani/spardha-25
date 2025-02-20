@@ -14,7 +14,7 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 const navItems = [
   { icon: FaTachometerAlt, label: "Home", path: "/" },
   { icon: MdEventAvailable, label: "Register", path: "/register" },
-  { icon: FaDownload, label: "Download", path: "/download" },
+  { icon: FaDownload, label: "Rulebook", path: "/download" },
   { icon: FaUserGraduate, label: "Profile", path: "/profile" },
 ];
 
