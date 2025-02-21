@@ -121,6 +121,7 @@ const Footer = () => {
                   {" "}
                   <Linkedin size={16} />
                 </Link>
+                
               </div>
             </div>
           </div>
