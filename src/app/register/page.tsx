@@ -205,6 +205,7 @@ const Register = () => {
     }
     try {
       const res = await registerAction(newUser);
+      console.log(res,"res");
       if (res.success) {
         toast.success(
           "Registration successful! 🎉 Check your email to track your application status.",
