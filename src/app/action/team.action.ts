@@ -10,34 +10,34 @@ import {headers} from "next/headers"
 import { verifyToken } from "@/utils/captcha.util";
 
 // Configure the LRU cache (Max 10 requests per IP in 1 hour)
-const rateLimitCache = new LRUCache({
-  max: 500, // Store up to 500 different IPs
-  ttl: 1000 * 60 * 30, // 30 minute in milliseconds
-});
-// Function to get IP address
-const getIP = async() => {
-  const headerList = await headers();
-  const forwardedFor = headerList.get("x-forwarded-for");
-  return forwardedFor ? forwardedFor.split(",")[0] : "unknown"; // Use first IP from forwarded list
-};
+// const rateLimitCache = new LRUCache({
+//   max: 500, // Store up to 500 different IPs
+//   ttl: 1000 * 60 * 30, // 30 minute in milliseconds
+// });
+// // Function to get IP address
+// const getIP = async() => {
+//   const headerList = await headers();
+//   const forwardedFor = headerList.get("x-forwarded-for");
+//   return forwardedFor ? forwardedFor.split(",")[0] : "unknown"; // Use first IP from forwarded list
+// };
 
 
 export const registerAction = async (teamData: any) => {
   try {
     await dbConnect();
     // Get the client's IP
-    const ip = await getIP();
-    if (ip === "unknown") {
-      return { success: false, message: "Unable to identify IP address." };
-    }
+    // const ip = await getIP();
+    // if (ip === "unknown") {
+    //   return { success: false, message: "Unable to identify IP address." };
+    // }
 
     // Check rate limit
-    const requestCount = Number(rateLimitCache.get(ip)) || 0;
+    // const requestCount = Number(rateLimitCache.get(ip)) || 0;
 
-    if (requestCount >= 5) {
-      return { success: false, message: "Too many requests, please try again later." };
-    }
-    rateLimitCache.set(ip, requestCount + 1);
+    // if (requestCount >= 5) {
+    //   return { success: false, message: "Too many requests, please try again later." };
+    // }
+    // rateLimitCache.set(ip, requestCount + 1);
   const {
     event,
     collegeName,
