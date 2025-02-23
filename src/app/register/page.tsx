@@ -521,6 +521,7 @@ const Register = () => {
                         className="bg-white/10 p-4 rounded-lg mb-4 text-gray-700 relative"
                       >
                         <button
+                         type="button"
                           onClick={() => handleDeletePlayer(index)}
                           className="absolute top-2 right-2 text-red-500 hover:text-red-700"
                         >
@@ -596,6 +597,7 @@ const Register = () => {
                             </td> */}
                             <td className="py-2 px-4">
                               <button
+                               type="button"
                                 onClick={() => handleDeletePlayer(index)}
                                 className="text-red-500 hover:text-red-700"
                               >

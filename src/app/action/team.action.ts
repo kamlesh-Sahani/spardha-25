@@ -38,6 +38,7 @@ export const registerAction = async (teamData: any) => {
     //   return { success: false, message: "Too many requests, please try again later." };
     // }
     // rateLimitCache.set(ip, requestCount + 1);
+    console.log(teamData)
   const {
     event,
     collegeName,
