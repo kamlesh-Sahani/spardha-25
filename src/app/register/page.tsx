@@ -287,7 +287,7 @@ const Register = () => {
             viewport={{ once: true }}
           >
             <p className="text-red-800 text-md font-semibold">
-              <strong>Note:</strong> Enter All the details very carefully
+              <strong>Note:</strong> Enter all the details very carefully
               without any Spelling mistakes/Typographic errors. Same data will
               be used to print the Certificates. Player's Name must be as per
               college records.

@@ -24,8 +24,7 @@ import { verifyToken } from "@/utils/captcha.util";
 export const registerAction = async (teamData: any) => {
   try {
     await dbConnect();
-    // ... (rate limit checks remain commented)
-
+  
     const {
       event,
       collegeName,
@@ -38,7 +37,7 @@ export const registerAction = async (teamData: any) => {
       captchaToken,
     } = teamData;
 
-    // Validate players array structure
+
     if (!Array.isArray(players)) {
       return {
         success: false,
@@ -46,7 +45,6 @@ export const registerAction = async (teamData: any) => {
       };
     }
 
-    // Enhanced validation
     if (
       !collegeName ||
       !event ||
@@ -63,8 +61,6 @@ export const registerAction = async (teamData: any) => {
         message: "Missing required fields or empty players list",
       };
     }
-
-    // Validate captain exists in players
     const captainExists = players.some((player) => player.isCaptain);
     if (!captainExists) {
       return {
@@ -72,10 +68,6 @@ export const registerAction = async (teamData: any) => {
         message: "No captain specified in players list",
       };
     }
-
-    // ... (captcha verification remains commented)
-
-    // Generate team ID first to use in uploads
     const teamID = await teamIdGenerate();
     if (!teamID) {
       return {
@@ -83,8 +75,6 @@ export const registerAction = async (teamData: any) => {
         message: "Failed to generate team ID",
       };
     }
-
-    // Upload transaction screenshot
     const transactionSsUrl = await uploadImage(
       transactionImage,
       teamID
@@ -95,8 +85,6 @@ export const registerAction = async (teamData: any) => {
         message: "Failed to upload transaction proof",
       };
     }
-
-    // Upload player ID cards with improved error handling
     const playerUploadPromises = players.map(async (player) => {
       const url = await uploadImage(player.playerIdCard, teamID);
       if (!url) {
@@ -114,15 +102,11 @@ export const registerAction = async (teamData: any) => {
         message: "Failed to upload one or more player ID cards",
       };
     }
-
-    // Create players data with proper validation
     const emailsData = players.map((player, index) => ({
       ...player,
       playerIdCard: playerIdCardUrls[index],
-      email: player.email.toLowerCase().trim(), // Normalize email
+      email: player.email.toLowerCase().trim(), 
     }));
-
-    // Check for duplicate registration with enhanced query
     const existingTeam = await TeamModel.findOne({
       $or: [
         { "players.email": { $in: emailsData.map((p) => p.email) } },
