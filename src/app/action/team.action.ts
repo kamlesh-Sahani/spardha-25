@@ -272,6 +272,7 @@ export const registerAction = async (teamData: any) => {
       password:JSON.stringify(team.password)
     };
   } catch (error: any) {
+    console.log("Server issue",error)
     return {
       success: false,
       message: error.message || "Internal server error",
