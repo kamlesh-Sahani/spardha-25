@@ -5,8 +5,8 @@ import generatePassword from "@/utils/generatePassword.util";
 import sendMail from "@/utils/sendMail.util";
 import teamIdGenerate from "@/utils/teamIdGenerate.util";
 import dbConnect from "@/utils/dbConnect.util";
-import { LRUCache } from 'lru-cache'
-import {headers} from "next/headers"
+import { LRUCache } from "lru-cache";
+import { headers } from "next/headers";
 import { verifyToken } from "@/utils/captcha.util";
 
 // Configure the LRU cache (Max 10 requests per IP in 1 hour)
@@ -20,7 +20,6 @@ import { verifyToken } from "@/utils/captcha.util";
 //   const forwardedFor = headerList.get("x-forwarded-for");
 //   return forwardedFor ? forwardedFor.split(",")[0] : "unknown"; // Use first IP from forwarded list
 // };
-
 
 export const registerAction = async (teamData: any) => {
   try {
@@ -38,18 +37,18 @@ export const registerAction = async (teamData: any) => {
     //   return { success: false, message: "Too many requests, please try again later." };
     // }
     // rateLimitCache.set(ip, requestCount + 1);
-    console.log(teamData)
-  const {
-    event,
-    collegeName,
-    players,
-    transactionId,
-    transactionImage,
-    captain,
-    amount,
-    whatsapp,
-    captchaToken
-  } = teamData ;
+    console.log(teamData);
+    const {
+      event,
+      collegeName,
+      players,
+      transactionId,
+      transactionImage,
+      captain,
+      amount,
+      whatsapp,
+      captchaToken,
+    } = teamData;
     if (
       !collegeName ||
       !event ||
@@ -66,30 +65,29 @@ export const registerAction = async (teamData: any) => {
         message: "Please fill all fields | have you clicked add player button?",
       };
     }
-   const captchaData =  await verifyToken(captchaToken);
-   if(!captchaData.success || captchaData.score<0.5){
-    return {
-      success: false,
-      message: "captcha failed",
-    };
-   }
+    //  const captchaData =  await verifyToken(captchaToken);
+    //  if(!captchaData.success || captchaData.score<0.5){
+    //   return {
+    //     success: false,
+    //     message: "captcha failed",
+    //   };
+    //  }
     let captainEmail;
-    const emailsData=[] as string[];
-    for(let i=0;i<players.length;i++){
+    const emailsData = [] as string[];
+    for (let i = 0; i < players.length; i++) {
       emailsData.push(players[i].email);
-      if(players[i].isCaptain){
-        captainEmail=players[i].email;
+      if (players[i].isCaptain) {
+        captainEmail = players[i].email;
       }
     }
 
     // Check if the team is already registered
-   
-    const isExist = await TeamModel.findOne(
-    {$or:
-      [
-      {$and:[{event},{"players.email":captainEmail}]},
-      {transactionId:transactionId}
-     ]
+
+    const isExist = await TeamModel.findOne({
+      $or: [
+        { $and: [{ event }, { "players.email": captainEmail }] },
+        { transactionId: transactionId },
+      ],
     });
     if (isExist) {
       return {
@@ -99,51 +97,50 @@ export const registerAction = async (teamData: any) => {
     }
 
     const teamID = await teamIdGenerate();
-    if(!teamID){
+    if (!teamID) {
       return {
         success: false,
         message: "Failed to register try Again",
       };
     }
 
-    const transactionSsUrl = await uploadImage(transactionImage,teamID);
+    const transactionSsUrl = await uploadImage(transactionImage, teamID);
 
     // Dynamically upload each player's ID card images
     const playerIdCardUrls = await Promise.all(
-          players?.map((player: any) => uploadImage(player.playerIdCard,teamID))
-        )
-      
+      players?.map((player: any) => uploadImage(player.playerIdCard, teamID))
+    );
 
-        if(!transactionSsUrl || playerIdCardUrls.length===0){
-          return {
-            success: false,
-            message: "Failed to upload image try again..",
-          };
-        }
+    if (!transactionSsUrl || playerIdCardUrls.length === 0) {
+      return {
+        success: false,
+        message: "Failed to upload image try again..",
+      };
+    }
     // Generate password for the team
     const password = generatePassword(teamID);
 
     // Process the players and add their data
     const playersData = players.map((player: any, index: number) => ({
       ...player,
-      playerIdCard: playerIdCardUrls[index] || "", 
+      playerIdCard: playerIdCardUrls[index] || "",
     }));
     const team = await TeamModel.create({
       teamID,
       password,
-      college:collegeName,
+      college: collegeName,
       event,
       transactionId,
       transactionSs: transactionSsUrl,
       players: playersData,
       amount,
-      whatsapp
+      whatsapp,
     });
-    if(!team){
+    if (!team) {
       return {
-        success:false,
-        message:"failed to register try again"
-      }
+        success: false,
+        message: "failed to register try again",
+      };
     }
 
     const teamDetailLink = `${process.env.BASE_URL}/profile?pass=${password}`;
@@ -269,7 +266,7 @@ export const registerAction = async (teamData: any) => {
     return {
       success: true,
       message: "Team registered successfully",
-      password:JSON.stringify(team.password)
+      password: JSON.stringify(team.password),
     };
   } catch (error: any) {
     return {
@@ -279,59 +276,57 @@ export const registerAction = async (teamData: any) => {
   }
 };
 
-
-
-export const getEvets = async()=>{
-  try{
-      await dbConnect();
-      const events = await TeamModel.find({isDeleted:false}).select("event").distinct("event");
-      if(events.length===0){
-          return{
-              message:"event is not found",
-              success:false
-          }
-      }
-      return{
-          message:"events finded",
-          success:true,
-          events:JSON.stringify(events)
-      }
-  }catch(error:any){
-      return{
-          message:error.message || "internal error",
-          success:false
-      }
+export const getEvets = async () => {
+  try {
+    await dbConnect();
+    const events = await TeamModel.find({ isDeleted: false })
+      .select("event")
+      .distinct("event");
+    if (events.length === 0) {
+      return {
+        message: "event is not found",
+        success: false,
+      };
+    }
+    return {
+      message: "events finded",
+      success: true,
+      events: JSON.stringify(events),
+    };
+  } catch (error: any) {
+    return {
+      message: error.message || "internal error",
+      success: false,
+    };
   }
-}
+};
 
-export const getTeamByTeamID = async(teamID:number,password:string)=>{
-  try{
-      await dbConnect();
-      const team = await TeamModel.findOne({teamID,password});
-      if(!team){
-          return{
-              message:"Check again TeamID or password",
-              success:false
-          }
-      }
-      if(team.isDeleted){
-        return{
-            message:"Team was Deleted",
-            success:false
-        }
+export const getTeamByTeamID = async (teamID: number, password: string) => {
+  try {
+    await dbConnect();
+    const team = await TeamModel.findOne({ teamID, password });
+    if (!team) {
+      return {
+        message: "Check again TeamID or password",
+        success: false,
+      };
+    }
+    if (team.isDeleted) {
+      return {
+        message: "Team was Deleted",
+        success: false,
+      };
     }
 
-      return{
-          message:"Team successfuly find",
-          success:true,
-          team:JSON.stringify(team)
-      }
-  }catch(error:any){
-      return{
-          message:error.message || "internal error",
-          success:false
-      }
+    return {
+      message: "Team successfuly find",
+      success: true,
+      team: JSON.stringify(team),
+    };
+  } catch (error: any) {
+    return {
+      message: error.message || "internal error",
+      success: false,
+    };
   }
-}
-
-
+};
