@@ -46,7 +46,7 @@ const PlayerSchema = new Schema<IPlayer>({
     required: true,
     match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email validation
   },
-  playerIdCard: { type: String, required: true },
+  playerIdCard: { type: String, },
   isCaptain: { type: Boolean, default: false },
   enrollment:{type:String,required:true}
 });
