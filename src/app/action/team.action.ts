@@ -24,20 +24,8 @@ import { verifyToken } from "@/utils/captcha.util";
 export const registerAction = async (teamData: any) => {
   try {
     await dbConnect();
-    // Get the client's IP
-    // const ip = await getIP();
-    // if (ip === "unknown") {
-    //   return { success: false, message: "Unable to identify IP address." };
-    // }
+    // ... (rate limit checks remain commented)
 
-    // Check rate limit
-    // const requestCount = Number(rateLimitCache.get(ip)) || 0;
-
-    // if (requestCount >= 5) {
-    //   return { success: false, message: "Too many requests, please try again later." };
-    // }
-    // rateLimitCache.set(ip, requestCount + 1);
-    console.log(teamData);
     const {
       event,
       collegeName,
@@ -49,6 +37,16 @@ export const registerAction = async (teamData: any) => {
       whatsapp,
       captchaToken,
     } = teamData;
+
+    // Validate players array structure
+    if (!Array.isArray(players)) {
+      return {
+        success: false,
+        message: "Invalid players data format",
+      };
+    }
+
+    // Enhanced validation
     if (
       !collegeName ||
       !event ||
@@ -62,87 +60,214 @@ export const registerAction = async (teamData: any) => {
     ) {
       return {
         success: false,
-        message: "Please fill all fields | have you clicked add player button?",
+        message: "Missing required fields or empty players list",
       };
     }
-    //  const captchaData =  await verifyToken(captchaToken);
-    //  if(!captchaData.success || captchaData.score<0.5){
-    //   return {
-    //     success: false,
-    //     message: "captcha failed",
-    //   };
-    //  }
-    let captainEmail;
-    const emailsData = [] as string[];
-    for (let i = 0; i < players.length; i++) {
-      emailsData.push(players[i].email);
-      if (players[i].isCaptain) {
-        captainEmail = players[i].email;
-      }
-    }
 
-    // Check if the team is already registered
-
-    const isExist = await TeamModel.findOne({
-      $or: [
-        { $and: [{ event }, { "players.email": captainEmail }] },
-        { transactionId: transactionId },
-      ],
-    });
-    if (isExist) {
+    // Validate captain exists in players
+    const captainExists = players.some((player) => player.isCaptain);
+    if (!captainExists) {
       return {
         success: false,
-        message: "Already register with this transaction id or Captain email",
+        message: "No captain specified in players list",
       };
     }
 
+    // ... (captcha verification remains commented)
+
+    // Generate team ID first to use in uploads
     const teamID = await teamIdGenerate();
     if (!teamID) {
       return {
         success: false,
-        message: "Failed to register try Again",
+        message: "Failed to generate team ID",
       };
     }
 
-    const transactionSsUrl = await uploadImage(transactionImage, teamID);
-
-    // Dynamically upload each player's ID card images
-    const playerIdCardUrls = await Promise.all(
-      players?.map((player: any) => uploadImage(player.playerIdCard, teamID))
+    // Upload transaction screenshot
+    const transactionSsUrl = await uploadImage(
+      transactionImage,
+      teamID
     );
-
-    if (!transactionSsUrl || playerIdCardUrls.length === 0) {
+    if (!transactionSsUrl) {
       return {
         success: false,
-        message: "Failed to upload image try again..",
+        message: "Failed to upload transaction proof",
       };
     }
-    // Generate password for the team
-    const password = generatePassword(teamID);
 
-    // Process the players and add their data
-    const playersData = players.map((player: any, index: number) => ({
+    // Upload player ID cards with improved error handling
+    const playerUploadPromises = players.map(async (player) => {
+      const url = await uploadImage(player.playerIdCard, teamID);
+      if (!url) {
+        throw new Error("Failed to upload player ID card");
+      }
+      return url;
+    });
+
+    let playerIdCardUrls;
+    try {
+      playerIdCardUrls = await Promise.all(playerUploadPromises);
+    } catch (uploadError) {
+      return {
+        success: false,
+        message: "Failed to upload one or more player ID cards",
+      };
+    }
+
+    // Create players data with proper validation
+    const emailsData = players.map((player, index) => ({
       ...player,
-      playerIdCard: playerIdCardUrls[index] || "",
+      playerIdCard: playerIdCardUrls[index],
+      email: player.email.toLowerCase().trim(), // Normalize email
     }));
+
+    // Check for duplicate registration with enhanced query
+    const existingTeam = await TeamModel.findOne({
+      $or: [
+        { "players.email": { $in: emailsData.map((p) => p.email) } },
+        { transactionId },
+      ],
+      event,
+    });
+
+    if (existingTeam) {
+      return {
+        success: false,
+        message: "Team member or transaction ID already registered",
+      };
+    }
+    // await dbConnect();
+    // // Get the client's IP
+    // // const ip = await getIP();
+    // // if (ip === "unknown") {
+    // //   return { success: false, message: "Unable to identify IP address." };
+    // // }
+
+    // // Check rate limit
+    // // const requestCount = Number(rateLimitCache.get(ip)) || 0;
+
+    // // if (requestCount >= 5) {
+    // //   return { success: false, message: "Too many requests, please try again later." };
+    // // }
+    // // rateLimitCache.set(ip, requestCount + 1);
+    // console.log(teamData);
+    // const {
+    //   event,
+    //   collegeName,
+    //   players,
+    //   transactionId,
+    //   transactionImage,
+    //   captain,
+    //   amount,
+    //   whatsapp,
+    //   captchaToken,
+    // } = teamData;
+    // if (
+    //   !collegeName ||
+    //   !event ||
+    //   !transactionId ||
+    //   !transactionImage ||
+    //   !captain ||
+    //   !amount ||
+    //   !whatsapp ||
+    //   !captchaToken ||
+    //   players.length === 0
+    // ) {
+    //   return {
+    //     success: false,
+    //     message: "Please fill all fields | have you clicked add player button?",
+    //   };
+    // }
+    // //  const captchaData =  await verifyToken(captchaToken);
+    // //  if(!captchaData.success || captchaData.score<0.5){
+    // //   return {
+    // //     success: false,
+    // //     message: "captcha failed",
+    // //   };
+    // //  }
+    // let captainEmail;
+    // const emailsData = [] as string[];
+    // for (let i = 0; i < players.length; i++) {
+    //   emailsData.push(players[i].email);
+    //   if (players[i].isCaptain) {
+    //     captainEmail = players[i].email;
+    //   }
+    // }
+
+    // // Check if the team is already registered
+
+    // const isExist = await TeamModel.findOne({
+    //   $or: [
+    //     { $and: [{ event }, { "players.email": captainEmail }] },
+    //     { transactionId: transactionId },
+    //   ],
+    // });
+    // if (isExist) {
+    //   return {
+    //     success: false,
+    //     message: "Already register with this transaction id or Captain email",
+    //   };
+    // }
+
+    // const teamID = await teamIdGenerate();
+    // if (!teamID) {
+    //   return {
+    //     success: false,
+    //     message: "Failed to register try Again",
+    //   };
+    // }
+
+    // const transactionSsUrl = await uploadImage(transactionImage, teamID);
+
+    // // Dynamically upload each player's ID card images
+    // const playerIdCardUrls = await Promise.all(
+    //   players?.map((player: any) => uploadImage(player.playerIdCard, teamID))
+    // );
+
+    // if (!transactionSsUrl || playerIdCardUrls.length === 0) {
+    //   return {
+    //     success: false,
+    //     message: "Failed to upload image try again..",
+    //   };
+    // }
+    // Generate password for the team
+    // const password = generatePassword(teamID);
+
+    // // Process the players and add their data
+    // const playersData = players.map((player: any, index: number) => ({
+    //   ...player,
+    //   playerIdCard: playerIdCardUrls[index] || "",
+    // }));
+    // const team = await TeamModel.create({
+    //   teamID,
+    //   password,
+    //   college: collegeName,
+    //   event,
+    //   transactionId,
+    //   transactionSs: transactionSsUrl,
+    //   players: playersData,
+    //   amount,
+    //   whatsapp,
+    // });
+    // if (!team) {
+    //   return {
+    //     success: false,
+    //     message: "failed to register try again",
+    //   };
+    // }
+    const password = generatePassword(teamID);
     const team = await TeamModel.create({
       teamID,
       password,
-      college: collegeName,
+      college: collegeName.trim(),
       event,
-      transactionId,
+      transactionId: transactionId.trim(),
       transactionSs: transactionSsUrl,
-      players: playersData,
-      amount,
-      whatsapp,
+      players: emailsData,
+      amount: Number(amount),
+      whatsapp: whatsapp.trim(),
     });
-    if (!team) {
-      return {
-        success: false,
-        message: "failed to register try again",
-      };
-    }
-
     const teamDetailLink = `${process.env.BASE_URL}/profile?pass=${password}`;
     const collegeMail = process.env.EMAIL_USER;
     const htmlTemplate = `
