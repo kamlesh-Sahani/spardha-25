@@ -103,6 +103,40 @@ export const registerAction = async (teamData: any) => {
         message: "Failed to register try Again",
       };
     }
+    // Upload transaction screenshot
+    const transactionSsUrl = await uploadImage(transactionImage, teamID);
+    if (!transactionSsUrl) {
+      return { success: false, message: "Failed to upload transaction image." };
+    }
+
+    // Upload each player's ID card image sequentially (to avoid rate limits)
+    const playerIdCardUrls: string[] = [];
+    for (const player of players) {
+      const imageUrl = await uploadImage(player.playerIdCard, teamID);
+      if (!imageUrl) {
+        return {
+          success: false,
+          message: `Failed to upload ID for ${player.name}`,
+        };
+      }
+      playerIdCardUrls.push(imageUrl);
+    }
+
+    // Check if all images uploaded successfully
+    if (playerIdCardUrls.length !== players.length) {
+      return {
+        success: false,
+        message: "Some images failed to upload. Try again.",
+      };
+    }
+
+    // Process player data
+    const playersData = players.map((player: any, index: any) => ({
+      ...player,
+      playerIdCard: playerIdCardUrls[index],
+    }));
+
+    // Continue with team registration...
 
     // const transactionSsUrl = await uploadImage(transactionImage, teamID);
 
@@ -119,19 +153,19 @@ export const registerAction = async (teamData: any) => {
     // }
     // Generate password for the team
     const password = generatePassword(teamID);
-    // playerIdCardUrls[index] ||
+
     // Process the players and add their data
-    const playersData = players.map((player: any, index: number) => ({
-      ...player,
-      playerIdCard: "",
-    }));
+    // const playersData = players.map((player: any, index: number) => ({
+    //   ...player,
+    //   playerIdCard: playerIdCardUrls[index] || "",
+    // }));
     const team = await TeamModel.create({
       teamID,
       password,
       college: collegeName,
       event,
       transactionId,
-      // transactionSs: transactionSsUrl,
+      transactionSs: transactionSsUrl,
       players: playersData,
       amount,
       whatsapp,

@@ -177,12 +177,12 @@ const Register = () => {
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // if (formData.players.length < (selectedEvent?.minPlayers ?? 0)) {
-    //   console.log(formData.players);
-    //   setErrors({ players: "Please add enough players to meet the minimum requirement" });
-    //   toast.error("You need to add the minimum number of players. Did you click the 'Add Player' button?");
-    //   return;
-    // }
+    if (formData.players.length < (selectedEvent?.minPlayers ?? 0)) {
+      console.log(formData.players);
+      setErrors({ players: "Please add enough players to meet the minimum requirement" });
+      toast.error("You need to add the minimum number of players. Did you click the 'Add Player' button?");
+      return;
+    }
     setLoading(true);
     const token = await getCaptchaToken();
     const newUser = {
