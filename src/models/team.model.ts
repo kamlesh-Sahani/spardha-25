@@ -20,6 +20,7 @@ export interface ITeam extends Document {
   college: string;
   players: IPlayer[];
   transactionSs: string;
+  captainIdCard:string
   transactionId:string;
   password: string;
   status: "pending" | "approved" | "rejected";
@@ -46,7 +47,7 @@ const PlayerSchema = new Schema<IPlayer>({
     required: true,
     match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email validation
   },
-  playerIdCard: { type: String, required: true },
+  playerIdCard: { type: String },
   isCaptain: { type: Boolean, default: false },
   enrollment:{type:String,required:true}
 });
@@ -64,6 +65,7 @@ const TeamSchema = new Schema<ITeam>(
     },
     transactionId: { type: String, required: true, trim: true },
     transactionSs: { type: String, default: null },
+    captainIdCard: { type: String, default: null },
     password: { type: String, required: true, minlength: 6 },
     status: {
       type: String,

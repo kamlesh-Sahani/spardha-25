@@ -14,7 +14,7 @@ const playerSchema = z.object({
   mobile: z
     .string()
     .regex(/^\d{10}$/, { message: "Please enter valid mobile number!" }),
-  playerIdCard: fileSchema, // Ensures file is not null and valid
+  // playerIdCard: fileSchema, // Ensures file is not null and valid
   gender: z.string().min(1, { message: "Gender is required" }),
 });
 
@@ -30,6 +30,7 @@ const registrationSchema = z.object({
     .string()
     .min(5, { message: "Transaction ID must be at least 5 characters" }),
   transactionImage: fileSchema,
+  captainIdCard: fileSchema,
 });
 
 export { playerSchema, registrationSchema };

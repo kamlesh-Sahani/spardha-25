@@ -43,6 +43,7 @@ export const registerAction = async (teamData: any) => {
       collegeName,
       players,
       transactionId,
+      captainIdCard,
       transactionImage,
       captain,
       amount,
@@ -54,6 +55,7 @@ export const registerAction = async (teamData: any) => {
       !event ||
       !transactionId ||
       !transactionImage ||
+      !captainIdCard||
       !captain ||
       !amount ||
       !whatsapp ||
@@ -80,9 +82,6 @@ export const registerAction = async (teamData: any) => {
         captainEmail = players[i].email;
       }
     }
-
-    // Check if the team is already registered
-
     const isExist = await TeamModel.findOne({
       $or: [
         { $and: [{ event }, { "players.email": captainEmail }] },
@@ -108,32 +107,32 @@ export const registerAction = async (teamData: any) => {
     if (!transactionSsUrl) {
       return { success: false, message: "Failed to upload transaction image." };
     }
-
-    // Upload each player's ID card image sequentially (to avoid rate limits)
-    const playerIdCardUrls: string[] = [];
-    for (const player of players) {
-      const imageUrl = await uploadImage(player.playerIdCard, teamID);
-      if (!imageUrl) {
-        return {
-          success: false,
-          message: `Failed to upload ID for ${player.name}`,
-        };
-      }
-      playerIdCardUrls.push(imageUrl);
+    const captainUrls = await uploadImage(captainIdCard, teamID);
+    if (!transactionSsUrl) {
+      return { success: false, message: "Failed to upload captain image." };
     }
+    // const playerIdCardUrls: string[] = [];
+    // for (const player of players) {
+    //   const imageUrl = await uploadImage(player.playerIdCard, teamID);
+    //   if (!imageUrl) {
+    //     return {
+    //       success: false,
+    //       message: `Failed to upload ID for ${player.name}`,
+    //     };
+    //   }
+    //   playerIdCardUrls.push(imageUrl);
+    // }
 
-    // Check if all images uploaded successfully
-    if (playerIdCardUrls.length !== players.length) {
-      return {
-        success: false,
-        message: "Some images failed to upload. Try again.",
-      };
-    }
 
-    // Process player data
+    // if (playerIdCardUrls.length !== players.length) {
+    //   return {
+    //     success: false,
+    //     message: "Some images failed to upload. Try again.",
+    //   };
+    // }
     const playersData = players.map((player: any, index: any) => ({
       ...player,
-      playerIdCard: playerIdCardUrls[index],
+      playerIdCard: "",
     }));
 
     // Continue with team registration...
@@ -165,6 +164,7 @@ export const registerAction = async (teamData: any) => {
       college: collegeName,
       event,
       transactionId,
+      captainIdCard:captainUrls,
       transactionSs: transactionSsUrl,
       players: playersData,
       amount,
