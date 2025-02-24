@@ -495,7 +495,7 @@ const Register = () => {
                         </p>
                       )}
                     </div>
-                   /* <div className="flex flex-col text-gray-700 gap-2">
+                    <div className="flex flex-col text-gray-700 gap-2">
                       <label>Upload ID Card Image</label>
                       <input
                         name="playerIdCard"
@@ -509,7 +509,7 @@ const Register = () => {
                         </p>
                       )}
                     </div>
-                    */
+                  
                   </div>
 
                   <button
