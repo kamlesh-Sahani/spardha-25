@@ -212,7 +212,10 @@ const Register = () => {
       );
       setErrors(errors);
       setLoading(false);
-      toast.error("Please check the form fields");
+      console.log(errors)
+      Object.values(errors).forEach((errorMessage) => {
+        toast.error(errorMessage);
+      });
       return;
     }
     try {
