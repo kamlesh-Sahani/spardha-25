@@ -1,8 +1,4 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-
-// Define TypeScript Interface for Player
-
-
 export interface IPlayer {
   enrollment:string;
   email?: string;
@@ -12,8 +8,6 @@ export interface IPlayer {
   playerIdCard: string;
   isCaptain?: boolean;
 }
-
-// Define TypeScript Interface for Team
 export interface ITeam extends Document {
   teamID: number;
   event: string;
@@ -31,8 +25,6 @@ export interface ITeam extends Document {
   whatsapp:string;
   isDeleted:boolean;
 }
-
-// Player Schema
 const PlayerSchema = new Schema<IPlayer>({
   name: { type: String, required: true, trim: true },
   gender: { type: String, required: true, enum: ["male", "female", "other"] ,default:"male"},
@@ -51,7 +43,6 @@ const PlayerSchema = new Schema<IPlayer>({
   enrollment:{type:String,required:true}
 });
 
-// Team Schema
 const TeamSchema = new Schema<ITeam>(
   {
     teamID: { type: Number, required: true, unique: true },
@@ -92,8 +83,5 @@ const TeamSchema = new Schema<ITeam>(
   },
   { timestamps: true }
 );
-
-// Team Model
 const TeamModel: Model<ITeam> = mongoose.models?.Team || mongoose.model<ITeam>("Team", TeamSchema);
-
 export default TeamModel;
