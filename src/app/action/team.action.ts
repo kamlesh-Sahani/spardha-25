@@ -43,7 +43,6 @@ export const registerAction = async (teamData: any) => {
       collegeName,
       players,
       transactionId,
-      captainIdCard,
       transactionImage,
       captain,
       amount,
@@ -55,7 +54,6 @@ export const registerAction = async (teamData: any) => {
       !event ||
       !transactionId ||
       !transactionImage ||
-      !captainIdCard||
       !captain ||
       !amount ||
       !whatsapp ||
@@ -107,32 +105,28 @@ export const registerAction = async (teamData: any) => {
     if (!transactionSsUrl) {
       return { success: false, message: "Failed to upload transaction image." };
     }
-    const captainUrls = await uploadImage(captainIdCard, teamID);
-    if (!transactionSsUrl) {
-      return { success: false, message: "Failed to upload captain image." };
+    const playerIdCardUrls: string[] = [];
+    for (const player of players) {
+      const imageUrl = await uploadImage(player.playerIdCard, teamID);
+      if (!imageUrl) {
+        return {
+          success: false,
+          message: `Failed to upload ID for ${player.name}`,
+        };
+      }
+      playerIdCardUrls.push(imageUrl);
     }
-    // const playerIdCardUrls: string[] = [];
-    // for (const player of players) {
-    //   const imageUrl = await uploadImage(player.playerIdCard, teamID);
-    //   if (!imageUrl) {
-    //     return {
-    //       success: false,
-    //       message: `Failed to upload ID for ${player.name}`,
-    //     };
-    //   }
-    //   playerIdCardUrls.push(imageUrl);
-    // }
 
 
-    // if (playerIdCardUrls.length !== players.length) {
-    //   return {
-    //     success: false,
-    //     message: "Some images failed to upload. Try again.",
-    //   };
-    // }
+    if (playerIdCardUrls.length !== players.length) {
+      return {
+        success: false,
+        message: "Some images failed to upload. Try again.",
+      };
+    }
     const playersData = players.map((player: any, index: any) => ({
       ...player,
-      playerIdCard: "",
+      playerIdCard: playerIdCardUrls[index],
     }));
 
     // Continue with team registration...
@@ -164,7 +158,6 @@ export const registerAction = async (teamData: any) => {
       college: collegeName,
       event,
       transactionId,
-      captainIdCard:captainUrls,
       transactionSs: transactionSsUrl,
       players: playersData,
       amount,

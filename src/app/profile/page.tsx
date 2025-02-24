@@ -5,7 +5,6 @@ import axios from "axios";
 import Loader from "@/components/Loader";
 import Modal from "@/components/ProfileModel";
 import toast from "react-hot-toast";
-
 export default function Home() {
   const searchParams = useSearchParams();
   const [profile, setProfile] = useState<any>();
@@ -17,8 +16,7 @@ export default function Home() {
       setShowModal(false);
       setLoading(true);
       const { data } = await axios.get(`/api/profile?pass=${pass}`);
-      // console.log("Profile Data",data.profile.captainIdCard)
-      setProfile(data.profile);
+      setProfile(data.profile); 
     } catch (error: any) {
       setShowModal(true);
       toast.error(error?.response?.data?.message || "Password is wrong");
@@ -39,6 +37,8 @@ export default function Home() {
   const handlePasswordSubmit = (password: string) => {
     getProfile(password);
   };
+
+
 
   return (
     <>
@@ -73,6 +73,7 @@ export default function Home() {
                           src={player.playerIdCard}
                           alt={`${player.name}'s ID`}
                           className="w-full h-full object-cover"
+                         
                         />
                       </div>
                     </div>
@@ -98,15 +99,6 @@ export default function Home() {
                     </div>
                   </div>
                 ))}
-              </div>
-              <div>
-                <p className="text-md text-gray-600">Captain Id Card:</p>
-
-                <img
-                  src={profile?.captainIdCard}
-                  alt="captain Screenshot"
-                  className="w-[400px] h-[400px]  object-contain rounded "
-                />
               </div>
             </div>
 
@@ -139,24 +131,21 @@ export default function Home() {
                 Status
               </h2>
               <div className="flex items-center gap-2">
-                {profile?.status === "pending" ? (
-                  <p className="text-lg text-yellow-600 font-semibold">
-                    {profile?.status}
-                  </p>
-                ) : profile?.status === "rejecred" ? (
-                  <p className="text-lg text-red-600 font-semibold">
-                    {profile?.status}
-                  </p>
-                ) : (
-                  <p className="text-lg text-green-600 font-semibold">
-                    {profile?.status}
-                  </p>
-                )}
-
-                <p className="text-md text-gray-600 font-semibold">
-                  - {profile?.reason}
+                {
+                  profile?.status==="pending"? <p className="text-lg text-yellow-600 font-semibold">
+                  {profile?.status}
+                </p>:profile?.status==="rejecred"?<p className="text-lg text-red-600 font-semibold">
+                  {profile?.status}
+                </p>:<p className="text-lg text-green-600 font-semibold">
+                  {profile?.status}
                 </p>
+                }
+             
+              <p className="text-md text-gray-600 font-semibold">
+                - {profile?.reason}
+              </p>
               </div>
+              
             </div>
           </div>
         </div>

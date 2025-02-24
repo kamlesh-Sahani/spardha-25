@@ -22,7 +22,7 @@ const Register = () => {
       name: string;
       enrollment: string;
       mobile: string;
-      // playerIdCard: File | null;
+      playerIdCard: File | null;
       gender: string;
       isCaptain: boolean;
       email: string;
@@ -30,7 +30,7 @@ const Register = () => {
     captain: string;
     transactionId: string;
     amount: number;
-    captainIdCard: File | null;
+    // captainIdCard:File | null;
     whatsapp: string;
     transactionImage: File | null;
     captchaToken: string;
@@ -43,7 +43,7 @@ const Register = () => {
     amount: 0,
     whatsapp: "",
     transactionImage: null,
-    captainIdCard: null,
+    // captainIdCard: null,
     captchaToken: "",
   });
   const [selectedEvent, setSelectedEvent] = useState<Sports | undefined>(
@@ -63,7 +63,7 @@ const Register = () => {
     name: string;
     enrollment: string;
     mobile: string;
-    // playerIdCard: File | null;
+    playerIdCard: File | null;
     gender: string;
     email: string;
     isCaptain: boolean;
@@ -71,7 +71,7 @@ const Register = () => {
     name: "",
     enrollment: "",
     mobile: "",
-    // playerIdCard: null,
+    playerIdCard: null,
     gender: "",
     email: "",
     isCaptain: false,
@@ -111,14 +111,14 @@ const Register = () => {
   ) => {
     setCurrentPlayer({ ...currentPlayer, [field]: e.target.value });
   };
-  // const handlePlayerImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files) {
-  //     setCurrentPlayer({
-  //       ...currentPlayer,
-  //       playerIdCard: e.target.files[0],
-  //     });
-  //   }
-  // };
+  const handlePlayerImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setCurrentPlayer({
+        ...currentPlayer,
+        playerIdCard: e.target.files[0],
+      });
+    }
+  };
 
   const handleTransactionImageChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -130,14 +130,16 @@ const Register = () => {
       });
     }
   };
-  const handleCaptainImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFormData({
-        ...formData,
-        captainIdCard: e.target.files[0],
-      });
-    }
-  };
+  // const handleCaptainImageChange = (
+  //   e: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   if (e.target.files) {
+  //     setFormData({
+  //       ...formData,
+  //       captainIdCard: e.target.files[0],
+  //     });
+  //   }
+  // };
   const addPlayer = () => {
     try {
       const validationResult = playerSchema.safeParse(currentPlayer);
@@ -161,7 +163,7 @@ const Register = () => {
         name: "",
         enrollment: "",
         mobile: "",
-        // playerIdCard: null, // Reset image field
+        playerIdCard: null, // Reset image field
         gender: "",
         email: "",
         isCaptain: false,
@@ -172,7 +174,7 @@ const Register = () => {
         enrollment: "",
         email: "",
         mobile: "",
-        // playerIdCard: "",
+        playerIdCard: "",
         gender: "",
       });
     } catch (err: any) {
@@ -183,17 +185,14 @@ const Register = () => {
         setApiResponseMessage("Something went wrong. Please try again.");
       }
     }
+    
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.players.length < (selectedEvent?.minPlayers ?? 0)) {
       console.log(formData.players);
-      setErrors({
-        players: "Please add enough players to meet the minimum requirement",
-      });
-      toast.error(
-        "You need to add the minimum number of players. Did you click the 'Add Player' button?"
-      );
+      setErrors({ players: "Please add enough players to meet the minimum requirement" });
+      toast.error("You need to add the minimum number of players. Did you click the 'Add Player' button?");
       return;
     }
     setLoading(true);
@@ -218,7 +217,7 @@ const Register = () => {
     }
     try {
       const res = await registerAction(newUser);
-      console.log(res, "res");
+      console.log(res,"res");
       if (res.success) {
         toast.success(
           "Registration successful! 🎉 Check your email to track your application status.",
@@ -291,10 +290,7 @@ const Register = () => {
         >
           <div className="md:text-4xl p-4 text-3xl font-bold bg-[#f5a937] text-white text-center rounded-t-xl">
             <h1>Event Registration</h1>
-            <p className="text-lg mt-2">
-              In case you find difficulty in Registration, contact Dr. Vishal
-              Raghav @9897053555
-            </p>
+            <p className="text-lg mt-2">In case you find difficulty in Registration, contact Dr. Vishal Raghav @9897053555</p>
           </div>
           <motion.div
             // variants={itemVariants}
@@ -339,9 +335,7 @@ const Register = () => {
                     options={eventOptions}
                     placeholder="Select Event"
                   />
-                ) : (
-                  "Loading..."
-                )}
+                ):"Loading..."}
                 {errors.event && (
                   <p className="text-red-600 text-sm mt-1">{errors.event}</p>
                 )}
@@ -371,9 +365,7 @@ const Register = () => {
                       "If College not Listed Please Contact or WhatsApp @ +91 98970 53555"
                     }
                   />
-                ) : (
-                  "Loading..."
-                )}
+                ):"Loading..."}
                 {errors.collegeName && (
                   <p className="text-red-600 text-sm mt-1">
                     {errors.collegeName}
@@ -503,7 +495,7 @@ const Register = () => {
                         </p>
                       )}
                     </div>
-                    {/* <div className="flex flex-col text-gray-700 gap-2">
+                   /* <div className="flex flex-col text-gray-700 gap-2">
                       <label>Upload ID Card Image</label>
                       <input
                         name="playerIdCard"
@@ -516,7 +508,8 @@ const Register = () => {
                           {errors.playerIdCard}
                         </p>
                       )}
-                    </div> */}
+                    </div>
+                    */
                   </div>
 
                   <button
@@ -541,7 +534,7 @@ const Register = () => {
                         className="bg-white/10 p-4 rounded-lg mb-4 text-gray-700 relative"
                       >
                         <button
-                          type="button"
+                         type="button"
                           onClick={() => handleDeletePlayer(index)}
                           className="absolute top-2 right-2 text-red-500 hover:text-red-700"
                         >
@@ -617,7 +610,7 @@ const Register = () => {
                             </td> */}
                             <td className="py-2 px-4">
                               <button
-                                type="button"
+                               type="button"
                                 onClick={() => handleDeletePlayer(index)}
                                 className="text-red-500 hover:text-red-700"
                               >
@@ -666,23 +659,6 @@ const Register = () => {
                 )}
               </motion.div>
             )}
-            <div className="flex flex-col mb-4">
-              <label className="text-gray-700 text-lg mb-2">
-                Captain Id Card Image
-              </label>
-              <input
-                type="file"
-                name="captainIdCard"
-                accept="image/*"
-                onChange={handleCaptainImageChange}
-                className="w-full p-3 bg-white/30 text-gray-700 rounded-lg shadow-md focus:ring-2 focus:ring-purple-400 outline-none"
-              />
-              {errors.captainIdCard && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.captainIdCard}
-                </p>
-              )}
-            </div>
             <hr className="border-t border-gray-600 my-8" />
             <motion.div
               initial={{ opacity: 0 }}
