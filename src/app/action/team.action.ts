@@ -80,9 +80,27 @@ export const registerAction = async (teamData: any) => {
         captainEmail = players[i].email;
       }
     }
+    // const isExist = await TeamModel.findOne({
+    //   $or: [
+    //     { $and: [{ event }, { "players.email": captainEmail }] },
+    //     { transactionId: transactionId },
+    //   ],
+    // });
+    // if (isExist) {
+    //   return {
+    //     success: false,
+    //     message: "Already register with this transaction id or Captain email",
+    //   };
+    // }
     const isExist = await TeamModel.findOne({
       $or: [
-        { $and: [{ event }, { "players.email": captainEmail }] },
+        {
+          $and: [
+            { isDeleted: false },
+            { event },
+            { "players.email": captainEmail },
+          ],
+        },
         { transactionId: transactionId },
       ],
     });
@@ -92,7 +110,6 @@ export const registerAction = async (teamData: any) => {
         message: "Already register with this transaction id or Captain email",
       };
     }
-
     const teamID = await teamIdGenerate();
     if (!teamID) {
       return {
@@ -116,7 +133,6 @@ export const registerAction = async (teamData: any) => {
       }
       playerIdCardUrls.push(imageUrl);
     }
-
 
     if (playerIdCardUrls.length !== players.length) {
       return {
