@@ -16,7 +16,7 @@ const navItems = [
   { icon: MdEventAvailable, label: "Register", path: "/register" },
   { icon: FaDownload, label: "Rulebook", path: "/download" },
   { icon: FaUserGraduate, label: "Profile", path: "/profile" },
-  { icon: GiPodiumWinner, label: "Leadership", path: "/display-result" },
+  { icon: GiPodiumWinner, label: "Leaderboard", path: "/display-result" },
 ];
 
 const Navbar = () => {
