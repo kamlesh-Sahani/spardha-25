@@ -76,25 +76,25 @@ const SportsPointsPage = () => {
   const handleFilterChange = (newValue: SingleValue<SelectOption>) => {
     setSelectedEvent(newValue?.value || null);
   };
-  const handleDelete = async (event: string) => {
-    if (!confirm(`Are you sure you want to delete the event "${event}"?`))
-      return;
+//   const handleDelete = async (event: string) => {
+//     if (!confirm(`Are you sure you want to delete the event "${event}"?`))
+//       return;
 
-    try {
-      const response = await fetch(
-        `/api/result?event=${encodeURIComponent(event)}`,
-        {
-          method: "DELETE",
-        }
-      );
+//     try {
+//       const response = await fetch(
+//         `/api/result?event=${encodeURIComponent(event)}`,
+//         {
+//           method: "DELETE",
+//         }
+//       );
 
-      if (!response.ok) throw new Error("Failed to delete event");
+//       if (!response.ok) throw new Error("Failed to delete event");
 
-      setData((prevData) => prevData.filter((item) => item.event !== event));
-    } catch (err) {
-      alert(err instanceof Error ? err.message : "Error deleting event");
-    }
-  };
+//       setData((prevData) => prevData.filter((item) => item.event !== event));
+//     } catch (err) {
+//       alert(err instanceof Error ? err.message : "Error deleting event");
+//     }
+//   };
 
   if (loading)
     return (
@@ -140,9 +140,9 @@ const SportsPointsPage = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 Points
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                 Delete
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -173,14 +173,14 @@ const SportsPointsPage = () => {
                   <td className="px-6 py-4 text-sm text-gray-600">
                     {result.runnerUp.points}
                   </td>
-                  <td className="px-6 py-4 text-sm">
+                  {/* <td className="px-6 py-4 text-sm">
                     <button
                       onClick={() => handleDelete(result.event)}
                       className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-700 transition"
                     >
                       Delete
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))
             )}
