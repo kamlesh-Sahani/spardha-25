@@ -9,18 +9,19 @@ import { FaDownload, FaTachometerAlt, FaUserGraduate } from "react-icons/fa";
 import { MdEventAvailable } from "react-icons/md";
 import { IoMdMail, IoMdCall } from "react-icons/io";
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
-
+import { GiPodiumWinner } from "react-icons/gi";
 
 const navItems = [
   { icon: FaTachometerAlt, label: "Home", path: "/" },
   { icon: MdEventAvailable, label: "Register", path: "/register" },
   { icon: FaDownload, label: "Rulebook", path: "/download" },
   { icon: FaUserGraduate, label: "Profile", path: "/profile" },
+  { icon: GiPodiumWinner, label: "Leadership", path: "/display-result" },
 ];
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const pathname = usePathname(); 
+  const pathname = usePathname();
   return (
     <div>
       {/* Top Contact Bar */}

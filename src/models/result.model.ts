@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-// Define interface for winner/runner-up structure
+// Interface for individual event results
 interface IWinnerEntry {
   college: string;
   points: number;
@@ -15,9 +15,10 @@ export interface ISportsPoints extends Document {
   updatedAt?: Date;
 }
 
+// Schema definition
 const SportsPointsSchema = new Schema<ISportsPoints>(
   {
-    event: { type: String, required: true },
+    event: { type: String, required: true, unique: true },
     winner: {
       college: { type: String, required: true },
       points: { type: Number, required: true, default: 0 },
@@ -30,8 +31,8 @@ const SportsPointsSchema = new Schema<ISportsPoints>(
   { timestamps: true }
 );
 
+// Model creation
 const SportsPoints: Model<ISportsPoints> =
-  mongoose.models?.SportsPoints ||
-  mongoose.model<ISportsPoints>("SportsPoints", SportsPointsSchema);
+  mongoose.models?.SportsPoints || mongoose.model<ISportsPoints>("SportsPoints", SportsPointsSchema);
 
 export default SportsPoints;
